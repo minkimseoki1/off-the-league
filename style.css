@@ -1,0 +1,1674 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --ink: #111;
+  --paper: #f7f5f0;
+  /* brand colours, used everywhere */
+  --green: #59b86d;
+  --blue: #00a0da;
+  --magenta: #e5006e;
+  /* neutrals from the colour system */
+  --off-white: #f7f5f1;
+  --off-black: #241f1f;
+
+  /* Layout grid (from the design file): 12 columns, stretch, 90px margins, 26px gutters */
+  --grid-cols: 12;
+  --grid-margin: 90px;
+  --grid-gutter: 26px;
+  /* one column's width; n columns incl. their inner gutters = n * --col + (n - 1) * --grid-gutter */
+  --col: calc((100vw - 2 * var(--grid-margin) - (var(--grid-cols) - 1) * var(--grid-gutter)) / var(--grid-cols));
+}
+
+html,
+body {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* Section subtitles: the project typeface (Pretendard only fills glyphs it lacks) */
+.context__subtitle,
+.concept__title,
+.naming__label,
+.typeface__label,
+.picto__title,
+.colors__title,
+.wayfinding__title,
+.wall-sign__title,
+.floor__title,
+.application__title,
+.banner__title,
+.towel__title,
+.medal__title {
+  font-family: "OffTheLeague Flex", "Pretendard", sans-serif;
+  letter-spacing: 0;
+}
+
+/* Body copy: one style everywhere — Pretendard Regular 16 / 180% / -2% */
+.about__body,
+.context__text,
+.concept__body,
+.core__desc,
+.naming__body,
+.typeface__body,
+.picto__body,
+.picto__cats,
+.picto__note,
+.colors__body,
+.wayfinding__body,
+.wall-sign__body,
+.floor__body,
+.application__body,
+.banner__body,
+.towel__body,
+.medal__body {
+  font-family: "Pretendard", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.8;
+  letter-spacing: -0.02em;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0%;
+}
+
+.hero__logo {
+  position: absolute;
+  left: 8vw;
+  bottom: 12vh;
+  width: 83.5vw;
+  height: auto;
+  fill: var(--paper);
+}
+
+/* ---------- Hero: stays pinned while the next section slides over it ---------- */
+
+.hero {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+}
+
+/* ---------- About ---------- */
+
+/* Brand typeface (variable): wght 300–700, wdth 65–100; Regular = wght 400, wdth 100.
+   Line metrics set to the earlier static Offtheleague.otf (ascent 800, descent 200, gap 200 /1000),
+   so text sits where the layouts were measured. */
+@font-face {
+  font-family: "OffTheLeague Flex";
+  src: url("assets/fonts/OffTheLeague-Flex.ttf") format("truetype");
+  font-weight: 300 700;
+  font-display: swap;
+  ascent-override: 80%;
+  descent-override: 20%;
+  line-gap-override: 20%;
+}
+
+:root {
+  --about-bg: #fff;
+  --about-ink: #000;
+}
+
+.about {
+  position: relative;
+  z-index: 1;
+  /* measured from the overview mock (captured at ~0.87× of a 1900px screen) */
+  padding: 75px 0 80px;
+  background: var(--about-bg);
+  color: var(--about-ink);
+}
+
+.about__inner {
+  margin-left: 21.875vw;
+  width: min(1000px, 100vw - 21.875vw - 16px);
+}
+
+.about__title {
+  font-family: "OffTheLeague Flex", sans-serif;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--about-ink);
+}
+
+.about__comma {
+  font-family: "Pretendard", sans-serif;
+}
+
+.about__body {
+  margin-top: 30px;
+  word-break: keep-all;
+  color: rgb(0 0 0 / 0.7);
+}
+
+.about__body p + p {
+  margin-top: 1.8em;
+}
+
+/* full-bleed photo under the text */
+.about__photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 93px;
+}
+
+/* ---------- Background / Target & Pain point ---------- */
+
+:root {
+  /* shape colours; the photos are added on top (lighter), so dark areas take the colour */
+  --shape-rect: var(--blue);
+  --shape-ring: var(--magenta);
+  --context-ink: #000;
+}
+
+.context {
+  position: relative;
+  z-index: 1;
+  /* matches the 1920 × 3130.47 shape frame */
+  height: calc(100vw * 3130.47 / 1920);
+  overflow: hidden;
+  background: #fff;
+}
+
+.context__shapes {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.context__shape {
+  isolation: isolate;
+}
+
+.context__fill--rect {
+  fill: var(--shape-rect);
+}
+
+.context__fill--ring {
+  fill: var(--shape-ring);
+}
+
+.context__image {
+  mix-blend-mode: plus-lighter;
+}
+
+.context__block {
+  position: absolute;
+  left: 12.55vw;
+  z-index: 1;
+  font-family: "Pretendard", sans-serif;
+  letter-spacing: -0.02em;
+  color: var(--context-ink);
+}
+
+.context__block--background {
+  top: 5.5vw;
+}
+
+.context__block--pain {
+  top: 77.81vw;
+}
+
+.context__subtitle {
+  font-weight: 400;
+  line-height: 1;
+  color: rgb(0 0 0 / 0.7);
+}
+
+.context__text {
+  margin-top: 18px;
+  color: rgb(0 0 0 / 0.7);
+}
+
+/* ---------- Design concept (pinned while scrolling) ---------- */
+
+:root {
+  --concept-panel: #000;
+  --core-blue: var(--blue);
+  --core-magenta: var(--magenta);
+  --core-green: var(--green);
+}
+
+.concept {
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  background: var(--concept-panel);
+}
+
+.concept__inner {
+  position: relative;
+  height: 100vh;
+  overflow: clip;
+}
+
+.concept__text {
+  position: relative;
+  z-index: 2;
+  /* grid columns 1–3 */
+  margin-left: var(--grid-margin);
+  width: calc(3 * var(--col) + 2 * var(--grid-gutter));
+  padding-top: 8.4vh;
+  font-family: "Pretendard", sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.concept__title {
+  font-weight: 400;
+  line-height: 1;
+  color: #fff;
+}
+
+.concept__body {
+  margin-top: 30px;
+  color: rgb(255 255 255 / 0.7);
+  transition: color 1.2s ease;
+}
+
+.concept__body p + p {
+  margin-top: 1.8em;
+}
+
+.concept__bg,
+.concept__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.concept__bg {
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.concept__svg {
+  z-index: 1;
+}
+
+.concept__images {
+  transition: opacity 1.2s ease;
+}
+
+/* After the boxes have become lines: the field photo takes over */
+.concept.is-field .concept__bg {
+  opacity: 1;
+}
+
+.concept.is-field .concept__images {
+  opacity: 0;
+}
+
+.concept.is-field .concept__body {
+  color: rgb(255 255 255 / 0.9);
+}
+
+/* images cut in one by one, no fade (as in the reference) */
+.concept__item {
+  visibility: hidden;
+}
+
+.concept__item.is-visible {
+  visibility: visible;
+}
+
+/* Stage 2 — photo → flat graphic → white → core values */
+
+.concept__graphic {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.concept.is-graphic .concept__graphic {
+  opacity: 1;
+}
+
+.concept__text {
+  transition: opacity 0.8s ease;
+}
+
+.concept.is-graphic .concept__text {
+  opacity: 0;
+}
+
+/* Measured from the core value mocks (1960 × 1222 resting, 1652 × 1030 hover) */
+.core {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  font-family: "OffTheLeague Flex", sans-serif;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.core__lead {
+  position: absolute;
+  left: 10.43vw;
+  top: 50.9vh;
+  transform: translateY(-50%);
+  font-size: 6.5vw;
+  color: #000;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.core__list {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 37.96vw;
+  right: 0;
+  display: flex;
+  gap: 1.02vw;
+  list-style: none;
+}
+
+.core__col {
+  --rise-delay: 0s;
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  z-index: 2;
+  outline: none;
+  color: #fff;
+  font-size: 2.43vw;
+  transform: translateY(100%);
+  transition:
+    transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) var(--rise-delay),
+    flex-grow 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.core__col--blue { --c: var(--core-blue); }
+.core__col--magenta { --c: var(--core-magenta); --rise-delay: 0.22s; }
+.core__col--green { --c: var(--core-green); --rise-delay: 0.44s; }
+
+/* Column fill: colour + photo under a colour wash (~82%).
+   On hover this layer tilts; the photo inside counter-rotates so it stays upright. */
+.core__bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--c);
+  transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.core__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--c);
+  opacity: 0.82;
+}
+
+.core__photo {
+  position: absolute;
+  top: -25%;
+  left: -25%;
+  width: 150%;
+  height: 150%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.core__num,
+.core__word,
+.core__detail {
+  position: absolute;
+  z-index: 2;
+  white-space: nowrap;
+  opacity: 0;
+}
+
+.core__num,
+.core__word {
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.5s ease, top 0.7s cubic-bezier(0.65, 0, 0.35, 1),
+    left 0.7s cubic-bezier(0.65, 0, 0.35, 1), transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.core__num { top: 13.6vh; }
+.core__word { top: 50.8vh; }
+
+.core__detail {
+  inset: 0;
+  transition: opacity 0.5s ease;
+}
+
+/*
+  Text in an open column is placed against the tilted shape's left edge, not the column edge.
+  With the shape rotated 12° about its centre and moved 2.5vw right, that edge sits at
+    x(y) = 2.5vw - 1.115% (of the column width) - 0.2126 × (y - 50vh)
+  so each line gets x(y) at its own height + 2.5vw of padding. This keeps the text inside
+  the shape at any screen ratio.
+*/
+.core__title {
+  position: absolute;
+  left: calc(5vw - 1.115% - 0.19vh); /* edge at 50.9vh + padding */
+  top: 50.9vh;
+  transform: translateY(-50%);
+  font-size: 6.5vw;
+}
+
+.core__desc {
+  position: absolute;
+  left: calc(5vw - 1.115% - 0.19vh); /* aligned with the title; lower lines only get more room */
+  top: 57.6vh;
+  color: rgb(255 255 255 / 0.9);
+}
+
+.concept.is-core .core__lead { opacity: 1; }
+.concept.is-core .core__col { transform: none; }
+.concept.is-core-text .core__num,
+.concept.is-core-text .core__word { opacity: 1; }
+
+/* Hover (or focus/tap): the column widens, the others narrow to their numbers */
+.concept.is-core-text .core__col {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.concept.is-core-text .core__col:is(:hover, :focus-visible) {
+  flex-grow: 4.7;
+  z-index: 1; /* tucks under its neighbours where the tilt overlaps them */
+  /* free to spill left/up/down, but stop at the next column so it can't show in the gap beyond it */
+  clip-path: inset(-100vh -1.02vw -100vh -100vw);
+}
+
+.concept.is-core-text .core__col:is(:hover, :focus-visible) .core__bg {
+  /* tilt ~12° and nudge right so the left edge clears "OFF THE" (matches the mock) */
+  transform: translateX(2.5vw) rotate(12deg);
+}
+
+.concept.is-core-text .core__col:is(:hover, :focus-visible) .core__photo {
+  transform: rotate(-12deg);
+}
+
+.concept.is-core-text .core__list:has(.core__col:is(:hover, :focus-visible)) .core__num {
+  top: 7.57vh;
+}
+
+.concept.is-core-text .core__list:has(.core__col:is(:hover, :focus-visible)) .core__word {
+  opacity: 0;
+}
+
+.concept.is-core-text .core__col:is(:hover, :focus-visible) .core__num {
+  left: calc(5vw - 1.115% + 9.02vh); /* edge at 7.57vh + padding */
+  transform: translate(0, -50%);
+}
+
+.concept.is-core-text .core__col:is(:hover, :focus-visible) .core__photo,
+.concept.is-core-text .core__col:is(:hover, :focus-visible) .core__detail {
+  opacity: 1;
+}
+
+.concept.is-core-text .core__col:is(:hover, :focus-visible) .core__detail {
+  transition-delay: 0.25s;
+}
+
+/* ---------- Naming and logotype (measured from the 1878 × 1054 mock) ---------- */
+
+.naming {
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  overflow: hidden;
+  background: #fff;
+  color: #000;
+}
+
+.naming__logo {
+  position: absolute;
+  left: 50%;
+  /* logo spans 24.1%–76.0% of the GIF width and sits 49.2% down it */
+  width: 147.3vw;
+  top: calc(50vh - 147.3vw * 9 / 16 * 0.492);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.naming__label,
+.naming__body {
+  z-index: 1; /* above the shapes flying around in the GIF */
+}
+
+.naming__label {
+  position: absolute;
+  left: 11.4vw;
+  top: calc(5vh - 4px);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.naming__body {
+  position: absolute;
+  left: 40.3vw;
+  top: calc(5vh - 9px);
+  max-width: 900px;
+  color: rgb(0 0 0 / 0.7);
+}
+
+.naming__body p + p {
+  margin-top: 1.8em;
+}
+
+/* ---------- Layout grid ---------- */
+
+/* Use on a container to lay children out on the 10-column grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+  padding-inline: var(--grid-margin);
+}
+
+/* Overlay, toggled with the "1" key */
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  pointer-events: none;
+}
+
+.grid-overlay.is-on {
+  display: grid;
+}
+
+/* same look as the design file's grid: #88F3FF at 20% */
+.grid-overlay span {
+  background: rgb(136 243 255 / 0.2);
+}
+
+/* ---------- Typography (measured from the 1460 × 1682 mock = 0.76× of 1920px) ----------
+   Horizontal positions follow the 12-column grid; vertical ones are in vw so the text keeps
+   its place against the images, which scale with the screen width. */
+
+.typeface {
+  --col-x: calc(var(--col) + var(--grid-gutter)); /* one column + gutter */
+  position: relative;
+  z-index: 1;
+  height: 115.2vw;
+  overflow: hidden;
+  background: #fff;
+  color: #000;
+}
+
+/* green field photo: columns 1–6 */
+.typeface__field {
+  position: absolute;
+  left: var(--grid-margin);
+  top: 2.45vw;
+  width: calc(6 * var(--col) + 5 * var(--grid-gutter));
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+/* big pale O behind the character set */
+.typeface__ghost {
+  position: absolute;
+  left: 49.78vw;
+  top: -2.21vw;
+  font-family: "OffTheLeague Flex", sans-serif;
+  font-size: 75.3vw;
+  line-height: 1;
+  color: #e2f0e5;
+  pointer-events: none;
+}
+
+/* character set: 10 equal cells, glyphs centred */
+.typeface__chart {
+  position: absolute;
+  left: 51.36vw;
+  top: 1.98vw;
+  display: grid;
+  grid-template-columns: repeat(10, 4.32vw);
+  font-family: "OffTheLeague Flex", sans-serif;
+  font-size: 5.1vw;
+  line-height: 6.15vw;
+  text-align: center;
+}
+
+/* label + text: columns 7–9 */
+.typeface__intro {
+  position: absolute;
+  left: calc(var(--grid-margin) + 6 * var(--col-x));
+  top: 29.26vw;
+  width: calc(3 * var(--col) + 2 * var(--grid-gutter));
+}
+
+.typeface__label {
+  font-weight: 400;
+  line-height: 1;
+}
+
+.typeface__intro .typeface__body {
+  margin-top: 24px;
+}
+
+.typeface__body {
+  color: rgb(0 0 0 / 0.7);
+}
+
+.typeface__body p + p {
+  margin-top: 1.8em;
+}
+
+/* photo with the O and its construction lines: columns 6–12 */
+.typeface__specimen {
+  position: absolute;
+  left: calc(var(--grid-margin) + 5 * var(--col-x));
+  top: 64.79vw;
+  width: calc(7 * var(--col) + 6 * var(--grid-gutter));
+  aspect-ratio: 1004 / 884;
+  margin: 0;
+}
+
+.typeface__specimen img,
+.typeface__specimen svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.typeface__specimen img {
+  object-fit: cover;
+  object-position: 50% 42%;
+  filter: saturate(0.45) brightness(0.8);
+}
+
+.typeface__guides line {
+  stroke: rgb(255 255 255 / 0.85);
+  stroke-width: 1.3;
+  stroke-dasharray: 2 3;
+}
+
+.typeface__guides line.is-solid {
+  stroke-dasharray: none;
+}
+
+/* the letter cycles through the character set (main.js); every glyph shares the O's cap height */
+.typeface__glyph {
+  font-family: "OffTheLeague Flex", sans-serif;
+  font-size: 847px;
+  fill: #fff;
+}
+
+/* closing note: columns 3–5, bottom-aligned with the photo */
+.typeface__note {
+  position: absolute;
+  left: calc(var(--grid-margin) + 2 * var(--col-x));
+  top: 104.2vw;
+  width: calc(3 * var(--col) + 2 * var(--grid-gutter));
+}
+
+/* ---------- Top slider ----------
+   Drawn in white with difference blending, so it reads dark on white sections and light on
+   the photos / black sections. Each name sits where its section starts along the page, and the
+   line (1px) fills with scroll. */
+
+.slider {
+  position: fixed;
+  top: 0;
+  left: var(--grid-margin);
+  right: var(--grid-margin);
+  z-index: 100;
+  padding-top: 22px;
+  mix-blend-mode: difference;
+  color: #fff;
+  font-family: "OffTheLeague Flex", "Pretendard", sans-serif;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.slider__track {
+  position: relative;
+  height: 1px;
+  background: rgb(255 255 255 / 0.3);
+}
+
+.slider__fill {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+/* each name is placed where its section starts along the line (main.js sets left) */
+.slider__list {
+  position: relative;
+  height: 1em;
+  margin-top: 12px;
+  list-style: none;
+}
+
+.slider__list li {
+  position: absolute;
+  top: 0;
+}
+
+.slider__item {
+  color: rgb(255 255 255 / 0.45);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+
+.slider__item.is-passed,
+.slider__item:hover {
+  color: #fff;
+}
+
+/* ---------- Type tester (after Typography) ---------- */
+
+.tester {
+  --wght: 300;
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--green);
+  color: #fff;
+}
+
+.tester__text {
+  max-width: calc(100vw - 2 * var(--grid-margin));
+  font-family: "OffTheLeague Flex", sans-serif;
+  font-size: 10.4vw;
+  font-variation-settings: "wght" var(--wght);
+  line-height: 1;
+  text-align: center;
+  overflow-wrap: anywhere;
+  outline: none;
+  caret-color: #fff;
+}
+
+.tester__control {
+  position: absolute;
+  left: 50%;
+  bottom: 10.5vh;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  font-family: "OffTheLeague Flex", sans-serif;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.tester__label {
+  white-space: nowrap;
+}
+
+.tester__value {
+  display: inline-block;
+  min-width: 3ch;
+}
+
+/* thin white line with a round white handle */
+.tester__range {
+  width: 240px;
+  height: 20px;
+  margin: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+}
+
+.tester__range::-webkit-slider-runnable-track {
+  height: 1px;
+  background: rgb(255 255 255 / 0.8);
+}
+
+.tester__range::-moz-range-track {
+  height: 1px;
+  background: rgb(255 255 255 / 0.8);
+}
+
+.tester__range::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+  margin-top: -9.5px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  appearance: none;
+}
+
+.tester__range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.tester__range:focus-visible {
+  outline: 1px solid #fff;
+  outline-offset: 6px;
+}
+
+/* ---------- Pictograms (measured from the 1404 × 1678 mock = 0.7334× of 1920px) ----------
+   Row 1: big restroom figure (columns 1–5) + title and text (columns 6–12).
+   Row 2: categories and note (columns 1–5) + icon grid (columns 6–12), both starting at the first rule.
+   Icons are inline SVG in fill: currentColor, so each tile's colour comes from its category. */
+
+:root {
+  --picto-gray: #727272; /* category 4 (no brand colour for it; taken from the mock) */
+  --picto-rule: #aaa;
+  --picto-frame: #ddd;
+}
+
+.picto {
+  position: relative;
+  z-index: 1;
+  align-items: start;
+  row-gap: 111px; /* figure bottom → first rule (867px down the section) */
+  padding-top: 46px;
+  padding-bottom: 219px;
+  background: #fff;
+  color: #000;
+}
+
+.picto__hero,
+.picto__side {
+  grid-column: 1 / span 5;
+}
+
+.picto__intro,
+.picto__grid {
+  grid-column: 6 / span 7;
+}
+
+/* big restroom figure in a thin square frame */
+.picto__hero {
+  margin: 0;
+  aspect-ratio: 1;
+  border: 1px solid var(--picto-frame);
+}
+
+.picto__hero svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.picto__figure {
+  fill: #000;
+}
+
+/* construction lines: drawn top to bottom, pair by pair, when the section arrives (main.js) */
+.picto__guide line,
+.picto__measure {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 1.4;
+}
+
+.picto__guide text {
+  font-family: "Pretendard", sans-serif;
+  font-size: 12px;
+  dominant-baseline: central;
+  fill: var(--blue);
+}
+
+/* hidden = the dash pushed a little past the line's start, so no dot shows at its end */
+.picto__guide line {
+  stroke-dasharray: calc(var(--len) * 1px) calc(var(--len) * 1px + 10px);
+  stroke-dashoffset: calc(var(--len) * 1px + 4px);
+  transition: stroke-dashoffset 1.1s cubic-bezier(0.65, 0, 0.35, 1) calc(var(--i) * 0.35s);
+}
+
+.picto__guide line + line {
+  transition-delay: calc(var(--i) * 0.35s + 0.12s);
+}
+
+.picto__measure,
+.picto__guide text {
+  opacity: 0;
+  transition: opacity 0.5s ease calc(var(--i) * 0.35s + 1s);
+}
+
+.picto.is-drawn .picto__guide line {
+  stroke-dashoffset: 0;
+}
+
+.picto.is-drawn .picto__measure,
+.picto.is-drawn .picto__guide text {
+  opacity: 1;
+}
+
+/* categories: numbers hang in the margin, English + Korean on two lines */
+.picto__cats {
+  list-style: none;
+  counter-reset: picto-cat;
+}
+
+.picto__cats li {
+  position: relative;
+  counter-increment: picto-cat;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.picto__cats li + li {
+  margin-top: 1.8em;
+}
+
+.picto__cats li::before {
+  content: counter(picto-cat) ".";
+  position: absolute;
+  left: -19px;
+}
+
+.picto__cats span {
+  display: block;
+}
+
+.picto__note,
+.picto__body {
+  width: calc(3 * var(--col) + 2 * var(--grid-gutter));
+  color: rgb(0 0 0 / 0.5);
+}
+
+.picto__note {
+  margin-top: 51px;
+}
+
+.picto__title {
+  margin-top: 13px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.picto__body {
+  margin-top: 26px;
+}
+
+/* icon grid: 4 tiles across columns 6–12, a thin rule on top of each */
+.picto__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: 10px;
+  list-style: none;
+}
+
+.picto__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-top: 1px; /* room for the rule */
+  padding-bottom: 21px;
+}
+
+/* Arrival (main.js adds .is-in per tile as it scrolls in): the rule draws left to right,
+   then the black icon turns its category colour. --c = column 0–3, staggers each row. */
+.picto__item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--picto-rule);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1) calc(var(--c, 0) * 0.12s);
+}
+
+.picto__item.is-in::before {
+  transform: none;
+}
+
+.picto__item--magenta { color: var(--magenta); }
+.picto__item--blue { color: var(--blue); }
+.picto__item--green { color: var(--green); }
+.picto__item--gray { color: var(--picto-gray); }
+
+/* "1) Field" with the Korean name lined up under the English one */
+.picto__name {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.25em;
+  height: 48px;
+  padding-top: 8px;
+  font-family: "Pretendard", sans-serif;
+  font-size: 16px;
+  line-height: 1.43;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  color: #000;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.picto__icon {
+  display: block;
+  align-self: center;
+  width: 86.6%;
+  height: auto;
+  aspect-ratio: 1;
+  color: #000;
+  fill: currentColor;
+  transition:
+    color 0.8s ease calc(var(--c, 0) * 0.12s + 0.6s),
+    opacity 0.3s ease;
+}
+
+.picto__item.is-in .picto__icon {
+  color: inherit;
+}
+
+/* Hover a tile or a category on the left (both carry data-cat): everything outside that
+   category fades, tiles and left list alike. The hovered tile's name takes its icon colour,
+   and the matching category on the left takes it too (its own colour when hovered directly). */
+.picto:has([data-cat="1"]:hover) [data-cat]:not([data-cat="1"]),
+.picto:has([data-cat="2"]:hover) [data-cat]:not([data-cat="2"]),
+.picto:has([data-cat="3"]:hover) [data-cat]:not([data-cat="3"]),
+.picto:has([data-cat="4"]:hover) [data-cat]:not([data-cat="4"]) {
+  --dim: 0.2;
+}
+
+.picto__cats li,
+.picto__item .picto__name,
+.picto__item .picto__icon {
+  opacity: var(--dim, 1);
+}
+
+.picto__item:hover .picto__name {
+  color: inherit;
+}
+
+.picto:has(.picto__item--magenta:hover) { --hover-ink: var(--magenta); }
+.picto:has(.picto__item--blue:hover) { --hover-ink: var(--blue); }
+.picto:has(.picto__item--green:hover) { --hover-ink: var(--green); }
+.picto:has(.picto__item--gray:hover) { --hover-ink: var(--picto-gray); }
+
+.picto__cats [data-cat="1"] { --cat-ink: var(--magenta); }
+.picto__cats [data-cat="2"] { --cat-ink: var(--blue); }
+.picto__cats [data-cat="3"] { --cat-ink: var(--green); }
+.picto__cats [data-cat="4"] { --cat-ink: var(--picto-gray); }
+
+.picto__cats li:hover,
+.picto:has(.picto__item[data-cat="1"]:hover) .picto__cats [data-cat="1"],
+.picto:has(.picto__item[data-cat="2"]:hover) .picto__cats [data-cat="2"],
+.picto:has(.picto__item[data-cat="3"]:hover) .picto__cats [data-cat="3"],
+.picto:has(.picto__item[data-cat="4"]:hover) .picto__cats [data-cat="4"] {
+  color: var(--hover-ink, var(--cat-ink));
+}
+
+/* knock-outs around the slash in the "no ..." signs */
+.picto__cut {
+  fill: #fff;
+}
+
+/* ---------- Color system (measured from the 1716 × 1262 mock = 0.8938× of 1920px) ----------
+   Intro text on the grid, then a full-bleed 1920 × 1080 chart: green / white over magenta / cyan,
+   and five off-black tints (20–100%) as tall strips on the right.
+   Names are in the project typeface; codes and percentages in Pretendard Light (as in the mock). */
+
+.colors {
+  position: relative;
+  z-index: 1;
+  padding-top: 43px;
+  background: #fff;
+  color: #000;
+}
+
+.colors__title {
+  grid-column: 1 / span 3;
+  font-weight: 400;
+  line-height: 1;
+}
+
+/* two paragraphs side by side: columns 1–3 and 4–6 */
+.colors__body {
+  grid-row: 2;
+  grid-column: span 3;
+  margin-top: 13px;
+  color: rgb(0 0 0 / 0.5);
+}
+
+/* column widths and row heights straight from the 1920 × 1080 chart */
+.colors__chart {
+  display: grid;
+  grid-template-columns: 695fr 341fr 354fr repeat(5, 106fr);
+  grid-template-rows: 551fr 529fr;
+  aspect-ratio: 1920 / 1080;
+  margin-top: 77px; /* chart top 330px down the section */
+  font-family: "OffTheLeague Flex", "Pretendard", sans-serif;
+  line-height: 1;
+  color: #fff;
+}
+
+.colors__swatch {
+  padding: 36px 32px;
+}
+
+.colors__swatch--green { grid-area: 1 / 1 / 2 / 3; background: var(--green); }
+.colors__swatch--white { grid-area: 1 / 3 / 2 / 4; background: var(--off-white); color: var(--off-black); }
+.colors__swatch--magenta { grid-area: 2 / 1 / 3 / 2; background: var(--magenta); }
+.colors__swatch--cyan { grid-area: 2 / 2 / 3 / 4; background: var(--blue); }
+
+.colors__name {
+  font-size: 31px;
+  font-weight: 400;
+}
+
+.colors__hex,
+.colors__pct {
+  font-family: "Pretendard", sans-serif;
+  font-weight: 300;
+  font-size: 23px;
+}
+
+.colors__hex {
+  margin-top: 9px;
+}
+
+/* off-black strips: --tint of off-black over white; names and percentages run top to bottom */
+.colors__tint {
+  position: relative;
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 36px;
+  background: color-mix(in srgb, var(--off-black) var(--tint), #fff);
+}
+
+.colors__tint--light {
+  color: var(--off-black);
+}
+
+.colors__tint .colors__name,
+.colors__tint .colors__hex,
+.colors__pct {
+  writing-mode: vertical-rl;
+}
+
+/* sideways capitals sit right of the line's centre; nudge them back onto the strip's centre */
+.colors__tint .colors__name,
+.colors__tint .colors__hex {
+  translate: -0.1em 0;
+}
+
+.colors__tint .colors__hex {
+  margin-top: 44px;
+}
+
+/* percentages start on one line; "100%" ends 36px above the bottom */
+.colors__pct {
+  position: absolute;
+  top: calc(100% - 91px);
+  left: 50%;
+  translate: calc(-50% - 0.1em) 0;
+}
+
+/* ---------- Signage / wayfinding (measured from the 1320 × 1722 mock = 0.6875× of 1920px) ----------
+   Intro on white, then a black stage: the signage photos across the full grid and the cone sign in columns 4–9.
+   The photos are pre-aligned so the sign sits in the same place in each; main.js swaps them so only the background changes. */
+
+.wayfinding {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  color: #000;
+}
+
+.wayfinding__intro {
+  padding-top: 132px;
+  padding-bottom: 120px; /* last line → black stage, as in the mock */
+}
+
+/* columns 4–9, 10px in on each side (in the mock the text sits centred over the cone, not on the column edge) */
+.wayfinding__title,
+.wayfinding__body {
+  grid-column: 4 / span 6;
+  margin-inline: 10px;
+}
+
+.wayfinding__title {
+  font-weight: 400;
+  line-height: 1;
+}
+
+.wayfinding__body {
+  margin-top: 20px;
+  color: rgb(0 0 0 / 0.5);
+}
+
+.wayfinding__stage {
+  row-gap: 99px;
+  padding-block: 99px;
+  background: #000;
+}
+
+.wayfinding__scenes {
+  position: relative;
+  grid-column: 1 / -1;
+  aspect-ratio: 1740 / 945;
+  overflow: hidden;
+}
+
+/* hard cuts, no fade: the sign stays put and the place around it changes */
+.wayfinding__scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+}
+
+.wayfinding__scene.is-current {
+  opacity: 1;
+}
+
+.wayfinding__cone {
+  grid-column: 4 / span 6;
+  margin: 0;
+}
+
+.wayfinding__cone img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- Wall signage (measured from the 1620 × 1764 mock = 0.8466× of 1920px) ----------
+   The floor-to-wall drawing runs full width; title, text and the WATER panel diagram sit over its empty
+   upper right, in columns 9–11. The diagram scales with the columns like the drawing scales with the screen. */
+
+.wall-sign {
+  position: relative;
+  z-index: 1;
+  padding: 130px 0 183px; /* top = top of the tall panel in the drawing */
+  background: #fff;
+  color: #000;
+}
+
+.wall-sign__intro {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 1;
+  padding-top: 136px;
+}
+
+.wall-sign__title,
+.wall-sign__body,
+.wall-sign__spec {
+  grid-column: 9 / span 3;
+}
+
+.wall-sign__title {
+  font-weight: 400;
+  line-height: 1;
+}
+
+.wall-sign__body {
+  margin-top: 11px;
+  padding-right: 6px; /* the mock's text box is a little narrower than 3 columns; keeps its line breaks */
+  color: rgb(0 0 0 / 0.5);
+}
+
+.wall-sign__spec {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 37px;
+  overflow: visible; /* guide lines run past the first column edge */
+}
+
+.wall-sign__art {
+  fill: #808080;
+}
+
+/* 1px at 1920 (one viewBox unit ≈ 1.18px there) */
+.wall-sign__guides line {
+  stroke: rgb(0 0 0 / 0.22);
+  stroke-width: 0.85;
+  stroke-dasharray: 100 120;
+  stroke-dashoffset: 104;
+  transition: stroke-dashoffset 1.1s cubic-bezier(0.65, 0, 0.35, 1) calc(var(--i) * 0.2s);
+}
+
+.wall-sign__guides text {
+  font-family: "Pretendard", sans-serif;
+  font-size: 6.5px;
+  fill: #999;
+  opacity: 0;
+  transition: opacity 0.5s ease 1.6s;
+}
+
+.wall-sign.is-drawn .wall-sign__guides line {
+  stroke-dashoffset: 0;
+}
+
+.wall-sign.is-drawn .wall-sign__guides text {
+  opacity: 1;
+}
+
+.wall-sign__scene {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- Floor wayfinding (measured from the 2152 × 1486 mock = 1.1203× of 1920px) ----------
+   One line at full size is a 240-tall band (two lines: 164 each, 25 apart, second mock). The lines are built
+   and moved by main.js; positions are in the SVG's 1920-wide units, so everything scales with the screen. */
+
+.floor {
+  position: relative;
+  z-index: 1;
+  padding: 329px 0 263px; /* top: the single band sits 385 below the section top */
+  background: #fff;
+  color: #000;
+}
+
+.floor__lines {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: hidden; /* bands slide in and out past the screen edges */
+}
+
+/* transforms are set inline by main.js; origin is the SVG's top left */
+.floor__line,
+.floor__band {
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+
+.floor__fill {
+  fill: var(--c);
+}
+
+/* the two thin lines inside the band, a lighter tint of its colour */
+.floor__stripe {
+  fill: color-mix(in srgb, var(--c), #fff 25%);
+}
+
+/* pictogram, word and arrows: white, shown only once the colour is in place */
+.floor__marks {
+  fill: #fff;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.floor__line.is-marked .floor__marks {
+  opacity: 1;
+}
+
+.floor__marks text {
+  font-family: "OffTheLeague Flex", sans-serif;
+  font-weight: 400;
+}
+
+.floor__intro {
+  margin-top: 127px;
+}
+
+.floor__title,
+.floor__body {
+  grid-column: 1 / span 3;
+}
+
+.floor__title {
+  font-weight: 400;
+  line-height: 1;
+}
+
+.floor__body {
+  margin-top: 27px;
+  color: rgb(0 0 0 / 0.5);
+  word-break: keep-all; /* the mock wraps between words */
+}
+
+/* ---------- Application (measured from the 1862 × 1396 mock = 0.96875× of 1920px) ----------
+   A square photo from column 5 out to the right edge of the screen; the text sits in columns 1–3,
+   centred on the photo's height. */
+.application {
+  position: relative;
+  z-index: 1;
+  padding-block: 97px 102px;
+  align-items: center;
+  background: #fff;
+  color: #000;
+}
+
+.application__intro {
+  position: relative;
+  top: 8px; /* the mock sits the text block 8px below the photo's centre */
+  grid-column: 1 / span 3;
+  grid-row: 1;
+}
+
+.application__title {
+  font-weight: 400;
+  line-height: 1;
+}
+
+.application__body {
+  margin-top: 18px;
+  color: rgb(0 0 0 / 0.5); /* the mock breaks the second line mid-word, so normal Korean wrapping */
+}
+
+/* the square crop of the photo is baked into the file (huddle.jpg) */
+.application__photo {
+  grid-column: 5 / -1;
+  grid-row: 1;
+  display: block;
+  width: calc(100% + var(--grid-margin)); /* past the right margin to the screen edge */
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+/* ---------- Vertical banner (measured from the 2186 × 1228 mock = 1.1385× of 1920px) ----------
+   Three 327 × 784 banners on black, centred with 117px between them. Their size scales with the
+   screen width, the spacing around the text stays in px. */
+.banner {
+  position: relative;
+  z-index: 1;
+  padding: 68px 0 106px;
+  background: #000;
+  color: #fff;
+  text-align: center;
+}
+
+.banner__title {
+  font-weight: 400;
+  line-height: 1;
+}
+
+.banner__body {
+  margin-top: 6px;
+  color: rgb(255 255 255 / 0.5);
+}
+
+.banner__list {
+  display: flex;
+  justify-content: center;
+  gap: calc(100vw * 117.4 / 1920);
+  margin-top: 63px;
+  list-style: none;
+}
+
+.banner__list li {
+  width: calc(100vw * 327.1 / 1920);
+}
+
+.banner__list img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- Cheering towel + winner medal (one mock: 1126 × 1540 = 0.5854× of 1920px) ---------- */
+
+/* Towel: the photo runs from the left edge of the screen to the end of column 8 (mirror of
+   Application); the text starts at column 9, level with the top of the photo. */
+.towel {
+  position: relative;
+  z-index: 1;
+  padding-block: 77px 163px;
+  background: #fff;
+  color: #000;
+}
+
+.towel__photo {
+  grid-column: 1 / span 8;
+  grid-row: 1;
+  display: block;
+  width: calc(100% + var(--grid-margin)); /* past the left margin to the screen edge */
+  height: auto;
+  margin-left: calc(-1 * var(--grid-margin));
+  aspect-ratio: 1241.33 / 1346;
+  object-fit: cover; /* the mock crops the top and bottom of the photo evenly */
+}
+
+.towel__intro {
+  grid-column: 9 / span 3;
+  grid-row: 1;
+  padding-top: 13px;
+}
+
+.towel__title,
+.medal__title {
+  font-weight: 400;
+  line-height: 1;
+}
+
+.towel__body {
+  margin-top: 13px;
+  color: rgb(0 0 0 / 0.5);
+}
+
+/* Medal: a black band (1920 × 954 at 1920, scales with the width) with 240px of white below it
+   (the mock had 90; widened so the ending gets some room). The render's own background is black,
+   so the band is just the pre-cropped image. */
+.medal {
+  position: relative;
+  z-index: 1;
+  padding-bottom: 240px;
+  background: #fff;
+}
+
+.medal__stage {
+  position: relative;
+  aspect-ratio: 1920 / 954.4;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+}
+
+.medal__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.medal__intro {
+  position: absolute;
+  top: 69px;
+  left: var(--grid-margin);
+  width: calc(3 * var(--col) + 2 * var(--grid-gutter));
+}
+
+.medal__body {
+  margin-top: 13px;
+  color: rgb(255 255 255 / 0.5);
+}
+
+/* ---------- Ending (measured from the 1216 × 990 mock = 0.6361× of 1920px) ----------
+   A poster: everything but the credit scales with the screen width (1920 units → vw).
+   The slogan under the logo was taken out (2026-10-29). */
+.ending {
+  position: relative;
+  z-index: 1;
+  aspect-ratio: 1920 / 1556.4;
+  overflow: hidden;
+  background: #fff;
+  color: #fff;
+}
+
+/* the lower part of the grass photo (rows 988–2441), toned down to the mock's darker olive */
+.ending__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.68) saturate(0.95) contrast(0.95);
+}
+
+/* fades to white from 47% to 94% of the height (linear, as in the mock) */
+.ending::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgb(255 255 255 / 0) 47%, #fff 94%);
+  pointer-events: none;
+}
+
+.ending__logo,
+.ending__credit {
+  position: absolute;
+  z-index: 1;
+}
+
+.ending__logo {
+  /* viewBox shared with the hero logo; ink 466.9–1449.4 × 297.1–455.9 in the mock */
+  left: calc(100vw * 462.7 / 1920);
+  top: calc(100vw * 295.2 / 1920);
+  width: calc(100vw * 989.9 / 1920);
+  height: auto;
+  fill: #fff;
+}
+
+.ending__credit {
+  left: var(--grid-margin);
+  bottom: 100px;
+  font-family: "Pretendard", sans-serif;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: 0.03em; /* the mock sets it a little wider than the font's default */
+  color: #aaa;
+}

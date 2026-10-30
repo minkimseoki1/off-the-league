@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OFF THE LEAGUE</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="slider" aria-label="섹션 이동">
+    <div class="slider__track"><div class="slider__fill"></div></div>
+    <ol class="slider__list">
+      <li><a class="slider__item" href="#" data-target=".about">Overview</a></li>
+      <li><a class="slider__item" href="#" data-target=".context">Background</a></li>
+      <li><a class="slider__item" href="#" data-target=".concept">Graphic Motif</a></li>
+      <li><a class="slider__item" href="#" data-target=".naming">Brand Identity</a></li>
+      <li><a class="slider__item" href="#" data-target=".wayfinding">Application</a></li>
+    </ol>
+  </nav>
+
+  <section class="hero">
+    <img class="hero__bg" src="assets/hero.jpg" alt="원을 이뤄 손을 모은 청소년 축구 선수들을 아래에서 올려다본 장면">
+    <svg class="hero__logo" viewBox="96 435 790 130" role="img" aria-label="OFF THE LEAGUE" xmlns="http://www.w3.org/2000/svg">
+  <g id="logotype"> <!-- reused by the ending section -->
+  <g>
+    <path d="M547.44,555.51h-31.14v-7.61h-7.73v-73h8.42v72.31h30.56l-.12,8.3Z"/>
+    <path d="M565.08,540.97l-.81.69h-7.5v-52.94h7.38l.81.69.12-.12v51.67ZM565.08,488.73h-.92l-5.19-4.15c.35-.46,8.65-10.38,26.75-10.38s26.18,9.92,26.53,10.38l-5.88,4.84s-1.61-1.96-4.96-3.81c-4.5-2.42-9.8-3.69-15.68-3.69s-11.3,1.27-15.8,3.69c-2.88,1.61-4.38,3.23-4.84,3.69v-.58ZM612.37,545.93c-.35.35-8.65,10.26-26.64,10.26s-26.29-9.92-26.64-10.38l5.19-4.15h.81v-.69c.12.12,1.61,1.96,4.96,3.81,4.5,2.42,9.69,3.69,15.68,3.69s11.3-1.27,15.8-3.69c3.34-1.85,4.96-3.81,4.96-3.81l5.88,4.96ZM602.1,518.03h-32.75l-4.27-7.73h37.02v7.73Z"/>
+    <path d="M639.81,519.87l-10.26,35.63-7.96-2.31,22.37-78.31h8.65l-12.8,44.98ZM665.53,519.76c-.46-.23-4.5-2.42-12.8-2.42-4.96,0-10.26,1.04-12.92,2.54l3.69,6.57s2.88-1.38,9.23-1.38,9.11,1.38,9.11,1.38l3.69-6.69ZM661.26,474.89l22.37,78.31-7.96,2.31-23.07-80.61h8.65Z"/>
+    <path d="M700.24,488.62l1.04,1.04v51.09l-.92.92h-7.5v-53.05h7.38ZM701.28,489.66c0-.12,8.19-7.84,20.99-7.84s20.87,7.73,20.99,7.73l5.42-5.42c-.46-.35-10.26-10.03-26.41-10.03s-26.06,9.57-26.41,10.03l4.38,4.5h1.04v1.04ZM748.68,546.17l-4.38-4.5h-1.04v-1.04c-.12.12-8.19,7.84-20.99,7.84s-20.99-7.73-20.99-7.73v.92h-.92l-4.5,4.5c.35.35,10.26,10.03,26.41,10.03s25.95-9.57,26.41-10.03ZM751.67,541.67h-7.38l-1.04-1.04v-24.22l-3.46,6.46h-16.15v-7.73h28.02v26.53Z"/>
+    <path d="M809.68,539.59h.92l5.77,3.46c-.23.58-7.96,13.15-26.87,13.15s-26.64-12.57-26.99-13.15l5.88-3.46h-7.5v-64.7h8.42v64.47c.92,1.38,6.69,9.23,20.18,9.23s19.26-7.84,20.18-9.23v.23ZM818.1,474.89v64.7h-7.5l-.81-.46s0,.12-.12.23v-64.47h8.42Z"/>
+    <path d="M835.63,540.97l-.81.69h-7.5v-52.94h7.38l.81.69.12-.12v51.67ZM835.63,488.73h-.92l-5.19-4.15c.35-.46,8.65-10.38,26.75-10.38s26.18,9.92,26.53,10.38l-5.88,4.84s-1.61-1.96-4.96-3.81c-4.5-2.42-9.8-3.69-15.68-3.69s-11.3,1.27-15.8,3.69c-2.88,1.61-4.38,3.23-4.84,3.69v-.58ZM882.91,545.93c-.35.35-8.65,10.26-26.64,10.26s-26.29-9.92-26.64-10.38l5.19-4.15h.81v-.69c.12.12,1.61,1.96,4.96,3.81,4.5,2.42,9.69,3.69,15.68,3.69s11.3-1.27,15.8-3.69c3.34-1.85,4.96-3.81,4.96-3.81l5.88,4.96ZM872.64,518.03h-32.75l-4.27-7.73h37.02v7.73Z"/>
+  </g>
+  <g>
+    <path d="M349.73,474.89v8.3h-22.95v72.31h-8.3v-72.31h-22.95v-8.3h54.2Z"/>
+    <path d="M367.26,513.53l-.46.12.46.92v40.94h-8.3v-80.61h8.3v38.63ZM403.7,513.53v1.04l-2.88,6c-1.85-.69-7.04-2.08-15.34-2.08s-13.49,1.38-15.34,2.08l-2.88-6v-1.04c1.73-.69,7.5-2.65,18.22-2.65s16.49,1.96,18.22,2.65ZM403.7,474.89h8.3v80.61h-8.3v-40.94l.46-.92-.46-.12v-38.63Z"/>
+    <path d="M429.53,540.97l-.81.69h-7.5v-52.94h7.38l.81.69.12-.12v51.67ZM429.53,488.73h-.92l-5.19-4.15c.35-.46,8.65-10.38,26.76-10.38s26.18,9.92,26.53,10.38l-5.88,4.84s-1.62-1.96-4.96-3.81c-4.5-2.42-9.8-3.69-15.68-3.69s-11.3,1.27-15.8,3.69c-2.88,1.61-4.38,3.23-4.84,3.69v-.58ZM476.82,545.93c-.35.35-8.65,10.26-26.64,10.26s-26.29-9.92-26.64-10.38l5.19-4.15h.81v-.69c.12.12,1.61,1.96,4.96,3.81,4.5,2.42,9.69,3.69,15.68,3.69s11.3-1.27,15.8-3.69c3.34-1.85,4.96-3.81,4.96-3.81l5.88,4.96ZM466.55,518.03h-32.75l-4.27-7.73h37.02v7.73Z"/>
+  </g>
+  <g>
+    <path d="M123.24,552.34l-.29-.14-.45.78-6.94,2.52-16.21-44.54,6.94-2.52.85.3.14-.29,15.97,43.89ZM107.15,508.12l-.87.32-6.41-2.09c.28-.59,5.36-15.94,23.14-22.41,17.66-6.43,31.43,2.06,31.95,2.48l-3.6,5.61-.87.32.12.32c-2.15-1.18-12.28-6.09-24.96-1.47-13,4.73-17.57,15.11-18.39,17.25l-.12-.32ZM166.71,536.88l.87-.32,6.41,2.09c-.28.59-5.37,15.94-23.14,22.41-17.67,6.43-31.43-2.06-31.95-2.48l3.6-5.61.87-.32-.12-.32c2.15,1.18,12.28,6.08,24.96,1.47,13-4.73,17.57-15.11,18.39-17.25l.12.32ZM158.3,489.5l16.21,44.54-6.94,2.52-.85-.3-.14.3-15.97-43.89.3.14.45-.78,6.94-2.52Z"/>
+    <path d="M172.38,481.31l1.1.33.34-.74,22.84,62.75-7.8,2.84-22.88-62.85,6.39-2.33ZM215.1,461.47l-4.02,6.49c-.29-.14-8.42-4.91-21.31-.22-10.84,3.94-14.92,10.95-15.95,13.17l-.04-.11-1.41.51-6.15-2.06c.17-.55,4.47-12.67,20.94-18.67,16.47-6,27.45.56,27.93.88ZM218.48,495.7l-30.78,11.2-6.54-5.84,34.68-12.62,2.64,7.26Z"/>
+    <path d="M231.55,459.78l1.1.33.34-.74,22.84,62.75-7.8,2.84-22.88-62.86,6.39-2.33ZM274.27,439.93l-4.02,6.49c-.29-.14-8.42-4.91-21.31-.22-10.84,3.95-14.92,10.95-15.95,13.17l-.04-.11-1.41.51-6.15-2.06c.17-.55,4.47-12.67,20.94-18.67,16.47-5.99,27.45.56,27.93.88ZM277.65,474.17l-30.78,11.2-6.54-5.84,34.68-12.62,2.64,7.26Z"/>
+  </g>
+  </g>
+</svg>
+  </section>
+
+  <section class="about" id="about">
+    <div class="about__inner">
+      <h2 class="about__title">OFF THE LEAGUE<span class="about__comma">,</span> ON THE GROUND</h2>
+      <div class="about__body">
+        <p>OFF THE LEAGUE는 서로 다른 언어를 사용하는 청소년들이 함께 뛰는 축구 대회입니다.</p>
+        <p>이곳에선 축구라는 공통의 규칙 안에서 서로 다른 언어와 배경을 가진 참가자들이 함께 머물고 움직일 수 있는 제3의 공간을 만드는 것을 목표로 합니다. 경기 안에서 자연스럽게 작동하는 축구의 시각적 규칙을 경기장 밖까지 확장하여, 참가자가 낯선 대회 공간에서도 필요한 정보와 이동 방향을 스스로 파악할 수 있도록 합니다.</p>
+        <p>축구장의 라인에서 출발한 시각 언어는 로고타입, 전용 서체, 사이니지 시스템과 픽토그램으로 이어집니다.</p>
+      </div>
+    </div>
+
+    <img class="about__photo" src="assets/overview-photo.jpg" alt="해 질 녘 운동장에서 축구를 하는 아이들을 높은 곳에서 내려다본 장면" loading="lazy">
+  </section>
+
+  <section class="context">
+    <!-- Shapes from 웹 디자인 배경 타겟 페인포인트쉐입-02.svg (1920 × 3130.47 frame) -->
+    <svg class="context__shapes" viewBox="0 0 1920 3130.47" aria-hidden="true">
+      <defs>
+        <clipPath id="clip-rect">
+          <rect x="-37.97" y="370.33" width="1764.77" height="1019.86" transform="translate(79.93 -70.25) rotate(5)"/>
+        </clipPath>
+        <clipPath id="clip-ring">
+          <path clip-rule="evenodd" d="M2733.65,943.8c-1462.79,0-2648.61,1185.82-2648.61,2648.6s1185.82,2648.61,2648.61,2648.61,2648.6-1185.820,2648.6-2648.61S4196.43,943.8,2733.65,943.8ZM2733.65,5247.65c-914.17,0-1655.25-741.08-1655.25-1655.25s741.08-1655.250,1655.25-1655.25,1655.24,741.08,1655.24,1655.25-741.08,1655.25-1655.24,1655.25Z"/>
+        </clipPath>
+      </defs>
+
+      <g class="context__shape" clip-path="url(#clip-rect)">
+        <rect class="context__fill context__fill--rect" x="-80" y="295" width="1848" height="1171"/>
+        <image class="context__image" href="assets/kids-football.png" x="-665.4" y="28.5" width="2619.5" height="1746.4"/>
+      </g>
+
+      <g class="context__shape" clip-path="url(#clip-ring)">
+        <rect class="context__fill context__fill--ring" x="85" y="943" width="1835" height="2188"/>
+        <image class="context__image" href="assets/multicultural-community.png" x="-189.7" y="917" width="3482" height="2327"/>
+      </g>
+    </svg>
+
+    <div class="context__block context__block--background">
+      <h2 class="context__subtitle">BACKGROUND</h2>
+      <p class="context__text">이 프로젝트는 여러 국적의 아이들과 함께 축구를 했던 경험에서 시작되었습니다.<br>경기 안에서는 서로의 언어를 잘 몰라도 같은 규칙 아래 움직임을 공유할 수 있었지만,<br>경기장을 벗어나면 그 흐름은 자연스럽게 이어지지 않았습니다.</p>
+    </div>
+
+    <div class="context__block context__block--pain">
+      <h2 class="context__subtitle">TARGET AND PAIN POINT</h2>
+      <p class="context__text">축구를 좋아하지만 낯선 생활 환경과 언어에 적응 중인 청소년에게, 경기 안과 밖의 경험은<br>꽤 다릅니다. 경기 중에는 같은 규칙 아래 자연스럽게 움직일 수 있지만, 경기장을 벗어나면<br>필요한 정보를 각자 찾아야 하고 익숙하지 않은 언어는 이 과정에서 다시 장벽이 됩니다.</p>
+    </div>
+  </section>
+
+  <section class="concept">
+    <div class="concept__inner">
+      <div class="concept__text">
+        <h2 class="concept__title">Graphic Motif</h2>
+        <div class="concept__body">
+          <p>이러한 장벽을 줄이기 위해, 경기 안에서 공통의 기준으로 작동하는 축구장의 선을 경기장 밖으로 확장했습니다.</p>
+          <p>서로 다른 선들이 각자의 방향을 유지한 채 일부에서 만나 하나의 흐름으로 이어집니다. 이 구조를 로고타입, 전용 서체, 픽토그램과 사이니지에 공통된 시각 언어로 적용했습니다.</p>
+        </div>
+      </div>
+
+      <!-- Full-bleed, 1920 × 1080 frame shared by the photo and the SVG so their arcs line up.
+           Arc fitted from the field line in design-concept-field.jpg: center 2056.4, 1637.2 · r 1370.3 -->
+      <img class="concept__bg" src="assets/design-concept-field.jpg" alt="축구장 잔디 위의 흰 곡선 라인">
+      <!-- Flat graphic version of the field: black + the same arc as a white stroke.
+           The stroke later widens until the whole screen is white. -->
+      <svg class="concept__graphic" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="1920" height="1080" fill="var(--concept-panel)"/>
+        <path class="concept__arc" fill="none" stroke="#fff" stroke-width="48"/>
+      </svg>
+      <svg class="concept__svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <g class="concept__images"></g>
+      </svg>
+
+      <!-- Core values -->
+      <div class="core">
+        <p class="core__lead">OFF THE</p>
+        <ol class="core__list">
+          <li class="core__col core__col--blue" tabindex="0">
+            <div class="core__bg"><img class="core__photo" src="assets/core-photo.jpg" alt="" loading="lazy"></div>
+            <span class="core__num">01</span>
+            <span class="core__word">COMPETITION</span>
+            <div class="core__detail">
+              <p class="core__title">COMPETITION</p>
+              <p class="core__desc">경쟁 자체보다 서로 다른 참가자들이 같은 경기 안에서<br>함께 움직이고 참여하는 경험에 집중합니다.</p>
+            </div>
+          </li>
+          <li class="core__col core__col--magenta" tabindex="0">
+            <div class="core__bg"><img class="core__photo" src="assets/core-photo.jpg" alt="" loading="lazy"></div>
+            <span class="core__num">02</span>
+            <span class="core__word">CONFUSION</span>
+            <div class="core__detail">
+              <p class="core__title">CONFUSION</p>
+              <p class="core__desc">처음 방문한 대회 공간에서 필요한 장소와<br>이동 방향을 쉽게 파악할 수 있도록 합니다.</p>
+            </div>
+          </li>
+          <li class="core__col core__col--green" tabindex="0">
+            <div class="core__bg"><img class="core__photo" src="assets/core-photo.jpg" alt="" loading="lazy"></div>
+            <span class="core__num">03</span>
+            <span class="core__word">BARRIER</span>
+            <div class="core__detail">
+              <p class="core__title">BARRIER</p>
+              <p class="core__desc">말로 확인하지 않아도 색과 선, 픽토그램을 통해<br>기본적인 공간 정보를 이해할 수 있도록 합니다.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="naming">
+    <!-- Looping motion logo. The GIF is a 16:9 canvas with the logo in its middle third,
+         so it is scaled up until the logo spans the width shown in the mock (11.6%–88.2%). -->
+    <img class="naming__logo" src="assets/logo-motion.gif" alt="OFF THE LEAGUE 로고타입 모션">
+
+    <h2 class="naming__label">NAMING AND LOGOTYPE</h2>
+    <div class="naming__body">
+      <p>OFF THE LEAGUE는 기존의 리그가 가진 경쟁과 순위의 이미지에서 한 발 벗어나, 함께 뛰는 경험에 집중한다는 의미를 담은 이름입니다.</p>
+      <p>로고타입은 서로 다른 방향을 가진 획들이 부분적으로 맞닿으며 하나의 글자를 이루도록 디자인했습니다. 각 획의 형태는 다르지만, 전체에서는 하나의 흐름으로 읽히도록 구성했습니다.</p>
+    </div>
+  </section>
+
+  <section class="typeface">
+    <!-- Measured from the typography mock (captured at 0.76× of a 1920px screen) -->
+    <img class="typeface__field" src="assets/typeface-field.jpg" alt="잔디 위 흰 라인 옆에 서 있는 두 선수를 위에서 내려다본 장면" loading="lazy">
+
+    <span class="typeface__ghost" aria-hidden="true">O</span>
+    <p class="typeface__chart" aria-label="전용 서체 알파벳과 숫자"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span><span>I</span><span>J</span><span>K</span><span>L</span><span>M</span><span>N</span><span>O</span><span>P</span><span>Q</span><span>R</span><span>S</span><span>T</span><span>U</span><span>V</span><span>W</span><span>X</span><span>Y</span><span>Z</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></p>
+
+    <div class="typeface__intro">
+      <h2 class="typeface__label">TYPOGRAPHY</h2>
+      <div class="typeface__body">
+        <p>OFF THE LEAGUE의 전용 서체는 축구장의 라인 마킹에서 발견한 직선, 꺾임, 분할의 형태에서 출발했습니다. 경기장 안에서 선이 공간을 구분하고 방향을 만들어내는 방식을 글자의 구조에 적용하고, 로고타입에서 사용한 조형 원리를 알파벳과 숫자 전체로 확장했습니다.</p>
+        <p>전용 서체는 공간명, 경기 정보, 안내 문구, 사인 그래픽 등 대회 안에서 반복적으로 사용되는 정보에 적용했습니다. 이를 통해 로고타입에서 시작된 시각적 특징이 개별 그래픽에 머무르지 않고, 실제 공간의 정보 전달까지 이어지도록 했습니다.</p>
+      </div>
+    </div>
+
+    <figure class="typeface__specimen">
+      <img src="assets/typeface-kids.jpg" alt="축구공을 함께 든 두 아이" loading="lazy">
+      <!-- A cycling letter (starts on O) with its construction lines, in the photo's own 1004 × 884 frame (px at 1920) -->
+      <svg viewBox="0 0 1004 884" aria-hidden="true">
+        <!-- The typeface's own grid (font units × 0.847 up from the 742 baseline):
+             cap 699 · top stroke 633 · middle bar 392–325 (E, F, B) · bottom stroke 66 · baseline 0 -->
+        <g class="typeface__guides">
+          <line class="is-solid" x1="0" x2="1004" y1="149.9" y2="149.9"/>
+          <line x1="0" x2="1004" y1="205.8" y2="205.8"/>
+          <line x1="0" x2="1004" y1="410" y2="410"/>
+          <line x1="0" x2="1004" y1="466.7" y2="466.7"/>
+          <line x1="0" x2="1004" y1="686.1" y2="686.1"/>
+          <line class="is-solid" x1="0" x2="1004" y1="742" y2="742"/>
+        </g>
+        <text class="typeface__glyph" x="502" y="742" text-anchor="middle">O</text>
+      </svg>
+    </figure>
+
+    <div class="typeface__body typeface__note">
+      <p>각 글자는 서로 다른 방향의 획이 완전히 하나로 합쳐지기보다 부분적으로 맞닿으며 형태를 이루도록 설계했습니다. 이를 통해 각 글자가 독립적인 형태를 가지면서도 전체 문장에서는 하나의 리듬과 흐름을 유지하도록 했습니다.</p>
+    </div>
+  </section>
+
+  <section class="tester" aria-label="전용 서체 직접 써보기">
+    <div class="tester__text" contenteditable="true" spellcheck="false" autocapitalize="off"
+         aria-label="입력해서 서체를 써 보세요">OFF THE LEAGUE<br>ON THE GROUND</div>
+
+    <label class="tester__control">
+      <span class="tester__label">WEIGHT <output class="tester__value">300</output></span>
+      <input class="tester__range" type="range" min="300" max="700" step="1" value="300">
+    </label>
+  </section>
+
+  <section class="picto grid">
+    <figure class="picto__hero">
+      <!-- 712 × 712 (columns 1–5 at 1920px). The restroom pictogram, enlarged, with the guides
+           that compare its stroke widths: vertical strokes are 1.1× the slanted ones.
+           The guides draw in when the section arrives (main.js). -->
+      <svg viewBox="0 0 712 712" role="img" aria-label="남녀 화장실 픽토그램과 획 두께 가이드라인">
+        <g class="picto__guides" aria-hidden="true">
+          <g class="picto__guide" style="--i: 0">
+            <line x1="151.33" y1="0" x2="151.33" y2="712" style="--len: 712.0"/>
+            <line x1="181.79" y1="0" x2="181.79" y2="712" style="--len: 712.0"/>
+            <path class="picto__measure" transform="translate(151.33 30.5)" d="M0 0H30.46M5 -4 0 0 5 4M25.46 -4 30.46 0 25.46 4"/>
+            <text x="188.79" y="30.5">1.1x</text>
+          </g>
+          <g class="picto__guide" style="--i: 1">
+            <line x1="507.02" y1="0" x2="294.73" y2="712" style="--len: 743.0"/>
+            <line x1="536.47" y1="0" x2="324.07" y2="712" style="--len: 743.0"/>
+            <path class="picto__measure" transform="translate(490.35 55.9) rotate(16.60)" d="M0 0H28.22M5 -4 0 0 5 4M23.22 -4 28.22 0 23.22 4"/>
+            <text x="524.40" y="63.96">1x</text>
+          </g>
+          <g class="picto__guide" style="--i: 2">
+            <line x1="418.35" y1="476.09" x2="418.35" y2="712" style="--len: 235.9"/>
+            <line x1="448.8" y1="476.09" x2="448.8" y2="712" style="--len: 235.9"/>
+            <path class="picto__measure" transform="translate(418.35 677.7)" d="M0 0H30.45M5 -4 0 0 5 4M25.45 -4 30.45 0 25.45 4"/>
+            <text x="455.80" y="677.7">1.1x</text>
+          </g>
+        </g>
+        <g class="picto__figure">
+          <g transform="translate(46.9 4.8) scale(2.96)">
+            <path d="M45.64,89.15l-7.53-6.58c.38-.44,9.55-10.78,26.02-10.78s25.64,10.34,26.02,10.78l-7.55,6.55c-.24-.27-6.71-7.34-18.47-7.34s-18.23,7.07-18.49,7.37Z"/>
+            <path d="M64.14,69.31c-9.57,0-17.36-7.79-17.36-17.36s7.79-17.36,17.36-17.36,17.36,7.79,17.36,17.36-7.79,17.36-17.36,17.36ZM64.14,43.59c-4.61,0-8.36,3.75-8.36,8.36s3.75,8.36,8.36,8.36,8.36-3.75,8.36-8.36-3.75-8.36-8.36-8.36Z"/>
+            <rect x="15.92" y="107.82" width="49.02" height="10.29" transform="translate(-72.54 153.4) rotate(-90)"/>
+            <rect x="63.51" y="107.82" width="49.02" height="10.29" transform="translate(-24.95 200.99) rotate(-90)"/>
+            <rect x="17.45" y="165.6" width="66.52" height="10.29" transform="translate(-120.02 221.45) rotate(-90)"/>
+            <rect x="44.47" y="165.6" width="66.52" height="10.29" transform="translate(-93.01 248.47) rotate(-90)"/>
+          </g>
+          <g transform="translate(-46.7 4.8) scale(2.96)">
+            <path d="M174.85,155.6c-15.63,0-25.78-8.31-26.2-8.66l6.4-7.68c.06.05,7.92,6.34,19.8,6.34s19.74-6.3,19.82-6.36l6.38,7.7c-.42.35-10.57,8.66-26.2,8.66Z"/>
+            <path d="M174.75,69.31c-9.57,0-17.36-7.79-17.36-17.36s7.79-17.36,17.36-17.36,17.36,7.79,17.36,17.36-7.79,17.36-17.36,17.36ZM174.75,43.59c-4.61,0-8.36,3.75-8.36,8.36s3.75,8.36,8.36,8.36,8.36-3.75,8.36-8.36-3.75-8.36-8.36-8.36Z"/>
+            <polygon points="194.99 140.1 174.85 72.56 184.79 72.56 204.93 140.1 194.99 140.1"/>
+            <polygon points="154.74 140.1 174.89 72.56 164.95 72.56 144.81 140.1 154.74 140.1"/>
+            <rect x="139.87" y="176.47" width="44.78" height="10.29" transform="translate(-19.36 343.87) rotate(-90)"/>
+            <rect x="164.85" y="176.47" width="44.78" height="10.29" transform="translate(5.62 368.85) rotate(-90)"/>
+          </g>
+        </g>
+      </svg>
+    </figure>
+
+    <div class="picto__intro">
+      <h2 class="picto__title">PICTOGRAMS</h2>
+      <p class="picto__body">대회 공간의 장소와 기능을 쉽게 구분할 수 있도록 픽토그램 시스템을 제작했습니다. 로고타입과 전용 서체에서 사용한 선의 구조를 적용해 브랜드의 일관성을 유지하면서 각 픽토그램은 대상의 특징을 직관적으로 알아볼 수 있는 형태로 디자인 하였습니다.</p>
+    </div>
+
+    <div class="picto__side">
+      <ol class="picto__cats">
+        <li data-cat="1"><span>Participant Facilities</span><span>참가자 시설</span></li>
+        <li data-cat="2"><span>Spectator &amp; Convenience Facilities</span><span>관람·편의 시설</span></li>
+        <li data-cat="3"><span>Safety &amp; Emergency</span><span>안전·긴급 시설</span></li>
+        <li data-cat="4"><span>General Information</span><span>입·출구, 안내, 계단, 금지 표시 등 일반 정보</span></li>
+      </ol>
+      <p class="picto__note">픽토그램은 기능에 따라 유형을 구분하고 각각 다른 컬러를 적용했습니다. 참가자와 직접 관련된 시설은 마젠타, 관람 및 편의시설은 하늘색, 안전 및 긴급 정보는 녹색 계열로 구분해, 형태뿐 아니라 색상을 통해서도 공간의 성격을 빠르게 파악할 수 있도록 구성했습니다.</p>
+    </div>
+
+    <!-- Colour = category: 1 magenta · 2 blue · 3 green · 4 gray, in category order.
+         data-cat = the label number (same as the list on the left); hovering keeps that category and fades the rest. -->
+    <ul class="picto__grid">
+    <li class="picto__item picto__item--magenta" data-cat="1">
+      <p class="picto__name"><span class="picto__num">1)</span><span>Field<br>축구경기장</span></p>
+      <!-- off the league pictogram_축구장2 사본.svg -->
+      <svg class="picto__icon" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+        <path d="M141.23,148.45h-42.14l-13.02-40.08,34.09-24.77,34.09,24.77-13.02,40.08ZM104.9,140.45h30.52l9.43-29.02-24.69-17.94-24.69,17.94,9.43,29.02Z"/>
+        <rect x="73.77" y="92.27" width="8" height="27.21" transform="translate(-46.36 148.85) rotate(-72.8)"/>
+        <rect x="148.95" y="101.42" width="27.21" height="8" transform="translate(-23.95 52.96) rotate(-17.25)"/>
+        <rect x="106.56" y="70.85" width="27.21" height="8" transform="translate(43.76 194.04) rotate(-89.26)"/>
+        <rect x="121.97" y="49.39" width="32.57" height="8" transform="translate(-9.61 43.41) rotate(-17.25)"/>
+        <rect x="162.79" y="78.78" width="31.17" height="8" transform="translate(90.27 258.58) rotate(-88.28)"/>
+        <rect x="99.39" y="37.63" width="8" height="31.75" transform="translate(21.7 136.44) rotate(-72.79)"/>
+        <rect x="46.19" y="77.78" width="34.04" height="8" transform="translate(-19.38 143.92) rotate(-89.26)"/>
+        <rect x="142.73" y="141.74" width="8" height="27.21" transform="translate(-63.79 118.66) rotate(-36.75)"/>
+        <rect x="157.44" y="158.62" width="32.04" height="8" transform="translate(-40.43 58.77) rotate(-17.25)"/>
+        <rect x="184.76" y="99.2" width="8" height="33.18" transform="translate(-31.77 135.94) rotate(-36.75)"/>
+        <rect x="80.07" y="151.43" width="27.21" height="8" transform="translate(-86.91 137.48) rotate(-53.25)"/>
+        <rect x="92.24" y="166.03" width="8" height="35.78" transform="translate(-90.91 94.12) rotate(-36.75)"/>
+        <rect x="126.2" y="179.88" width="35.88" height="8" transform="translate(-89.44 189.34) rotate(-53.25)"/>
+        <rect x="62.22" y="146.34" width="8" height="32.74" transform="translate(-108.79 177.84) rotate(-72.8)"/>
+        <rect x="33.97" y="112.67" width="33.96" height="8" transform="translate(-73.02 87.68) rotate(-53.25)"/>
+        <path d="M120,209c-49.08,0-89-39.92-89-89S70.92,31,120,31s89,39.92,89,89-39.92,89-89,89ZM120,41c-43.56,0-79,35.44-79,79s35.44,79,79,79,79-35.44,79-79-35.44-79-79-79Z"/>
+      </svg>
+    </li>
+    <li class="picto__item picto__item--magenta" data-cat="1">
+      <p class="picto__name"><span class="picto__num">1)</span><span>Changing Room<br>탈의실</span></p>
+      <!-- off the league pictogram_탈의실 사본.svg -->
+      <svg class="picto__icon" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+        <path d="M33.4,161.91l-9.6-5.37c.31-.55,7.75-13.72,23.3-26.91,14.36-12.18,38.68-26.7,72.95-26.7s58.58,14.52,72.95,26.7c15.55,13.19,22.99,26.36,23.3,26.91l-9.61,5.36c-.06-.11-6.97-12.24-21.13-24.16-18.78-15.8-40.82-23.82-65.5-23.82s-46.72,8.01-65.5,23.82c-14.16,11.92-21.07,24.04-21.14,24.17Z"/>
+        <path d="M123.35,91.58v-10c5.71,0,10.35-4.64,10.35-10.35s-4.64-10.35-10.35-10.35v-10c11.22,0,20.35,9.13,20.35,20.35s-9.13,20.35-20.35,20.35Z"/>
+        <path d="M143.7,71.23h-10c0-5.71-4.64-10.35-10.35-10.35s-10.35,4.64-10.35,10.35h-10c0-11.22,9.13-20.35,20.35-20.35s20.35,9.13,20.35,20.35Z"/>
+        <rect x="34.11" y="162.31" width="171.78" height="11"/>
+        <rect x="114.5" y="90.47" width="11" height="14.7"/>
+      </svg>
+    </li>
+    <li class="picto__item picto__item--blue" data-cat="2">
+      <p class="picto__name"><span class="picto__num">2)</span><span>Water Fountain<br>음수대</span></p>
+      <!-- off the league pictogram_water fountain 사본.svg -->
+      <svg class="picto__icon" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+        <path d="M101.42,211.84c-16.36,0-31.65-5.58-43.05-15.72-12.92-11.49-19.75-27.77-19.75-47.09,0-40.02,56.51-96.99,58.92-99.4l3.89-3.89,3.89,3.89c2.41,2.41,58.92,59.38,58.92,99.4,0,19.32-6.83,35.6-19.75,47.09-11.4,10.13-26.69,15.72-43.05,15.72ZM101.42,61.47c-5.18,5.52-14.81,16.18-24.33,28.89-17.97,23.99-27.47,44.28-27.47,58.68,0,35.59,26.86,51.81,51.81,51.81s51.81-16.21,51.81-51.81c0-14.4-9.5-34.69-27.47-58.68-9.52-12.71-19.15-23.37-24.33-28.89Z"/>
+        <path d="M166.64,130.13l-1.22-10.93c11.51-1.28,24.96-9.48,24.96-28.38,0-14.68-18.04-37.37-28.57-48.82-5.67,6.19-16.27,18.54-22.89,30.97l-9.71-5.17c10.12-19,27.94-36.91,28.69-37.67l3.89-3.89,3.89,3.89c3.65,3.65,35.7,36.4,35.7,60.69s-17.45,37.39-34.74,39.31Z"/>
+        <path d="M101.29,183.69c-1.93,0-3.92-.1-5.97-.31l1.09-10.95c10.21,1.01,18.1-1.08,23.44-6.23,9.66-9.31,8.74-25.97,8.73-26.14l10.98-.73c.06.88,1.31,21.82-12.01,34.73-6.6,6.4-15.42,9.62-26.26,9.62Z"/>
+      </svg>
+    </li>
+    <li class="picto__item picto__item--blue" data-cat="2">
+      <p class="picto__name"><span class="picto__num">2)</span><span>Spectator Stands<br>관중석</span></p>
+      <!-- off the league pictogram_관중석 사본.svg -->
+      <svg class="picto__icon" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+        <rect x="101.95" y="94.68" width="9" height="64.78" transform="translate(-15.92 15.25) rotate(-7.62)"/>
+        <rect x="1.52" y="124.65" width="64.78" height="9" transform="translate(-98.6 145.63) rotate(-82.38)"/>
+        <rect x="42.17" y="88.32" width="55.06" height="9"/>
+        <rect x="55.07" y="112.76" width="31.41" height="8"/>
+        <rect x="148.79" y="39.51" width="9" height="42.19" transform="translate(-6.69 20.87) rotate(-7.62)"/>
+        <rect x="63.83" y="56.92" width="43.84" height="9" transform="translate(13.5 138.26) rotate(-82.38)"/>
+        <rect x="91.99" y="33.05" width="55.06" height="9"/>
+        <rect x="104.89" y="57.49" width="31.41" height="8"/>
+        <path d="M70.77,186.1c-16.11,0-32.21-2.69-48.21-8.07l2.87-8.53c30.08,10.12,60.59,10.12,90.67,0l2.87,8.53c-15.99,5.38-32.1,8.07-48.21,8.07Z"/>
+        <rect x="198.99" y="94.68" width="9" height="64.78" transform="translate(-15.06 28.12) rotate(-7.62)"/>
+        <rect x="98.55" y="124.65" width="64.78" height="9" transform="translate(-14.43 241.81) rotate(-82.38)"/>
+        <rect x="139.21" y="88.32" width="55.06" height="9"/>
+        <rect x="152.1" y="112.76" width="31.41" height="8"/>
+        <path d="M167.81,186.1c-16.11,0-32.21-2.69-48.21-8.07l2.87-8.53c30.08,10.12,60.59,10.12,90.67,0l2.87,8.53c-15.99,5.38-32.1,8.07-48.21,8.07Z"/>
+        <rect x="66.27" y="181.63" width="9" height="27.04"/>
+        <rect x="57.25" y="204.42" width="27.04" height="9"/>
+        <rect x="163.5" y="181.63" width="9" height="27.04"/>
+        <rect x="154.48" y="204.42" width="27.04" height="9"/>
+      </svg>
+    </li>
+    <li class="picto__item picto__item--blue" data-cat="2">
+      <p class="picto__name"><span class="picto__num">2)</span><span>Snack Bar<br>매점</span></p>
+      <!-- off the league pictogram_매점 사본.svg -->
+      <svg class="picto__icon" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+        <rect x="86.45" y="94.91" width="9" height="20.21" transform="translate(-45.91 81.14) rotate(-39.21)"/>
+        <rect x="92.83" y="112.85" width="9" height="70.91"/>
+        <rect x="81.06" y="64.45" width="7" height="32.73"/>
+        <rect x="143.28" y="134.62" width="9" height="21.45" transform="translate(-59.46 149.14) rotate(-45.57)"/>
+        <path d="M144.62,137.84h-9v-41.89c0-13.75,4.48-24.43,14.53-34.65l6.42,6.31c-8.37,8.51-11.94,16.99-11.94,28.34v41.89Z"/>
+        <rect x="150.94" y="152.86" width="9" height="30.91"/>
+        <rect x="93.83" y="64.45" width="7" height="32.73"/>
+        <rect x="106.61" y="64.45" width="7" height="32.73"/>
+        <path d="M120.04,209.01c-5.04,0-10.14-.43-15.27-1.32-48.35-8.4-80.86-54.56-72.46-102.92,8.4-48.35,54.56-80.85,102.91-72.46,48.35,8.4,80.86,54.56,72.46,102.91-7.51,43.22-45.19,73.78-87.64,73.78ZM119.96,40.99c-37.68,0-71.13,27.12-77.79,65.49-7.45,42.92,21.4,83.9,64.32,91.35,4.55.79,9.09,1.17,13.55,1.17,37.68,0,71.13-27.12,77.79-65.49,7.45-42.92-21.4-83.9-64.32-91.35-4.55-.79-9.09-1.17-13.55-1.17Z"/>
+      </svg>
+    </li>
+    <li class="picto__item picto__item--blue" data-cat="2">
+      <p class="picto__name"><span class="picto__num">2)</span><span>Restroom<br>화장실</span></p>
+      <!-- off the league pictogram_화장실 사본.svg -->
+      <svg class="picto__icon" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+        <path d="M45.64,89.15l-7.53-6.58c.38-.44,9.55-10.78,26.02-10.78s25.64,10.34,26.02,10.78l-7.55,6.55c-.24-.27-6.71-7.34-18.47-7.34s-18.23,7.07-18.49,7.37Z"/>
+        <path d="M174.85,155.6c-15.63,0-25.78-8.31-26.2-8.66l6.4-7.68c.06.05,7.92,6.34,19.8,6.34s19.74-6.3,19.82-6.36l6.38,7.7c-.42.35-10.57,8.66-26.2,8.66Z"/>
+        <path d="M64.14,69.31c-9.57,0-17.36-7.79-17.36-17.36s7.79-17.36,17.36-17.36,17.36,7.79,17.36,17.36-7.79,17.36-17.36,17.36ZM64.14,43.59c-4.61,0-8.36,3.75-8.36,8.36s3.75,8.36,8.36,8.36,8.36-3.75,8.36-8.36-3.75-8.36-8.36-8.36Z"/>
+        <rect x="15.92" y="107.82" width="49.02" height="10.29" transform="translate(-72.54 153.4) rotate(-90)"/>
+        <rect x="63.51" y="107.82" width="49.02" height="10.29" transform="translate(-24.95 200.99) rotate(-90)"/>
+        <rect x="17.45" y="165.6" width="66.52" height="10.29" transform="translate(-120.02 221.45) rotate(-90)"/>
+        <rect x="44.47" y="165.6" width="66.52" height="10.29" transform="translate(-93.01 248.47) rotate(-90)"/>
+        <path d="M174.75,69.31c-9.57,0-17.36-7.79-17.36-17.36s7.79-17.36,17.36-17.36,17.36,7.79,17.36,17.36-7.79,17.36-17.36,17.36ZM174.75,43.59c-4.61,0-8.36,3.75-8.36,8.36s3.75,8.36,8.36,8.36,8.36-3.75,8.36-8.36-3.75-8.36-8.36-8.36Z"/>
+        <polygon points="194.99 140.1 174.85 72.56 184.79 72.56 204.93 140.1 194.99 140.1"/>
+        <polygon points="154.74 140.1 174.89 72.56 164.95 72.56 144.81 140.1 154.74 140.1"/>
+        <rect x="139.87" y="176.47" width="44.78" height="10.29" transform="translate(-19.36 343.87) rotate(-90)"/>
+        <rect x="164.85" y="176.47" width="44.78" height="10.29" transform="translate(5.62 368.85) rotate(-90)"/>
+        <rect x="118" y="36" width="4" height="168"/>
+      </svg>
+    </li>
+    <li class="picto__item picto__item--blue" data-cat="2">
+      <p class="picto__name"><span class="picto__num">2)</span><span>Parking<br>주차장</span></p>
+      <!-- off the league pictogram_주차장 사본.svg -->
+      <svg class="picto__icon" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+        <path d="M120,209c-49.08,0-89-39.92-89-89S70.93,31,120,31s89,39.92,89,89-39.92,89-89,89ZM120,41c-43.56,0-79,35.44-79,79s35.44,79,79,79,79-35.44,79-79-35.44-79-79-79Z"/>
+        <path d="M140.63,122.25l-5.99-8c.3-.23,8.24-6.6,8.24-20.74s-7.94-20.51-8.27-20.77l6.03-7.97c.5.37,12.24,9.39,12.24,28.75s-11.74,28.37-12.24,28.75Z"/>
+        <polygon points="135.39 114.49 135.34 123.82 102.04 123.82 102.04 114.49 135.39 114.49"/>
+        <polygon points="135.39 63.26 135.34 72.6 101.51 72.6 101.51 63.26 135.39 63.26"/>
+        <rect x="92.7" y="72.06" width="9.34" height="86.75"/>
+        <rect x="84.58" y="169.03" width="71.86" height="10"/>
+      </svg>
+    </li>
+    <li class="picto__item picto__item--blue" data-cat="2">
+      <p class="picto__name"><span class="picto__num">2)</span><span>Accessible Facilities<br>장애인 편의시설</span></p>
+      <!-- off the league pictogram_워밍업 사본.svg -->
+      <svg class="picto__icon" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+        <path d="M112.85,69.31c-9.57,0-17.36-7.79-17.36-17.36s7.79-17.36,17.36-17.36,17.36,7.79,17.36,17.36-7.79,17.36-17.36,17.36ZM112.85,43.59c-4.61,0-8.36,3.75-8.36,8.36s3.75,8.36,8.36,8.36,8.36-3.75,8.36-8.36-3.75-8.36-8.36-8.36Z"/>
+        <rect x="161.74" y="134.13" width="10" height="56.47" transform="translate(-39.7 54.91) rotate(-16.74)"/>
+        <polygon points="154.69 137.86 117.25 137.86 117.25 79.34 127.25 79.34 127.25 127.86 154.69 127.86 154.69 137.86"/>
+        <rect x="74.37" y="85.13" width="31.67" height="10" transform="translate(-35.23 113.06) rotate(-55.34)"/>
+        <rect x="87.24" y="104.25" width="10" height="41.59" transform="translate(-52.32 68.07) rotate(-32.08)"/>
+        <path d="M110.63,209c-31.21,0-56.6-25.39-56.6-56.6,0-13.19,4.64-26.03,13.06-36.16l7.69,6.39c-6.93,8.34-10.75,18.91-10.75,29.77,0,25.69,20.9,46.6,46.6,46.6,16.87,0,32.46-9.16,40.7-23.9l8.73,4.88c-10,17.9-28.95,29.02-49.43,29.02Z"/>
+      </svg>
+    </li>
+    <li class="picto__item picto__item--green" data-cat="3">
+      <p class="picto__name"><span class="picto__num">3)</span><span>Emergency Exit<br>비상구</span></p>
+      <!-- off the league pictogram_비상구 사본.svg -->
+      <svg class="picto__icon" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+        <rect x="99.65" y="113.78" width="57.71" height="9"/>
+        <rect x="31.98" y="98.31" width="35.46" height="10" transform="translate(-64.9 100.64) rotate(-62.97)"/>
+        <rect x="57.77" y="82.51" width="17.59" height="10"/>
+        <rect x="93.16" y="82.57" width="10" height="32.61"/>
+        <rect x="40.13" y="171.75" width="31.64" height="10"/>
+        <rect x="63.55" y="157.94" width="31.4" height="10" transform="translate(-101.77 155.01) rotate(-61.55)"/>
+        <rect x="100.34" y="145.96" width="10" height="55.73"/>
+        <rect x="82.19" y="115.64" width="10" height="41.19" transform="translate(-74.07 148.73) rotate(-61.81)"/>
+        <rect x="180.07" y="44.92" width="11" height="52.43"/>
+        <rect x="130.97" y="35.07" width="51.74" height="11"/>
+        <rect x="179.94" y="44.92" width="11" height="151.26"/>
+        <rect x="180.07" y="142.77" width="11" height="53.42"/>
+        <rect x="144.66" y="90.53" width="9" height="32.12" transform="translate(-31.68 136.69) rotate(-45)"/>
+        <rect x="132.83" y="125.14" width="32.12" height="9" transform="translate(-48.06 143.25) rotate(-45)"/>
+        <rect x="130.97" y="193.55" width="51.74" height="12"/>
+        <path d="M82.2,73.76c-9.19,0-16.67-7.48-16.67-16.67s7.48-16.67,16.67-16.67,16.67,7.48,16.67,16.67-7.48,16.67-16.67,16.67ZM82.2,49.42c-4.23,0-7.67,3.44-7.67,7.67s3.44,7.67,7.67,7.67,7.67-3.44,7.67-7.67-3.44-7.67-7.67-7.67Z"/>
+      </svg>
+    </li>
+    <li class="picto__item picto__item--green" data-cat="3">
+      <p class="picto__name"><span class="picto__num">3)</span><span>First Aid<br>의무실</span></p>
+      <!-- off the league pictogram_의무실 사본.svg -->
+      <svg class="picto__icon" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+        <path d="M120,209.52c-49.08,0-89-39.92-89-89S70.92,31.52,120,31.52s89,39.92,89,89-39.92,89-89,89ZM120,41.52c-43.56,0-79,35.44-79,79s35.44,79,79,79,79-35.44,79-79-35.44-79-79-79Z"/>
+        <path d="M142.99,177.29h-43.41v-34.7h-34.7v-43.41h34.7v-34.71h43.41v34.71h34.7v43.41h-34.7v34.7ZM108.57,168.29h25.41v-34.7h34.7v-25.41h-34.7v-34.71h-25.41v34.71h-34.7v25.41h34.7v34.7Z"/>
+      </svg>
+    </li>
+    <li class="picto__item picto__item--green" data-cat="3">
+      <p class="picto__name"><span class="picto__num">3)</span><span>Fire Extinguisher<br>소화기</span></p>
+      <!-- off the league pictogram_소화기 사본.svg -->
+      <svg class="picto__icon" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+        <path d="M95.23,95.78l-9.7-2.45c2.02-8.13,11.48-23.49,32.79-23.49,13.83,0,22.02,6.33,26.45,11.65,4.7,5.64,6.19,11.23,6.34,11.84l-9.7,2.42c-.16-.62-4.41-15.91-23.09-15.91s-22.93,15.29-23.1,15.94Z"/>
+        <path d="M75.64,89.75l-9.74-2.26c.09-.38,9.13-37.55,50.28-37.67l20.93-22.77,7.36,6.77-23.99,26.1-2.29-.07c-34.85-1.05-42.25,28.64-42.55,29.9Z"/>
+        <rect x="39.26" y="141.94" width="102" height="9.09" transform="translate(-56.22 236.74) rotate(-90)"/>
+        <rect x="23.97" y="130.87" width="93.61" height="9.09" transform="translate(-64.65 206.19) rotate(-90)"/>
+        <rect x="95.43" y="141.94" width="102" height="9.09" transform="translate(-.05 292.92) rotate(-90)"/>
+        <rect x="75.32" y="155.48" width="12.64" height="10"/>
+        <rect x="113.35" y="59.3" width="10" height="11.64"/>
+        <rect x="118.24" y="49.85" width="32.74" height="10"/>
+        <rect x="91.56" y="194.55" width="54.87" height="10"/>
+      </svg>
+    </li>
+    <li class="picto__item picto__item--gray" data-cat="4">
+      <p class="picto__name"><span class="picto__num">4)</span><span>Entrance<br>입구</span></p>
+      <!-- off the league pictogram_입구 사본.svg -->
+      <svg class="picto__icon" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+        <rect x="77.08" y="36.67" width="88.95" height="11"/>
+        <rect x="68.95" y="46.43" width="11" height="148.12"/>
+        <rect x="130.05" y="115" width="77.83" height="10"/>
+        <rect x="125.17" y="103.32" width="31.45" height="10" transform="translate(-35.33 131.36) rotate(-45)"/>
+        <rect x="136.17" y="115.17" width="10" height="31.45" transform="translate(-51.21 138.16) rotate(-45)"/>
+        <rect x="77.08" y="191.83" width="88.95" height="12"/>
+      </svg>
+    </li>
+    <li class="picto__item picto__item--gray" data-cat="4">
+      <p class="picto__name"><span class="picto__num">4)</span><span>Exit<br>출구</span></p>
+      <!-- off the league pictogram_출구 사본.svg -->
+      <svg class="picto__icon" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+        <rect x="76.44" y="35.9" width="89.83" height="11"/>
+        <rect x="68.29" y="45.7" width="11" height="149.58"/>
+        <rect x="129.67" y="115" width="78.6" height="10"/>
+        <rect x="192.31" y="92.33" width="10" height="31.76" transform="translate(-18.72 171.21) rotate(-45)"/>
+        <rect x="181.16" y="126" width="31.76" height="10" transform="translate(-34.92 177.7) rotate(-45)"/>
+        <rect x="76.44" y="192.6" width="89.83" height="12"/>
+      </svg>
+    </li>
+    <li class="picto__item picto__item--gray" data-cat="4">
+      <p class="picto__name"><span class="picto__num">4)</span><span>Information<br>안내</span></p>
+      <!-- off the league pictogram_안내 사본.svg -->
+      <svg class="picto__icon" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+        <circle cx="120.3" cy="77.33" r="9.58"/>
+        <rect x="116.06" y="97.56" width="12" height="82.44"/>
+        <rect x="106.19" y="97.56" width="21.88" height="10"/>
+        <path d="M120.06,209.01c-3.45,0-6.94-.2-10.45-.61-48.74-5.73-83.73-50.04-78.01-98.78,2.77-23.61,14.58-44.73,33.23-59.46,18.66-14.73,41.93-21.31,65.54-18.55,23.61,2.77,44.73,14.58,59.46,33.23,14.73,18.66,21.32,41.93,18.55,65.54h0c-5.31,45.23-43.86,78.62-88.33,78.62ZM119.84,40.99c-17.68,0-34.72,5.89-48.8,17.01-16.56,13.08-27.04,31.82-29.5,52.78-5.08,43.26,25.98,82.6,69.24,87.68,43.26,5.09,82.59-25.98,87.68-69.24,2.46-20.96-3.38-41.62-16.46-58.18-13.08-16.56-31.82-27.04-52.78-29.5-3.14-.37-6.27-.55-9.38-.55Z"/>
+      </svg>
+    </li>
+    <li class="picto__item picto__item--gray" data-cat="4">
+      <p class="picto__name"><span class="picto__num">4)</span><span>No Smoking<br>흡연 금지</span></p>
+      <!-- off the league pictogram_흡연금지 사본.svg -->
+      <svg class="picto__icon" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+        <path d="M180.25,140.48h-115v-26.5h115v26.5ZM74.25,131.48h97v-8.5h-97v8.5Z"/>
+        <rect x="59.05" y="95.98" width="18.41" height="9" transform="translate(-51.91 118.27) rotate(-64.24)"/>
+        <rect x="70.75" y="75.73" width="9" height="14.01" transform="translate(-33.77 57.79) rotate(-34.82)"/>
+        <rect x="77.09" y="65.74" width="7.46" height="9" transform="translate(-25.92 61.77) rotate(-36.46)"/>
+        <rect class="picto__cut" x="35.96" y="120.57" width="176.04" height="9" transform="translate(-49.4 94.18) rotate(-35.15)"/>
+        <rect class="picto__cut" x="29.14" y="110.9" width="176.04" height="9" transform="translate(-45.07 88.5) rotate(-35.15)"/>
+        <rect x="36.19" y="114.77" width="168" height="11" transform="translate(-47.32 91.12) rotate(-35.15)"/>
+        <path d="M120,208c-48.52,0-88-39.48-88-88S71.48,32,120,32s88,39.48,88,88-39.48,88-88,88ZM120,42c-43.01,0-78,34.99-78,78s34.99,78,78,78,78-34.99,78-78-34.99-78-78-78Z"/>
+      </svg>
+    </li>
+    <li class="picto__item picto__item--gray" data-cat="4">
+      <p class="picto__name"><span class="picto__num">4)</span><span>No Eating<br>취식 금지</span></p>
+      <!-- off the league pictogram_취식금지 사본.svg -->
+      <svg class="picto__icon" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+        <rect x="86.45" y="94.91" width="9" height="20.21" transform="translate(-45.91 81.14) rotate(-39.21)"/>
+        <rect x="92.83" y="112.85" width="9" height="70.91"/>
+        <rect x="81.06" y="64.45" width="7" height="32.73"/>
+        <rect x="143.28" y="134.62" width="9" height="21.45" transform="translate(-59.46 149.14) rotate(-45.57)"/>
+        <path d="M144.62,137.84h-9v-41.89c0-13.75,4.48-24.43,14.53-34.65l6.42,6.31c-8.37,8.51-11.94,16.99-11.94,28.34v41.89Z"/>
+        <rect x="150.94" y="152.86" width="9" height="30.91"/>
+        <rect x="93.83" y="64.45" width="7" height="32.73"/>
+        <rect x="106.61" y="64.45" width="7" height="32.73"/>
+        <rect class="picto__cut" x="35.96" y="120.57" width="176.04" height="9" transform="translate(-49.4 94.18) rotate(-35.15)"/>
+        <rect class="picto__cut" x="29.15" y="110.9" width="176.04" height="9" transform="translate(-45.07 88.5) rotate(-35.15)"/>
+        <rect x="36.19" y="114.77" width="168" height="11" transform="translate(-47.32 91.12) rotate(-35.15)"/>
+        <path d="M120.04,209.01c-5.04,0-10.14-.43-15.27-1.32-48.35-8.4-80.86-54.56-72.46-102.92,8.4-48.35,54.56-80.85,102.91-72.46,48.35,8.4,80.86,54.56,72.46,102.91-7.51,43.22-45.19,73.78-87.64,73.78ZM119.96,40.99c-37.68,0-71.13,27.12-77.79,65.49-7.45,42.92,21.4,83.9,64.32,91.35,4.55.79,9.09,1.17,13.55,1.17,37.68,0,71.13-27.12,77.79-65.49,7.45-42.92-21.4-83.9-64.32-91.35-4.55-.79-9.09-1.17-13.55-1.17Z"/>
+      </svg>
+    </li>
+    <li class="picto__item picto__item--gray" data-cat="4">
+      <p class="picto__name"><span class="picto__num">4)</span><span>Stairs<br>계단</span></p>
+      <!-- off the league pictogram-34.svg -->
+      <svg class="picto__icon" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+        <polygon points="47.5 195.27 36.5 195.27 36.5 147.23 78.5 147.23 78.5 111.23 120.5 111.23 120.5 75.23 162.5 75.23 162.5 39.23 210 39.23 210 50.23 173.5 50.23 173.5 86.23 131.5 86.23 131.5 122.23 89.5 122.23 89.5 158.23 47.5 158.23 47.5 195.27"/>
+      </svg>
+    </li>
+    </ul>
+  </section>
+
+  <section class="colors">
+    <div class="colors__intro grid">
+      <h2 class="colors__title">COLOR SYSTEM</h2>
+      <p class="colors__body">OFF THE LEAGUE의 메인 컬러는 축구장의 잔디에서 출발한 OFF GREEN으로 설정했습니다. 밝고 선명한 녹색을 브랜드의 중심 컬러로 사용해 축구라는 정체성을 드러내고, 로고타입과 주요 그래픽 전반에 일관되게 적용했습니다.</p>
+      <p class="colors__body">공간 정보에는 기능을 구분하기 위해 MAGENTA와 BLUE를 함께 사용했습니다. MAGENTA는 경기장, 탈의실, 라커, 식수대 등 Participant Facilities를, BLUE는 관중석, 매점, 화장실, 주차장 등 Spectator &amp; Convenience Facilities를 나타냅니다. 이를 통해 색상이 장식에 머무르지 않고, 픽토그램과 사이니지에서 공간의 유형을 구분하는 정보 요소로 작동하도록 했습니다.</p>
+    </div>
+
+    <!-- Full-width 1920 × 1080 chart. Magenta and cyan show the brand values (the mock had E84383 / 59C3E1). -->
+    <div class="colors__chart">
+      <div class="colors__swatch colors__swatch--green"><h3 class="colors__name">OFF GREEN</h3><p class="colors__hex">59B86D</p></div>
+      <div class="colors__swatch colors__swatch--white"><h3 class="colors__name">OFF WHITE</h3><p class="colors__hex">F7F5F1</p></div>
+      <div class="colors__swatch colors__swatch--magenta"><h3 class="colors__name">OFF MAGENTA</h3><p class="colors__hex">E5006E</p></div>
+      <div class="colors__swatch colors__swatch--cyan"><h3 class="colors__name">OFF CYAN</h3><p class="colors__hex">00A0DA</p></div>
+      <div class="colors__tint colors__tint--light" style="--tint: 20%"><span class="colors__pct">20%</span></div>
+      <div class="colors__tint" style="--tint: 40%"><span class="colors__pct">40%</span></div>
+      <div class="colors__tint" style="--tint: 60%"><span class="colors__pct">60%</span></div>
+      <div class="colors__tint" style="--tint: 80%"><span class="colors__pct">80%</span></div>
+      <div class="colors__tint" style="--tint: 100%">
+        <h3 class="colors__name">OFF BLACK</h3><p class="colors__hex">241F1F</p>
+        <span class="colors__pct">100%</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="wayfinding" id="wayfinding">
+    <div class="wayfinding__intro grid">
+      <h2 class="wayfinding__title">SIGNAGE / WAYFINDING</h2>
+      <p class="wayfinding__body">OFF THE LEAGUE는 하나의 고정된 경기장이 아니라 대회마다 장소가 달라질 수 있다는 축구 경기의 특성을 고려해, 설치와 철거가 쉽고 다른 공간에도 반복적으로 적용할 수 있는 사이니지·웨이파인딩 시스템을 구축했습니다. 축구장의 라인을 경기장 밖까지 확장해 바닥의 이동 경로와 벽면의 정보 사인으로 연결하고, 장소가 바뀌더라도 동일한 원칙으로 빠르게 구성할 수 있도록 설계했습니다.</p>
+    </div>
+
+    <div class="wayfinding__stage grid">
+      <!-- The 8 photos are cropped so the sign lands in the same place in each; main.js swaps them, so only the background changes. -->
+      <div class="wayfinding__scenes">
+        <img class="wayfinding__scene is-current" src="assets/wayfinding/signage-01.jpg" alt="외부 벽 앞에 세운 OFF THE LEAGUE 사이니지와 바닥으로 이어지는 라인" loading="lazy" decoding="async">
+        <img class="wayfinding__scene" src="assets/wayfinding/signage-02.jpg" alt="잔디 구장 옆 낮은 벽 앞의 사이니지" loading="lazy" decoding="async">
+        <img class="wayfinding__scene" src="assets/wayfinding/signage-03.jpg" alt="낡은 콘크리트 벽 앞의 사이니지" loading="lazy" decoding="async">
+        <img class="wayfinding__scene" src="assets/wayfinding/signage-04.jpg" alt="해 질 녘 펜스 사이 벽 앞의 사이니지" loading="lazy" decoding="async">
+        <img class="wayfinding__scene" src="assets/wayfinding/signage-05.jpg" alt="계단 옆 입구 콘크리트 벽 앞의 사이니지" loading="lazy" decoding="async">
+        <img class="wayfinding__scene" src="assets/wayfinding/signage-06.jpg" alt="흰 벽 건물 앞 잔디 위의 사이니지" loading="lazy" decoding="async">
+        <img class="wayfinding__scene" src="assets/wayfinding/signage-07.jpg" alt="파란 코트 끝 콘크리트 벽 앞의 사이니지" loading="lazy" decoding="async">
+        <img class="wayfinding__scene" src="assets/wayfinding/signage-08.jpg" alt="파란 코트 옆 콘크리트 건물 앞의 사이니지" loading="lazy" decoding="async">
+      </div>
+
+      <figure class="wayfinding__cone">
+        <img src="assets/wayfinding/cone-turf.jpg" alt="잔디 위 형광 콘에 씌운 검은 FIELD 경기장 안내 사인" width="1233" height="1276" loading="lazy" decoding="async">
+      </figure>
+    </div>
+  </section>
+
+  <section class="wall-sign" id="wall-signage">
+    <div class="wall-sign__intro grid">
+      <h2 class="wall-sign__title">WALL SIGNAGE</h2>
+      <p class="wall-sign__body">바닥의 웨이파인딩 라인이 벽과 만나는 지점에서는 선이 벽면으로 이어지며 사이니지로 전환되도록 설계했습니다. 벽면에서는 라인을 사용자의 시선 높이까지 확장하고, 픽토그램과 공간명, 방향 정보를 함께 배치해 목적지의 기능을 확인할 수 있도록 했습니다. 이를 통해 바닥에서는 이동 방향을 안내하고, 벽에서는 장소의 정보를 전달하는 구조로 두 시스템이 하나의 흐름 안에서 연결되도록 했습니다.</p>
+      <!-- WATER panel from the print file (offtheleague signage 540x1100.pdf) at 0.394×, in mock px (1620-wide mock).
+           Icons sit 14pt further right than on the panel, as in the mock. Guide lines draw in when the diagram arrives (main.js). -->
+      <svg class="wall-sign__spec" viewBox="1069.2 300 351.76 312" role="img" aria-label="WATER 음수대 사인의 구성 가이드: 아이콘 칸, 영문 높이, 한글 기울기">
+        <g class="wall-sign__guides">
+          <line style="--i: 0" x1="1047" y1="354.5" x2="1396.5" y2="354.5" pathLength="100"/>
+          <line style="--i: 1" x1="1047" y1="430.5" x2="1396.5" y2="430.5" pathLength="100"/>
+          <line style="--i: 2" x1="1047" y1="460" x2="1396.5" y2="460" pathLength="100"/>
+          <line style="--i: 3" x1="1047" y1="504.8" x2="1396.5" y2="504.8" pathLength="100"/>
+          <line style="--i: 0.5" x1="1069.2" y1="310" x2="1069.2" y2="607" pathLength="100"/>
+          <line style="--i: 1.5" x1="1145.3" y1="309.5" x2="1145.3" y2="446.5" pathLength="100"/>
+          <line style="--i: 2.5" x1="1221.4" y1="309.5" x2="1221.4" y2="445.5" pathLength="100"/>
+          <line style="--i: 4" x1="1045" y1="549.91" x2="1181.5" y2="500.77" pathLength="100"/>
+          <line style="--i: 4.5" x1="1057" y1="583.66" x2="1193.9" y2="534.38" pathLength="100"/>
+          <text x="1053.5" y="451">2x</text>
+          <text x="1053.5" y="517">2x</text>
+        </g>
+        <g class="wall-sign__art" transform="matrix(0.394 0 0 0.394 1013 -28.5)">
+          <g transform="translate(14.2 0)">
+            <path d="M 270.13 1121.02 L 150.17 1001.03 L 157.94 993.25 L 277.91 1113.24 Z M 270.13 1121.02"/>
+            <path d="M 238.03 997.09 L 154.05 997.09 L 154.05 986.1 L 238.03 986.1 Z M 238.03 997.09"/>
+            <path d="M 154.07 1080.91 L 143.08 1080.91 L 143.08 997.16 L 154.07 997.16 Z M 154.07 1080.91"/>
+            <path d="M 401.22 1010.61 C 396.04 1016.12 386.42 1026.79 376.89 1039.49 C 358.93 1063.47 349.43 1083.75 349.43 1098.15 C 349.43 1133.73 376.28 1149.94 401.22 1149.94 C 426.16 1149.94 453.01 1133.73 453.01 1098.15 C 453.01 1083.75 443.52 1063.47 425.55 1039.49 C 416.03 1026.79 406.4 1016.12 401.22 1010.61 M 401.22 1160.94 C 384.87 1160.94 369.58 1155.36 358.18 1145.23 C 345.26 1133.74 338.43 1117.46 338.43 1098.15 C 338.43 1058.14 394.93 1001.18 397.33 998.78 L 401.22 994.89 L 405.11 998.78 C 407.52 1001.18 464.01 1058.14 464.01 1098.15 C 464.01 1117.46 457.18 1133.74 444.26 1145.23 C 432.86 1155.36 417.58 1160.94 401.22 1160.94"/>
+            <path d="M 466.43 1079.24 L 465.21 1068.31 C 476.72 1067.04 490.16 1058.83 490.16 1039.94 C 490.16 1025.27 472.12 1002.59 461.6 991.14 C 455.93 997.33 445.34 1009.67 438.71 1022.09 L 429.01 1016.92 C 439.13 997.93 456.94 980.02 457.69 979.27 L 461.58 975.38 L 465.47 979.27 C 469.12 982.92 501.16 1015.66 501.16 1039.94 C 501.16 1064.42 483.71 1077.32 466.43 1079.24"/>
+            <path d="M 401.09 1132.79 C 399.17 1132.79 397.18 1132.69 395.12 1132.48 L 396.21 1121.54 C 406.43 1122.55 414.31 1120.46 419.65 1115.31 C 429.31 1106 428.39 1089.34 428.38 1089.18 L 439.35 1088.45 C 439.41 1089.33 440.66 1110.26 427.34 1123.17 C 420.74 1129.57 411.93 1132.79 401.09 1132.79"/>
+          </g>
+            <path d="M 653.61 1187.06 L 144.46 1187.06 L 144.46 1183.06 L 653.61 1183.06 Z M 653.61 1187.06"/>
+            <path d="M 234.36 1351.57 L 223.48 1351.57 L 238.68 1238.8 L 249.4 1240.24 Z M 167.34 1350.93 L 185.73 1258.95 L 195.49 1260.88 L 205.41 1258.95 L 223.32 1351.57 L 212.45 1351.57 L 195.65 1264.39 L 178.22 1351.57 L 156.62 1351.57 L 142.23 1240.24 L 152.94 1238.8 Z M 167.34 1350.93"/>
+            <path d="M 314.02 1239.76 L 345.05 1348.37 L 334.01 1351.57 L 302.02 1239.76 Z M 319.94 1301.98 C 319.3 1301.66 313.7 1298.62 302.18 1298.62 C 295.3 1298.62 287.95 1300.06 284.27 1302.14 L 289.38 1311.26 C 289.38 1311.26 293.38 1309.34 302.18 1309.34 C 310.82 1309.34 314.82 1311.26 314.82 1311.26 Z M 284.27 1302.14 L 270.03 1351.57 L 258.99 1348.37 L 290.02 1239.76 L 302.02 1239.76 Z M 284.27 1302.14"/>
+            <path d="M 429.82 1239.76 L 429.82 1251.28 L 397.99 1251.28 L 397.99 1351.57 L 386.48 1351.57 L 386.48 1251.28 L 354.64 1251.28 L 354.64 1239.76 Z M 429.82 1239.76"/>
+            <path d="M 503.88 1299.58 L 458.45 1299.58 L 452.54 1288.87 L 503.88 1288.87 Z M 518.12 1338.29 C 517.64 1338.77 506.12 1352.53 481.17 1352.53 C 456.21 1352.53 444.7 1338.77 444.21 1338.13 L 451.41 1332.38 L 452.54 1332.38 L 452.54 1331.41 C 452.7 1331.57 454.77 1334.14 459.41 1336.7 C 465.65 1340.05 472.85 1341.81 481.17 1341.81 C 489.48 1341.81 496.84 1340.05 503.08 1336.7 C 507.72 1334.14 509.96 1331.41 509.96 1331.41 Z M 452.54 1258.95 L 451.25 1258.95 L 444.06 1253.2 C 444.54 1252.55 456.05 1238.8 481.17 1238.8 C 506.12 1238.8 517.48 1252.55 517.96 1253.2 L 509.8 1259.91 C 509.8 1259.91 507.56 1257.2 502.92 1254.64 C 496.68 1251.28 489.32 1249.52 481.17 1249.52 C 472.85 1249.52 465.49 1251.28 459.25 1254.64 C 455.25 1256.88 453.18 1259.12 452.54 1259.75 Z M 452.54 1331.41 L 451.41 1332.38 L 441.02 1332.38 L 441.02 1258.95 L 451.25 1258.95 L 452.38 1259.91 L 452.54 1259.75 Z M 452.54 1331.41"/>
+            <path d="M 601.13 1351.57 L 589.78 1351.57 L 574.26 1311.1 L 544.67 1311.1 L 539.87 1301.5 L 539.87 1299.59 L 575.06 1299.59 L 578.9 1299.11 C 581.3 1296.71 587.7 1289.19 587.7 1275.43 C 587.7 1260.71 580.34 1252.88 578.42 1251.12 L 578.42 1251.28 L 539.87 1251.28 L 539.87 1250.32 L 538.91 1250.32 L 538.91 1239.76 L 578.42 1239.76 L 578.42 1250.16 L 584.18 1242.32 C 584.82 1242.64 598.25 1253.04 598.25 1275.43 C 598.25 1296.07 586.73 1306.46 584.5 1308.22 Z M 539.87 1299.59 L 538.91 1299.59 L 539.87 1301.5 L 539.87 1351.57 L 529.31 1351.57 L 529.31 1250.32 L 538.91 1250.32 L 538.91 1251.28 L 539.87 1251.28 Z M 539.87 1299.59"/>
+            <path d="M 183.25 1514.62 L 178.38 1501.22 L 218.1 1486.77 L 222.97 1500.16 Z M 224 1476.73 L 167.22 1497.39 L 177.2 1524.83 L 233.99 1504.15 Z M 224 1476.73"/>
+            <path d="M 230.51 1466.04 L 155.55 1493.33 L 152.98 1486.27 L 227.94 1458.99 Z M 230.51 1466.04"/>
+            <path d="M 212.56 1444.01 L 201.23 1440.97 C 199.48 1439.38 196.69 1438.66 193.06 1438.78 L 177.73 1434.67 C 181.06 1433.5 184.22 1432.62 187.19 1432.04 C 187.2 1432.04 187.2 1432.04 187.21 1432.04 C 198.94 1429.7 207.57 1431.86 211.07 1438.43 C 211.36 1438.96 211.61 1439.53 211.82 1440.12 C 212.29 1441.41 212.54 1442.72 212.56 1444.01"/>
+            <path d="M 212.57 1444.01 C 212.75 1452.43 203.78 1460.62 188.11 1466.32 C 170.12 1472.85 156.65 1471.21 153.11 1461.5 C 149.5 1451.59 158.74 1441.57 176.73 1435.04 C 177.07 1434.91 177.41 1434.79 177.73 1434.67 L 193.06 1438.78 C 189.27 1438.91 184.57 1439.97 179.22 1441.91 C 166.57 1446.52 159.94 1452.57 162.1 1458.22 C 164.01 1463.75 172.95 1464.04 185.64 1459.53 C 198.18 1454.86 204.84 1448.9 202.84 1443.39 C 202.49 1442.44 201.95 1441.63 201.23 1440.97 L 212.57 1444.01 Z M 212.57 1444.01"/>
+            <path d="M 262.72 1409.96 L 261.08 1405.47 L 252 1408.77 L 253.63 1413.27 C 256.36 1420.95 252.59 1430.54 244.87 1438.34 L 253.95 1440.78 C 258.44 1435.43 261.48 1429.41 262.46 1423.25 C 271.26 1431 285.63 1433.68 299.86 1430.93 L 300.65 1422.55 C 283.73 1426.32 266.6 1420.92 262.72 1409.96 M 309.59 1436.54 L 279.29 1447.57 L 292.11 1451 L 312.19 1443.69 Z M 309.59 1436.54"/>
+            <path d="M 253.95 1440.78 C 251.79 1443.34 249.31 1445.75 246.57 1447.95 C 244.89 1449.28 243.12 1450.53 241.27 1451.7 C 240.45 1452.21 239.61 1452.7 238.76 1453.18 L 235.68 1450.2 L 232.67 1447.29 C 233.93 1446.64 235.15 1445.94 236.32 1445.2 C 239.52 1443.17 242.39 1440.85 244.87 1438.34 Z M 253.95 1440.78"/>
+            <path d="M 281.18 1462.39 L 289.44 1485.12 L 280.91 1488.22 L 270.48 1459.53 L 270.27 1458.96 L 269.46 1459.26 L 237.24 1470.97 L 234.63 1463.82 L 256.62 1455.82 L 264.81 1452.84 L 279.29 1447.57 L 292.11 1451 L 278.8 1455.85 L 279.09 1456.66 Z M 281.18 1462.39"/>
+            <path d="M 397.75 1445.7 L 389.4 1448.73 L 373.94 1406.26 L 363.3 1410.13 L 377.22 1448.39 L 369.24 1451.29 L 341.46 1374.96 L 349.44 1372.06 L 360.7 1402.98 L 371.34 1399.11 L 359.48 1366.54 L 367.83 1363.5 Z M 337.04 1393.93 L 314.93 1401.97 L 328.79 1440.05 C 338.84 1436.28 346.29 1433.05 354.5 1428.2 L 357.74 1435.12 C 348.57 1440.74 340.26 1444.18 328.28 1448.64 L 322.77 1450.65 L 303.64 1398.08 L 334.46 1386.86 Z M 337.04 1393.93"/>
+        </g>
+      </svg>
+    </div>
+    <img class="wall-sign__scene" src="assets/wayfinding/wall-signage.png" alt="바닥의 파랑·마젠타·초록 라인이 벽의 사이니지로 올라가 FIELD, WATER, MEDICAL 안내로 이어지는 도면" width="4089" height="3772" loading="lazy" decoding="async">
+  </section>
+
+  <section class="floor" id="floor-wayfinding">
+    <!-- Lines are drawn by main.js from the sets there: the colour slides in, then the pictogram, word and arrows appear -->
+    <svg class="floor__lines" viewBox="0 0 1920 353" role="img" aria-label="바닥 웨이파인딩 라인: 목적지 유형별 색 띠 위에 픽토그램, 목적지 이름, 진행 방향 화살표가 놓이고, 라인 수와 방향, 목적지가 바뀌며 반복됨">
+      <defs>
+        <!-- Field 축구경기장 -->
+        <symbol id="floor-field" viewBox="0 0 240 240">
+          <path d="M141.23,148.45h-42.14l-13.02-40.08,34.09-24.77,34.09,24.77-13.02,40.08ZM104.9,140.45h30.52l9.43-29.02-24.69-17.94-24.69,17.94,9.43,29.02Z"/>
+          <rect x="73.77" y="92.27" width="8" height="27.21" transform="translate(-46.36 148.85) rotate(-72.8)"/>
+          <rect x="148.95" y="101.42" width="27.21" height="8" transform="translate(-23.95 52.96) rotate(-17.25)"/>
+          <rect x="106.56" y="70.85" width="27.21" height="8" transform="translate(43.76 194.04) rotate(-89.26)"/>
+          <rect x="121.97" y="49.39" width="32.57" height="8" transform="translate(-9.61 43.41) rotate(-17.25)"/>
+          <rect x="162.79" y="78.78" width="31.17" height="8" transform="translate(90.27 258.58) rotate(-88.28)"/>
+          <rect x="99.39" y="37.63" width="8" height="31.75" transform="translate(21.7 136.44) rotate(-72.79)"/>
+          <rect x="46.19" y="77.78" width="34.04" height="8" transform="translate(-19.38 143.92) rotate(-89.26)"/>
+          <rect x="142.73" y="141.74" width="8" height="27.21" transform="translate(-63.79 118.66) rotate(-36.75)"/>
+          <rect x="157.44" y="158.62" width="32.04" height="8" transform="translate(-40.43 58.77) rotate(-17.25)"/>
+          <rect x="184.76" y="99.2" width="8" height="33.18" transform="translate(-31.77 135.94) rotate(-36.75)"/>
+          <rect x="80.07" y="151.43" width="27.21" height="8" transform="translate(-86.91 137.48) rotate(-53.25)"/>
+          <rect x="92.24" y="166.03" width="8" height="35.78" transform="translate(-90.91 94.12) rotate(-36.75)"/>
+          <rect x="126.2" y="179.88" width="35.88" height="8" transform="translate(-89.44 189.34) rotate(-53.25)"/>
+          <rect x="62.22" y="146.34" width="8" height="32.74" transform="translate(-108.79 177.84) rotate(-72.8)"/>
+          <rect x="33.97" y="112.67" width="33.96" height="8" transform="translate(-73.02 87.68) rotate(-53.25)"/>
+          <path d="M120,209c-49.08,0-89-39.92-89-89S70.92,31,120,31s89,39.92,89,89-39.92,89-89,89ZM120,41c-43.56,0-79,35.44-79,79s35.44,79,79,79,79-35.44,79-79-35.44-79-79-79Z"/>
+        </symbol>
+        <!-- Changing Room 탈의실 -->
+        <symbol id="floor-changing" viewBox="0 0 240 240">
+          <path d="M33.4,161.91l-9.6-5.37c.31-.55,7.75-13.72,23.3-26.91,14.36-12.18,38.68-26.7,72.95-26.7s58.58,14.52,72.95,26.7c15.55,13.19,22.99,26.36,23.3,26.91l-9.61,5.36c-.06-.11-6.97-12.24-21.13-24.16-18.78-15.8-40.82-23.82-65.5-23.82s-46.72,8.01-65.5,23.82c-14.16,11.92-21.07,24.04-21.14,24.17Z"/>
+          <path d="M123.35,91.58v-10c5.71,0,10.35-4.64,10.35-10.35s-4.64-10.35-10.35-10.35v-10c11.22,0,20.35,9.13,20.35,20.35s-9.13,20.35-20.35,20.35Z"/>
+          <path d="M143.7,71.23h-10c0-5.71-4.64-10.35-10.35-10.35s-10.35,4.64-10.35,10.35h-10c0-11.22,9.13-20.35,20.35-20.35s20.35,9.13,20.35,20.35Z"/>
+          <rect x="34.11" y="162.31" width="171.78" height="11"/>
+          <rect x="114.5" y="90.47" width="11" height="14.7"/>
+        </symbol>
+        <!-- Water Fountain 음수대 -->
+        <symbol id="floor-water" viewBox="0 0 240 240">
+          <path d="M101.42,211.84c-16.36,0-31.65-5.58-43.05-15.72-12.92-11.49-19.75-27.77-19.75-47.09,0-40.02,56.51-96.99,58.92-99.4l3.89-3.89,3.89,3.89c2.41,2.41,58.92,59.38,58.92,99.4,0,19.32-6.83,35.6-19.75,47.09-11.4,10.13-26.69,15.72-43.05,15.72ZM101.42,61.47c-5.18,5.52-14.81,16.18-24.33,28.89-17.97,23.99-27.47,44.28-27.47,58.68,0,35.59,26.86,51.81,51.81,51.81s51.81-16.21,51.81-51.81c0-14.4-9.5-34.69-27.47-58.68-9.52-12.71-19.15-23.37-24.33-28.89Z"/>
+          <path d="M166.64,130.13l-1.22-10.93c11.51-1.28,24.96-9.48,24.96-28.38,0-14.68-18.04-37.37-28.57-48.82-5.67,6.19-16.27,18.54-22.89,30.97l-9.71-5.17c10.12-19,27.94-36.91,28.69-37.67l3.89-3.89,3.89,3.89c3.65,3.65,35.7,36.4,35.7,60.69s-17.45,37.39-34.74,39.31Z"/>
+          <path d="M101.29,183.69c-1.93,0-3.92-.1-5.97-.31l1.09-10.95c10.21,1.01,18.1-1.08,23.44-6.23,9.66-9.31,8.74-25.97,8.73-26.14l10.98-.73c.06.88,1.31,21.82-12.01,34.73-6.6,6.4-15.42,9.62-26.26,9.62Z"/>
+        </symbol>
+        <!-- Restroom 화장실 -->
+        <symbol id="floor-restroom" viewBox="0 0 240 240">
+          <path d="M45.64,89.15l-7.53-6.58c.38-.44,9.55-10.78,26.02-10.78s25.64,10.34,26.02,10.78l-7.55,6.55c-.24-.27-6.71-7.34-18.47-7.34s-18.23,7.07-18.49,7.37Z"/>
+          <path d="M174.85,155.6c-15.63,0-25.78-8.31-26.2-8.66l6.4-7.68c.06.05,7.92,6.34,19.8,6.34s19.74-6.3,19.82-6.36l6.38,7.7c-.42.35-10.57,8.66-26.2,8.66Z"/>
+          <path d="M64.14,69.31c-9.57,0-17.36-7.79-17.36-17.36s7.79-17.36,17.36-17.36,17.36,7.79,17.36,17.36-7.79,17.36-17.36,17.36ZM64.14,43.59c-4.61,0-8.36,3.75-8.36,8.36s3.75,8.36,8.36,8.36,8.36-3.75,8.36-8.36-3.75-8.36-8.36-8.36Z"/>
+          <rect x="15.92" y="107.82" width="49.02" height="10.29" transform="translate(-72.54 153.4) rotate(-90)"/>
+          <rect x="63.51" y="107.82" width="49.02" height="10.29" transform="translate(-24.95 200.99) rotate(-90)"/>
+          <rect x="17.45" y="165.6" width="66.52" height="10.29" transform="translate(-120.02 221.45) rotate(-90)"/>
+          <rect x="44.47" y="165.6" width="66.52" height="10.29" transform="translate(-93.01 248.47) rotate(-90)"/>
+          <path d="M174.75,69.31c-9.57,0-17.36-7.79-17.36-17.36s7.79-17.36,17.36-17.36,17.36,7.79,17.36,17.36-7.79,17.36-17.36,17.36ZM174.75,43.59c-4.61,0-8.36,3.75-8.36,8.36s3.75,8.36,8.36,8.36,8.36-3.75,8.36-8.36-3.75-8.36-8.36-8.36Z"/>
+          <polygon points="194.99 140.1 174.85 72.56 184.79 72.56 204.93 140.1 194.99 140.1"/>
+          <polygon points="154.74 140.1 174.89 72.56 164.95 72.56 144.81 140.1 154.74 140.1"/>
+          <rect x="139.87" y="176.47" width="44.78" height="10.29" transform="translate(-19.36 343.87) rotate(-90)"/>
+          <rect x="164.85" y="176.47" width="44.78" height="10.29" transform="translate(5.62 368.85) rotate(-90)"/>
+          <rect x="118" y="36" width="4" height="168"/>
+        </symbol>
+        <!-- First Aid 의무실 -->
+        <symbol id="floor-medical" viewBox="0 0 240 240">
+          <path d="M120,209.52c-49.08,0-89-39.92-89-89S70.92,31.52,120,31.52s89,39.92,89,89-39.92,89-89,89ZM120,41.52c-43.56,0-79,35.44-79,79s35.44,79,79,79,79-35.44,79-79-35.44-79-79-79Z"/>
+          <path d="M142.99,177.29h-43.41v-34.7h-34.7v-43.41h34.7v-34.71h43.41v34.71h34.7v43.41h-34.7v34.7ZM108.57,168.29h25.41v-34.7h34.7v-25.41h-34.7v-34.71h-25.41v34.71h-34.7v25.41h34.7v34.7Z"/>
+        </symbol>
+      </defs>
+    </svg>
+    <div class="floor__intro grid">
+      <h2 class="floor__title">FLOOR WAYFINDING SYSTEM</h2>
+      <p class="floor__body">바닥면의 웨이파인딩은 축구장의 라인 마킹처럼 공간을 따라 이어지는 선을 중심으로 설계했습니다. 목적지의 유형에 따라 컬러를 구분하고, 참가자가 선의 흐름을 따라 이동하면서 방향과 목적지를 자연스럽게 파악할 수 있도록 했습니다. 여러 경로가 교차하거나 방향<wbr>이 달라지는 지점에서도 각 선의 컬러와 흐름이 유지되도록 구성해, 처음 방문한 공간에서도 아이들이 불안한 마음없이 이동 경로를 쉽게 구분할 수 있도록 했습니다.</p>
+    </div>
+  </section>
+
+  <section class="application grid" id="application">
+    <div class="application__intro">
+      <h2 class="application__title">APPLICATION</h2>
+      <p class="application__body">브랜드의 시각 언어를 배너, 응원 굿즈, 메달 등 다양한 매체로 확장하여 대회 전반에 일관된 브랜드 경험을 제공합니다.</p>
+    </div>
+    <img class="application__photo" src="assets/application/huddle.jpg" alt="파란 유니폼을 입은 아이들이 서로 어깨동무를 하고 모여 있는 뒷모습" width="1648" height="1648" loading="lazy" decoding="async">
+  </section>
+
+  <section class="banner" id="vertical-banner">
+    <h2 class="banner__title">VERTICAL BANNER</h2>
+    <p class="banner__body">대회의 아이덴티티를 담은 그래픽과 컬러를 활용해 행사 분위기를 조성하고, 대회 정보를 직관적으로 전달합니다.</p>
+    <ul class="banner__list">
+      <li><img src="assets/application/banner-magenta.png" alt="마젠타 세로 배너: OFF THE LEAGUE, 2026 SEASON FIRST MATCH, 2026.11.4–11.10, 서울특별시 마포구 스타디움길 45" width="724" height="1736" loading="lazy" decoding="async"></li>
+      <li><img src="assets/application/banner-green.png" alt="같은 구성의 그린 세로 배너" width="724" height="1736" loading="lazy" decoding="async"></li>
+      <li><img src="assets/application/banner-blue.png" alt="같은 구성의 블루 세로 배너" width="724" height="1736" loading="lazy" decoding="async"></li>
+    </ul>
+  </section>
+
+  <section class="towel grid" id="cheering-towel">
+    <img class="towel__photo" src="assets/application/towel.jpg" alt="관중석 난간에 걸린 흰색·초록 양면 응원 타월, 끝에 초록 프린지와 OFF THE LEAGUE 라벨" width="1123" height="1400" loading="lazy" decoding="async">
+    <div class="towel__intro">
+      <h2 class="towel__title">CHEERING TOWEL</h2>
+      <p class="towel__body">대회의 시각적 아이덴티티를 적용한 응원 굿즈로, 참가자와 관람객이 함께 응원하며 소속감을 느낄 수 있도록 디자인했습니다.</p>
+    </div>
+  </section>
+
+  <section class="medal" id="winner-medal">
+    <div class="medal__stage">
+      <!-- medal.jpg is the render cropped to this black frame as in the mock (ribbons run off the top) -->
+      <img class="medal__photo" src="assets/application/medal.jpg" alt="초록·흰색 리본에 달린 은색 우승 메달 두 개, 리본에 2026 WINNER, 메달 아래에 OFF THE LEAGUE" width="1729" height="860" loading="lazy" decoding="async">
+      <div class="medal__intro">
+        <h2 class="medal__title">WINNER MEDAL</h2>
+        <p class="medal__body">축구장 라인에서 출발한 조형적 형태와 중앙을 감싸는 스트랩 구조를 결합해, 완주의 성취와 대회의 정체성을 담았습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="ending">
+    <img class="ending__bg" src="assets/ending-grass.jpg" alt="" width="1792" height="1453" loading="lazy" decoding="async">
+    <svg class="ending__logo" viewBox="96 435 790 130" role="img" aria-label="OFF THE LEAGUE"><use href="#logotype"/></svg>
+    <p class="ending__credit">Brand Designer | Minseok Kim</p>
+  </section>
+
+  <div class="grid-overlay grid" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <script src="https://unpkg.com/lenis@1.3.11/dist/lenis.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

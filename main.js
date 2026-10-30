@@ -1,0 +1,739 @@
+// Smooth, slightly slower scrolling
+let lenis = null;
+// Sections can claim a wheel/swipe before Lenis scrolls the page: return false to swallow it
+let scrollGuard = null;
+// True while the top slider is carrying the page to a section (sections skip their own snapping)
+let navJumping = false;
+if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  lenis = new Lenis({
+    lerp: 0.07,
+    wheelMultiplier: 0.7,
+    touchMultiplier: 0.8,
+    virtualScroll: (data) => (scrollGuard ? scrollGuard(data) : true),
+  });
+
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+}
+
+// ---------- Design concept: images appear one by one along the arc ----------
+(() => {
+  const section = document.querySelector(".concept");
+  const group = section?.querySelector(".concept__images");
+  if (!group) return;
+
+  // Arc of the field line in design-concept-field.jpg (1920 × 1080 frame)
+  const ARC = { cx: 2056.4, cy: 1637.2, r: 1370.3, from: 200, to: 268 }; // degrees
+  const LINE = 48; // thickness of that field line
+
+  // Placeholder order; swap in the curated list later
+  const IMAGES = [
+    ["0d8f5a8d27aa30d14a0853a54dd2dda5.jpg"],
+    ["1faec0fe059dabde6c6bee04c55ad0b1.jpg"],
+    ["6b3d3734e78e0c43b842d4b0d3025a8b.jpg"],
+    ["73c92516ea183951a17bb534ebecfd5f.jpg"],
+    ["950582bdb6178044488b528facd8ba59.jpg"],
+    ["950be3fdd70df75f016e09900859186b.jpg"],
+    ["b0955e6a3bbf91c20cbd046473027c0d (1).jpg"],
+    ["bde1b6e207472891ec42b13e225e4e62.jpg"],
+    ["c6b20f8e5ea8408b1200e50db3ee6642.jpg"],
+    ["da46ed34f312fa7a5d5ecfe65910fa12.jpg"],
+    ["e80c8af1c02c907e6c35c5fd0a4fc065.jpg"],
+    ["f76fcc75f52d2412dcec63524ec345d7.jpg"],
+    ["ff3bbf90011a07c43d3a56982af77c18.jpg"],
+  ];
+
+  // Mask boxes (panel units). Width runs along the arc, height across it —
+  // the next step keeps the width and shrinks the height so each box reads as a line.
+  const BOXES = [
+    [300, 250], [375, 375], [250, 215], [425, 325], [315, 315], [265, 225], [400, 300],
+    [300, 300], [365, 265], [240, 240], [415, 350], [275, 225], [350, 350],
+  ];
+  const OFFSETS = [-18, 22, -8, 12, -25, 15, -10, 28, -20, 8, -12, 20, -5];
+
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  const n = IMAGES.length;
+
+  const svgEl = (tag, attrs) => {
+    const el = document.createElementNS(SVG_NS, tag);
+    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+    return el;
+  };
+
+  // Place a box on the arc, `offset` units off the line, rotated so its width follows the tangent
+  const placeOnArc = (deg, offset) => {
+    const a = (deg * Math.PI) / 180;
+    const r = ARC.r + offset;
+    const x = ARC.cx + r * Math.cos(a);
+    const y = ARC.cy + r * Math.sin(a);
+    return `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(deg + 90).toFixed(1)})`;
+  };
+
+  const boxes = [];
+
+  const items = IMAGES.map(([file], i) => {
+    const deg = ARC.from + ((ARC.to - ARC.from) * (i + 0.5)) / n;
+    const offset = OFFSETS[i % OFFSETS.length];
+    const [bw, bh] = BOXES[i % BOXES.length];
+
+    const g = svgEl("g", { class: "concept__item", transform: placeOnArc(deg, offset) });
+
+    const clipId = `concept-mask-${i}`;
+    const clip = svgEl("clipPath", { id: clipId });
+    const box = svgEl("rect", { class: "concept__mask", x: -bw / 2, y: -bh / 2, width: bw, height: bh });
+    clip.appendChild(box);
+
+    // the photo fills the full box and stays put; only the mask will change
+    const img = svgEl("image", {
+      href: `assets/images/${encodeURIComponent(file)}`,
+      x: -bw / 2,
+      y: -bh / 2,
+      width: bw,
+      height: bh,
+      preserveAspectRatio: "xMidYMid slice",
+      "clip-path": `url(#${clipId})`,
+    });
+
+    g.append(clip, img);
+    group.appendChild(g);
+    boxes.push({ g, mask: box, deg, offset, bh });
+    return g;
+  });
+
+  const tween = (ms, onFrame) =>
+    new Promise((resolve) => {
+      const t0 = performance.now();
+      const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+      (function frame(now) {
+        const t = Math.min((now - t0) / ms, 1);
+        onFrame(ease(t));
+        t < 1 ? requestAnimationFrame(frame) : resolve();
+      })(t0);
+    });
+
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  // Keep each mask's width, squeeze its height down to the field line's thickness,
+  // and settle it onto the line so it meets the photo's line exactly
+  function squeezeToLine(ms) {
+    return tween(ms, (k) => {
+      for (const b of boxes) {
+        const h = b.bh + (LINE - b.bh) * k;
+        b.mask.setAttribute("y", (-h / 2).toFixed(2));
+        b.mask.setAttribute("height", h.toFixed(2));
+        b.g.setAttribute("transform", placeOnArc(b.deg, b.offset * (1 - k)));
+      }
+    });
+  }
+
+  // Snap the section into place, hold the page, then cut the images in at random
+  const STEP_MS = 420; // average gap between images
+  const JITTER_MS = 160; // +/- variation so the rhythm isn't mechanical
+  const SNAP_ZONE = 0.8; // snap as soon as the section's top is within 80% of a screen
+
+  let played = false;
+
+  function shuffle(list) {
+    const a = list.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  async function playSequence() {
+    // 1. images cut in at random, the newest on top
+    for (const item of shuffle(items)) {
+      group.appendChild(item);
+      item.classList.add("is-visible");
+      await wait(STEP_MS + (Math.random() * 2 - 1) * JITTER_MS);
+    }
+    // 2. once all are in, the boxes squeeze into the line
+    await wait(600);
+    await squeezeToLine(1400);
+    // 3. the field photo replaces the black background and the masked images
+    await wait(250);
+    section.classList.add("is-field");
+    await wait(1200);
+  }
+
+  // ---------- Stage 2: one more scroll → flat graphic → white → core values ----------
+  const arc = section.querySelector(".concept__arc");
+  const ARC_SPAN = [180, 290]; // degrees; runs past both screen edges
+  const EXPAND = 2800; // stroke width that covers the whole 1920 × 1080 frame
+
+  {
+    const pt = (deg) => {
+      const a = (deg * Math.PI) / 180;
+      return `${(ARC.cx + ARC.r * Math.cos(a)).toFixed(1)} ${(ARC.cy + ARC.r * Math.sin(a)).toFixed(1)}`;
+    };
+    arc.setAttribute("d", `M ${pt(ARC_SPAN[0])} A ${ARC.r} ${ARC.r} 0 0 1 ${pt(ARC_SPAN[1])}`);
+    arc.setAttribute("stroke-width", LINE);
+  }
+
+  async function playCore() {
+    // the photo turns into the flat graphic, the text steps aside
+    section.classList.add("is-graphic");
+    await wait(1300);
+    // the white line widens until the screen is white
+    await tween(1600, (k) => arc.setAttribute("stroke-width", (LINE + (EXPAND - LINE) * k).toFixed(1)));
+    // OFF THE is there from the start; the colour columns rise one after another
+    section.classList.add("is-core");
+    await wait(1500);
+    // then their labels appear
+    section.classList.add("is-core-text");
+    await wait(600);
+  }
+
+  let stage = "idle"; // idle → images → field → core → done
+
+  const holdPage = () => lenis?.stop();
+  const releasePage = () => lenis?.start();
+
+  async function runImages() {
+    stage = "images";
+    try {
+      await playSequence();
+    } finally {
+      stage = "field";
+      releasePage();
+    }
+  }
+
+  // Pull the section back flush with the top of the screen (if it drifted) before playing
+  const settleOnSection = () =>
+    new Promise((resolve) => {
+      if (!lenis || Math.abs(section.getBoundingClientRect().top) <= 1) return resolve();
+      lenis.scrollTo(section, { duration: 0.5, force: true, onComplete: () => resolve() });
+    });
+
+  async function runCore() {
+    stage = "core";
+    holdPage();
+    try {
+      await settleOnSection();
+      await playCore();
+    } finally {
+      stage = "done";
+      releasePage();
+    }
+  }
+
+  // At the field-photo stage, the next downward scroll plays stage 2 instead of moving the page —
+  // even if the visitor scrolled up a little and comes back down. Scrolling up still works.
+  const claimsNext = () => {
+    if (stage !== "field") return false;
+    const top = section.getBoundingClientRect().top;
+    return top < window.innerHeight * 0.8 && top > -window.innerHeight;
+  };
+
+  scrollGuard = ({ deltaY, event }) => {
+    if (deltaY > 0 && claimsNext()) {
+      if (event.cancelable) event.preventDefault();
+      runCore();
+      return false;
+    }
+    return true;
+  };
+
+  window.addEventListener("keydown", (e) => {
+    if (["ArrowDown", "PageDown", " ", "Spacebar"].includes(e.key) && claimsNext()) {
+      e.preventDefault();
+      runCore();
+    }
+  });
+
+  // Arriving from the top slider: play whatever stages haven't run yet
+  section.addEventListener("concept:enter", async (e) => {
+    if (stage === "images" || stage === "core") return;
+    played = true;
+    if (stage === "idle") {
+      holdPage();
+      await runImages();
+    }
+    if (e.detail?.stage === "core" && stage === "field") runCore();
+  });
+
+  if (!lenis) {
+    // Without Lenis, catch the native wheel/swipe ourselves
+    window.addEventListener("wheel", (e) => {
+      if (e.deltaY > 0 && claimsNext()) {
+        e.preventDefault();
+        runCore();
+      }
+    }, { passive: false });
+    let touchY = null;
+    window.addEventListener("touchstart", (e) => (touchY = e.touches[0].clientY), { passive: true });
+    window.addEventListener("touchmove", (e) => {
+      if (touchY !== null && touchY - e.touches[0].clientY > 10 && claimsNext()) {
+        e.preventDefault();
+        touchY = null;
+        runCore();
+      }
+    }, { passive: false });
+  }
+
+  if (!lenis) {
+    // No smooth scroll (or reduced motion): play when the section is mostly in view
+    new IntersectionObserver((entries, io) => {
+      if (entries[0].isIntersecting) {
+        io.disconnect();
+        runImages();
+      }
+    }, { threshold: 0.6 }).observe(section);
+    return;
+  }
+
+  lenis.on("scroll", ({ direction }) => {
+    if (played || navJumping) return;
+    const top = section.getBoundingClientRect().top;
+    const vh = window.innerHeight;
+    // coming down: the top edge rises into the lower 80% · coming back up: the section drops in from above
+    const fromAbove = direction === 1 && top <= vh * SNAP_ZONE && top >= -vh * 0.5;
+    const fromBelow = direction === -1 && top < 0 && top >= -vh * SNAP_ZONE;
+    if (!fromAbove && !fromBelow) return;
+
+    played = true;
+    // Kill the wheel momentum first. Otherwise, when that momentum is already heading for the
+    // page end, Lenis sees the snap target as "already reached", skips the animation and the
+    // page freezes with the section half on screen.
+    lenis.stop();
+    lenis.scrollTo(section, {
+      duration: 0.65,
+      easing: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)), // fast pull, soft landing
+      force: true,
+      onComplete: async () => {
+        // make sure we really landed on the section before holding the page there
+        if (Math.abs(section.getBoundingClientRect().top) > 1) {
+          window.scrollTo(0, window.scrollY + section.getBoundingClientRect().top);
+        }
+        await wait(250);
+        runImages();
+      },
+    });
+  });
+})();
+
+// ---------- Layout grid overlay: press "1" to show / hide ----------
+(() => {
+  const overlay = document.querySelector(".grid-overlay");
+  if (!overlay) return;
+  window.addEventListener("keydown", (e) => {
+    if (e.key !== "1" || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.target.closest?.("input, textarea, [contenteditable]")) return;
+    overlay.classList.toggle("is-on");
+  });
+})();
+
+// ---------- Top slider: section names on a line that fills as you scroll ----------
+(() => {
+  const nav = document.querySelector(".slider");
+  if (!nav) return;
+  const concept = document.querySelector(".concept");
+  const items = [...nav.querySelectorAll(".slider__item")];
+  const fill = nav.querySelector(".slider__fill");
+  const MIN_STEP = 0.1; // names stay at least this share of the line apart
+  const GAP = 24; // and never closer than this many px after the previous name
+
+  const topOf = (el) => el.getBoundingClientRect().top + window.scrollY;
+  // where each name sends you (in page pixels)
+  const targetOf = (item) => {
+    const el = document.querySelector(item.dataset.target);
+    return el ? Math.max(0, topOf(el)) : 0;
+  };
+
+  // The line stands for the page from the first section to the end: each name sits where its
+  // section starts, so long stretches (Brand Identity) get long runs. Short sections are pushed apart a little,
+  // and the fill runs from name to name as the page moves between their sections.
+  let stops = [];
+  let lefts = [];
+  let end = 1;
+  let width = 1;
+  function layout() {
+    stops = items.map(targetOf);
+    end = Math.max(document.documentElement.scrollHeight - window.innerHeight, stops[0] + 1);
+    width = nav.clientWidth;
+    let minLeft = 0;
+    lefts = items.map((item, k) => {
+      const w = item.offsetWidth;
+      const at = ((stops[k] - stops[0]) / (end - stops[0])) * width;
+      const left = Math.min(Math.max(at, minLeft), width - w);
+      item.parentElement.style.left = `${left}px`;
+      minLeft = left + Math.max(MIN_STEP * width, w + GAP);
+      return left;
+    });
+    update();
+  }
+
+  function update() {
+    const y = window.scrollY + 1;
+    let x = 0;
+    for (let k = 0; k < stops.length; k++) {
+      if (y < stops[k]) break;
+      const nextStop = k + 1 < stops.length ? stops[k + 1] : end;
+      const nextLeft = k + 1 < stops.length ? lefts[k + 1] : width;
+      const frac = nextStop > stops[k] ? Math.min((y - stops[k]) / (nextStop - stops[k]), 1) : 1;
+      x = lefts[k] + frac * (nextLeft - lefts[k]);
+    }
+    fill.style.transform = `scaleX(${x / width})`;
+    items.forEach((item, k) => item.classList.toggle("is-passed", y >= stops[k]));
+  }
+
+  items.forEach((item) => {
+    item.addEventListener("click", (e) => {
+      e.preventDefault();
+      const target = targetOf(item);
+      const toConcept = item.dataset.target === ".concept";
+      const done = () => {
+        if (toConcept) concept.dispatchEvent(new CustomEvent("concept:enter", { detail: { stage: "motif" } }));
+      };
+      if (lenis) {
+        navJumping = true;
+        lenis.scrollTo(target, {
+          duration: 1.2,
+          onComplete: () => {
+            navJumping = false;
+            done();
+          },
+        });
+      } else {
+        window.scrollTo({ top: target, behavior: "smooth" });
+        setTimeout(done, 900);
+      }
+    });
+  });
+
+  window.addEventListener("scroll", update, { passive: true });
+  // section heights settle as images and fonts load
+  new ResizeObserver(layout).observe(document.body);
+  window.addEventListener("resize", layout);
+  document.fonts?.ready.then(layout);
+  layout();
+})();
+
+// ---------- Typography specimen: the big letter keeps changing ----------
+(() => {
+  const glyph = document.querySelector(".typeface__glyph");
+  if (!glyph) return;
+  // same order as the character set above it (A–Z, 0–9), starting from the O
+  const chars = [...document.querySelectorAll(".typeface__chart span")].map((s) => s.textContent);
+  if (!chars.length) return;
+  const STEP_MS = 900;
+  let i = Math.max(chars.indexOf(glyph.textContent), 0);
+  setInterval(() => {
+    i = (i + 1) % chars.length;
+    glyph.textContent = chars[i];
+  }, STEP_MS);
+})();
+
+// ---------- Type tester: weight slider ----------
+(() => {
+  const tester = document.querySelector(".tester");
+  if (!tester) return;
+  const range = tester.querySelector(".tester__range");
+  const value = tester.querySelector(".tester__value");
+  const text = tester.querySelector(".tester__text");
+
+  const apply = () => {
+    tester.style.setProperty("--wght", range.value);
+    value.textContent = range.value;
+  };
+  range.addEventListener("input", apply);
+  apply();
+
+  // keep pasted text plain so it stays in the typeface
+  text.addEventListener("paste", (e) => {
+    e.preventDefault();
+    document.execCommand("insertText", false, e.clipboardData.getData("text/plain"));
+  });
+})();
+
+// ---------- Pictograms: the big figure's guide lines draw in when the section arrives ----------
+(() => {
+  const section = document.querySelector(".picto");
+  const hero = section?.querySelector(".picto__hero");
+  if (!hero) return;
+  // once the framed figure is mostly on screen; plays once
+  new IntersectionObserver((entries, io) => {
+    if (!entries[0].isIntersecting) return;
+    io.disconnect();
+    section.classList.add("is-drawn");
+  }, { threshold: 0.6 }).observe(hero);
+})();
+
+// ---------- Pictograms: each tile's rule draws and its icon turns from black to colour on arrival ----------
+(() => {
+  const items = document.querySelectorAll(".picto__item");
+  if (!items.length) return;
+  // column 0–3 staggers the tiles of a row
+  items.forEach((item, i) => item.style.setProperty("--c", i % 4));
+  // once a tile is a third on screen; plays once per tile
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      io.unobserve(entry.target);
+      entry.target.classList.add("is-in");
+    });
+  }, { threshold: 0.35 });
+  items.forEach((item) => io.observe(item));
+})();
+
+// ---------- Signage: the sign stays, the place around it keeps changing ----------
+(() => {
+  const scenes = [...document.querySelectorAll(".wayfinding__scene")];
+  if (scenes.length < 2 || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const box = scenes[0].parentElement;
+  const STEP_MS = 900; // same beat as the Typography letter
+  let i = 0;
+  let timer = 0;
+  let ready = false;
+  let onScreen = false;
+
+  const step = () => {
+    scenes[i].classList.remove("is-current");
+    i = (i + 1) % scenes.length;
+    scenes[i].classList.add("is-current");
+  };
+  // cut only while the photos are on screen
+  const sync = () => {
+    const run = ready && onScreen;
+    if (run && !timer) timer = setInterval(step, STEP_MS);
+    if (!run && timer) {
+      clearInterval(timer);
+      timer = 0;
+    }
+  };
+
+  // a screen ahead, load all eight, so no cut lands on an empty frame
+  new IntersectionObserver((entries, io) => {
+    if (!entries[0].isIntersecting) return;
+    io.disconnect();
+    scenes.forEach((img) => (img.loading = "eager"));
+    Promise.all(scenes.map((img) => img.decode().catch(() => {}))).then(() => {
+      ready = true;
+      sync();
+    });
+  }, { rootMargin: "100% 0px" }).observe(box);
+
+  new IntersectionObserver((entries) => {
+    onScreen = entries[0].isIntersecting;
+    sync();
+  }).observe(box);
+})();
+
+// ---------- Wall signage: the diagram's guide lines draw in when it arrives ----------
+(() => {
+  const section = document.querySelector(".wall-sign");
+  const spec = section?.querySelector(".wall-sign__spec");
+  if (!spec) return;
+  // once the diagram is mostly on screen; plays once
+  new IntersectionObserver((entries, io) => {
+    if (!entries[0].isIntersecting) return;
+    io.disconnect();
+    section.classList.add("is-drawn");
+  }, { threshold: 0.6 }).observe(spec);
+})();
+
+// ---------- Floor wayfinding: a line's colour slides in, then its pictogram, word and arrows appear.
+// The set keeps changing: one line → two → directions → destinations → ... ----------
+(() => {
+  const svg = document.querySelector(".floor__lines");
+  if (!svg) return;
+  const NS = "http://www.w3.org/2000/svg";
+  const W = 1920;
+  // one line at full size pointing right, measured from the mock at 1920 (y from the band's top)
+  const M = {
+    band: 240,
+    stripes: [15, 217], // the two thin lines, 8 tall
+    icon: 431.4, // pictogram box (240) left; the ball's circle starts 31 in
+    word: 728.7, // word ink left
+    font: 185,
+    base: 181.6,
+    track: 4.5, // the mock sets the word a little looser than the font's kerning
+    chev: [1366.6, 1471.9, 1567.4], // each arrow's left edge on the band's top edge
+    chevW: 46.4, // arrow stroke, measured across
+    chevD: 12.3, // the two arms' tips sit this far above / below the centre line
+    minGap: 120, // word → arrows, when a long word pushes the block toward the tail
+    centre: 1076, // the two-line size scales around here (mirrored for a left-pointing line)
+    fade: 600, // past each side the band fades out over this, so its square end never shows while it slides
+  };
+  const SMALL = 164 / 240; // two lines: 164 tall, 25 apart (second mock), centred where the one line was
+  const SLOTS = [[{ y: 56.5, k: 1 }], [{ y: 0, k: SMALL }, { y: 189, k: SMALL }]];
+  // colour = pictogram category: 1 participants magenta, 2 spectators & amenities blue, 3 safety green
+  const PLACES = {
+    field: ["FIELD", "floor-field", "magenta"],
+    changing: ["CHANGING ROOM", "floor-changing", "magenta"],
+    water: ["WATER", "floor-water", "blue"],
+    restroom: ["RESTROOM", "floor-restroom", "blue"],
+    medical: ["MEDICAL", "floor-medical", "green"],
+  };
+  // [place, 1 = right / -1 = left]; each step changes one thing
+  const SETS = [
+    [["field", 1]],
+    [["field", 1], ["water", -1]],
+    [["field", -1], ["water", 1]],
+    [["changing", -1], ["restroom", 1]],
+    [["medical", 1]],
+  ];
+  const HOLD_MS = 2800;
+  const FADE_MS = 350;
+  const SWEEP_MS = 1600; // one set pushes the other out, left to right
+  const ENTER_MS = 1400; // the very first line, onto an empty stage
+  const EASE_SWEEP = "cubic-bezier(0.65, 0, 0.35, 1)";
+  const EASE_OUT = "cubic-bezier(0.22, 1, 0.36, 1)";
+
+  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const el = (name, attrs, parent) => {
+    const node = document.createElementNS(NS, name);
+    for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, value);
+    parent.appendChild(node);
+    return node;
+  };
+
+  // word ink at full size; canvas shapes the text the same way as the SVG text
+  const fontReady = document.fonts.load(`400 ${M.font}px "OffTheLeague Flex"`).catch(() => {});
+  const ctx = document.createElement("canvas").getContext("2d");
+  const inkOf = (word) => {
+    ctx.font = `400 ${M.font}px "OffTheLeague Flex"`;
+    const m = ctx.measureText(word);
+    const left = -m.actualBoundingBoxLeft;
+    return { left, width: m.actualBoundingBoxRight + M.track * (word.length - 1) - left };
+  };
+
+  // soft ends: the band runs M.fade past each side of the screen and fades out there (smoothstep).
+  // One mask for every band; it moves with the band it is on.
+  const SPAN = W + 2 * M.fade;
+  const SLIDE = W + M.fade; // far enough that the faded end is off screen too
+  const defs = svg.querySelector("defs");
+  const ramp = el("linearGradient", { id: "floor-ends-ramp", gradientUnits: "userSpaceOnUse", x1: -M.fade, x2: W + M.fade, y1: 0, y2: 0 }, defs);
+  const stops = [0, 0.25, 0.5, 0.75, 1].map((t) => [(t * M.fade) / SPAN, t * t * (3 - 2 * t)]);
+  [...stops, ...stops.map(([at, a]) => [1 - at, a]).reverse()].forEach(([at, a]) =>
+    el("stop", { offset: at.toFixed(4), "stop-color": "#fff", "stop-opacity": a.toFixed(3) }, ramp),
+  );
+  const ends = el("mask", { id: "floor-ends", maskUnits: "userSpaceOnUse", x: -M.fade, y: 0, width: SPAN, height: M.band }, defs);
+  el("rect", { x: -M.fade, width: SPAN, height: M.band, fill: "url(#floor-ends-ramp)" }, ends);
+
+  // the colour: band + two thin lines, past both sides of the screen
+  const makeLine = (color) => {
+    const g = el("g", { class: "floor__line", style: `--c: var(--${color})` }, svg);
+    const band = el("g", { class: "floor__band", mask: "url(#floor-ends)" }, g);
+    el("rect", { class: "floor__fill", x: -M.fade, width: SPAN, height: M.band }, band);
+    M.stripes.forEach((y) => el("rect", { class: "floor__stripe", x: -M.fade, y, width: SPAN, height: 8 }, band));
+    const marks = el("g", { class: "floor__marks" }, g);
+    return { color, g, band, marks };
+  };
+
+  // line at its slot, dx along; band and marks move together
+  const place = (line, dx, ms = 0, ease = EASE_SWEEP) => {
+    line.g.style.transition = ms ? `transform ${ms}ms ${ease}` : "none";
+    line.g.style.transform = `translate(${dx}px, ${line.slot.y}px)`;
+    line.band.style.transform = `scale(1, ${line.slot.k})`;
+  };
+
+  // pictogram, word and arrows at size k. Laid out pointing right (pictogram at the tail, arrows at the head)
+  // and mirrored for left; the letters themselves are never mirrored.
+  const drawMarks = (line, { word, icon, dir, slot: { k } }) => {
+    line.marks.replaceChildren();
+    const S = (x) => M.centre + (x - M.centre) * k;
+    const X = (x) => (dir > 0 ? x : W - x);
+    const ink = inkOf(word);
+    let iconX = S(M.icon);
+    let inkX = S(M.word);
+    // a long word pushes the pictogram and word toward the tail, never into the arrows
+    const over = inkX + ink.width * k - (S(M.chev[0]) - M.minGap * k);
+    if (over > 0) {
+      iconX -= over;
+      inkX -= over;
+    }
+    const size = M.band * k;
+    el("use", { href: `#${icon}`, x: dir > 0 ? iconX : W - iconX - size, y: 0, width: size, height: size }, line.marks);
+    const text = el("text", { x: (dir > 0 ? inkX : W - inkX - ink.width * k) - ink.left * k, y: M.base * k }, line.marks);
+    text.style.fontSize = `${M.font * k}px`;
+    text.style.letterSpacing = `${M.track * k}px`;
+    text.textContent = word;
+    // each arrow is two bars whose square ends meet just off the centre line, as in the mock
+    const { chevW: w, chevD: d } = M;
+    const c = M.band / 2;
+    M.chev.forEach((x0) => {
+      [false, true].forEach((lower) => {
+        const pts = [
+          [x0, 0],
+          [x0 + w, 0],
+          [x0 + w + c - d, c - d],
+          [x0 + w / 2 + c - d, c - d + w / 2],
+        ].map(([x, y]) => `${X(S(x)).toFixed(1)},${((lower ? M.band - y : y) * k).toFixed(1)}`);
+        el("polygon", { points: pts.join(" ") }, line.marks);
+      });
+    });
+  };
+
+  let lines = [];
+  const show = async (set) => {
+    const next = set.map(([key, dir], i) => {
+      const [word, icon, color] = PLACES[key];
+      return { word, icon, color, dir, slot: SLOTS[set.length - 1][i] };
+    });
+    // 1. the whole set changes at once: the new lines (colour only) come in from the left right behind
+    //    the old ones, which carry their marks out to the right. Their faded ends overlap, so the seam is soft.
+    const ms = lines.length ? SWEEP_MS : ENTER_MS;
+    const ease = lines.length ? EASE_SWEEP : EASE_OUT;
+    const old = lines;
+    lines = next.map((n) => Object.assign(makeLine(n.color), { slot: n.slot }));
+    lines.forEach((line) => place(line, -SLIDE));
+    svg.getBoundingClientRect(); // commit the start before sliding
+    old.forEach((line) => place(line, SLIDE, ms, ease));
+    lines.forEach((line) => place(line, 0, ms, ease));
+    await wait(ms);
+    old.forEach((line) => line.g.remove());
+    // 2. then the pictogram, word and arrows appear
+    await fontReady;
+    lines.forEach((line, i) => drawMarks(line, next[i]));
+    lines.forEach((line) => line.g.classList.add("is-marked"));
+    await wait(FADE_MS);
+  };
+
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    // first set, still
+    const [[key, dir]] = SETS[0];
+    const [word, icon, color] = PLACES[key];
+    const line = Object.assign(makeLine(color), { slot: SLOTS[0][0] });
+    place(line, 0);
+    fontReady.then(() => {
+      drawMarks(line, { word, icon, dir, slot: SLOTS[0][0] });
+      line.g.classList.add("is-marked");
+    });
+    return;
+  }
+
+  // changes only while the lines are on screen
+  let onScreen = false;
+  let resume = null;
+  new IntersectionObserver(([entry]) => {
+    onScreen = entry.isIntersecting;
+    if (onScreen && resume) {
+      resume();
+      resume = null;
+    }
+  }).observe(svg);
+  const whenOnScreen = () => (onScreen ? Promise.resolve() : new Promise((resolve) => (resume = resolve)));
+
+  const run = async () => {
+    await show(SETS[0]);
+    for (let i = 1; ; i = (i + 1) % SETS.length) {
+      await wait(HOLD_MS);
+      await whenOnScreen();
+      await show(SETS[i]);
+    }
+  };
+
+  // the first line slides in once the stage is half on screen
+  new IntersectionObserver((entries, io) => {
+    if (!entries[0].isIntersecting) return;
+    io.disconnect();
+    run();
+  }, { threshold: 0.5 }).observe(svg);
+})();

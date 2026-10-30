@@ -1,0 +1,19 @@
+# Only the site itself is published (GitHub Pages). Everything else in this folder is working files.
+/*
+!/.gitignore
+!/index.html
+!/style.css
+!/main.js
+!/assets/
+
+# originals and files the page doesn't use
+/assets/hero.png
+/assets/minseok5893_*
+/assets/design-concept.jpg
+/assets/background-shapes.svg
+/assets/logo.svg
+/assets/logo-white.svg
+/assets/slogan.svg
+/assets/pictograms/
+/assets/fonts/Offtheleague.otf
+.DS_Store
