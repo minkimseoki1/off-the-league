@@ -23,6 +23,10 @@
   --grid-gutter: 26px;
   /* one column's width; n columns incl. their inner gutters = n * --col + (n - 1) * --grid-gutter */
   --col: calc((100vw - 2 * var(--grid-margin) - (var(--grid-cols) - 1) * var(--grid-gutter)) / var(--grid-cols));
+
+  /* Room kept free under the fixed top slider (its names end ~49px down). Section paging lands
+     every section flush with the top, so the first text of a section starts no higher than this. */
+  --clear: 130px;
 }
 
 html,
@@ -131,8 +135,8 @@ body {
 .about {
   position: relative;
   z-index: 1;
-  /* measured from the overview mock (captured at ~0.87× of a 1900px screen) */
-  padding: 75px 0 80px;
+  /* measured from the overview mock (captured at ~0.87× of a 1900px screen); top was 75 */
+  padding: var(--clear) 0 80px;
   background: var(--about-bg);
   color: var(--about-ink);
 }
@@ -183,12 +187,18 @@ body {
 }
 
 .context {
+  /* the first text sat at 5.5vw; everything moves down together so it starts at --clear */
+  --shift: max(0px, var(--clear) - 5.5vw);
   position: relative;
   z-index: 1;
   /* matches the 1920 × 3130.47 shape frame */
-  height: calc(100vw * 3130.47 / 1920);
+  height: calc(100vw * 3130.47 / 1920 + var(--shift));
   overflow: hidden;
   background: #fff;
+}
+
+.context > * {
+  translate: 0 var(--shift);
 }
 
 .context__shapes {
@@ -270,7 +280,7 @@ body {
   /* grid columns 1–3 */
   margin-left: var(--grid-margin);
   width: calc(3 * var(--col) + 2 * var(--grid-gutter));
-  padding-top: 8.4vh;
+  padding-top: max(8.4vh, var(--clear));
   font-family: "Pretendard", sans-serif;
   letter-spacing: -0.02em;
 }
@@ -316,6 +326,39 @@ body {
 /* After the boxes have become lines: the field photo takes over */
 .concept.is-field .concept__bg {
   opacity: 1;
+}
+
+/* Film grain over the field photo (the 2560px file looks soft on large / retina screens).
+   An opaque, high-contrast grey noise tile laid thinly over the photo; it jumps around a few
+   times a second like film.
+   Sits above the photo but under the images, the flat graphic and the text (they have z-index). */
+.concept__inner::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0 0 0 0 1'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2.4' intercept='-0.7'/%3E%3CfeFuncG type='linear' slope='2.4' intercept='-0.7'/%3E%3CfeFuncB type='linear' slope='2.4' intercept='-0.7'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E");
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s ease;
+}
+
+.concept.is-field .concept__inner::after {
+  opacity: 0.15;
+  animation: concept-grain 0.8s steps(1) infinite;
+}
+
+@keyframes concept-grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-7%, 4%); }
+  40% { transform: translate(5%, -6%); }
+  60% { transform: translate(-3%, -9%); }
+  80% { transform: translate(8%, 6%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .concept.is-field .concept__inner::after {
+    animation: none;
+  }
 }
 
 .concept.is-field .concept__images {
@@ -439,6 +482,10 @@ body {
   opacity: 0;
   transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
 }
+
+/* framing per photo: the team and the balls sit a little higher · both faces stay in view */
+.core__col--magenta .core__photo { object-position: 50% 80%; }
+.core__col--green .core__photo { object-position: 50% 15%; }
 
 .core__num,
 .core__word,
@@ -565,7 +612,7 @@ body {
 .naming__label {
   position: absolute;
   left: 11.4vw;
-  top: calc(5vh - 4px);
+  top: max(5vh - 4px, var(--clear) + 5px);
   font-weight: 400;
   line-height: 1;
 }
@@ -573,7 +620,7 @@ body {
 .naming__body {
   position: absolute;
   left: 40.3vw;
-  top: calc(5vh - 9px);
+  top: max(5vh - 9px, var(--clear));
   max-width: 900px;
   color: rgb(0 0 0 / 0.7);
 }
@@ -616,12 +663,18 @@ body {
 
 .typeface {
   --col-x: calc(var(--col) + var(--grid-gutter)); /* one column + gutter */
+  /* the character set started at 1.98vw; everything moves down together so it starts at --clear */
+  --shift: max(0px, var(--clear) - 1.98vw);
   position: relative;
   z-index: 1;
-  height: 115.2vw;
+  height: calc(115.2vw + var(--shift));
   overflow: hidden;
   background: #fff;
   color: #000;
+}
+
+.typeface > * {
+  translate: 0 var(--shift);
 }
 
 /* green field photo: columns 1–6 */
@@ -817,6 +870,19 @@ body {
   caret-color: #fff;
 }
 
+/* small invitation at the top, mirroring the weight control at the bottom.
+   The typeface is unicase (lower case = capitals) and has no "!", so that one comes from Pretendard. */
+.tester__hint {
+  position: absolute;
+  left: 50%;
+  top: max(10.5vh, var(--clear));
+  transform: translateX(-50%);
+  font-family: "OffTheLeague Flex", "Pretendard", sans-serif;
+  font-size: 20px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
 .tester__control {
   position: absolute;
   left: 50%;
@@ -899,7 +965,7 @@ body {
   z-index: 1;
   align-items: start;
   row-gap: 111px; /* figure bottom → first rule (867px down the section) */
-  padding-top: 46px;
+  padding-top: calc(var(--clear) - 13px); /* title 13px below the padding; was 46px */
   padding-bottom: 219px;
   background: #fff;
   color: #000;
@@ -1143,7 +1209,7 @@ body {
 .colors {
   position: relative;
   z-index: 1;
-  padding-top: 43px;
+  padding-top: var(--clear); /* was 43px */
   background: #fff;
   color: #000;
 }
@@ -1505,7 +1571,7 @@ body {
 .banner {
   position: relative;
   z-index: 1;
-  padding: 68px 0 106px;
+  padding: var(--clear) 0 106px; /* top was 68 */
   background: #000;
   color: #fff;
   text-align: center;
@@ -1546,7 +1612,7 @@ body {
 .towel {
   position: relative;
   z-index: 1;
-  padding-block: 77px 163px;
+  padding-block: calc(var(--clear) - 13px) 163px; /* the title sits 13px below the photo top; was 77 */
   background: #fff;
   color: #000;
 }
@@ -1607,7 +1673,7 @@ body {
 
 .medal__intro {
   position: absolute;
-  top: 69px;
+  top: var(--clear); /* was 69px */
   left: var(--grid-margin);
   width: calc(3 * var(--col) + 2 * var(--grid-gutter));
 }
@@ -1619,39 +1685,20 @@ body {
 
 /* ---------- Ending (measured from the 1216 × 990 mock = 0.6361× of 1920px) ----------
    A poster: everything but the credit scales with the screen width (1920 units → vw).
-   The slogan under the logo was taken out (2026-10-29). */
+   The slogan under the logo (2026-10-29) and the grass photo behind it (2026-11-01) were taken out:
+   now a black logo on white. */
 .ending {
   position: relative;
   z-index: 1;
   aspect-ratio: 1920 / 1556.4;
   overflow: hidden;
   background: #fff;
-  color: #fff;
-}
-
-/* the lower part of the grass photo (rows 988–2441), toned down to the mock's darker olive */
-.ending__bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.68) saturate(0.95) contrast(0.95);
-}
-
-/* fades to white from 47% to 94% of the height (linear, as in the mock) */
-.ending::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgb(255 255 255 / 0) 47%, #fff 94%);
-  pointer-events: none;
+  color: #000;
 }
 
 .ending__logo,
 .ending__credit {
   position: absolute;
-  z-index: 1;
 }
 
 .ending__logo {
@@ -1660,7 +1707,7 @@ body {
   top: calc(100vw * 295.2 / 1920);
   width: calc(100vw * 989.9 / 1920);
   height: auto;
-  fill: #fff;
+  fill: #000;
 }
 
 .ending__credit {

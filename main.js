@@ -29,22 +29,12 @@ if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
   const ARC = { cx: 2056.4, cy: 1637.2, r: 1370.3, from: 200, to: 268 }; // degrees
   const LINE = 48; // thickness of that field line
 
-  // Placeholder order; swap in the curated list later
-  const IMAGES = [
-    ["0d8f5a8d27aa30d14a0853a54dd2dda5.jpg"],
-    ["1faec0fe059dabde6c6bee04c55ad0b1.jpg"],
-    ["6b3d3734e78e0c43b842d4b0d3025a8b.jpg"],
-    ["73c92516ea183951a17bb534ebecfd5f.jpg"],
-    ["950582bdb6178044488b528facd8ba59.jpg"],
-    ["950be3fdd70df75f016e09900859186b.jpg"],
-    ["b0955e6a3bbf91c20cbd046473027c0d (1).jpg"],
-    ["bde1b6e207472891ec42b13e225e4e62.jpg"],
-    ["c6b20f8e5ea8408b1200e50db3ee6642.jpg"],
-    ["da46ed34f312fa7a5d5ecfe65910fa12.jpg"],
-    ["e80c8af1c02c907e6c35c5fd0a4fc065.jpg"],
-    ["f76fcc75f52d2412dcec63524ec345d7.jpg"],
-    ["ff3bbf90011a07c43d3a56982af77c18.jpg"],
-  ];
+  // The 26 brand photos (레퍼런스무드_재생성_v2/완성본, white frames cropped off), placed along the arc
+  // in the order 1, 14, 2, 15, … so look-alike neighbours in the folder don't sit side by side
+  const IMAGES = Array.from({ length: 26 }, (_, i) => {
+    const n = (i % 2 ? 14 : 1) + Math.floor(i / 2);
+    return [`motif-${String(n).padStart(2, "0")}.jpg`];
+  });
 
   // Mask boxes (panel units). Width runs along the arc, height across it —
   // the next step keeps the width and shrinks the height so each box reads as a line.
@@ -130,8 +120,8 @@ if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
   }
 
   // Snap the section into place, hold the page, then cut the images in at random
-  const STEP_MS = 420; // average gap between images
-  const JITTER_MS = 160; // +/- variation so the rhythm isn't mechanical
+  const STEP_MS = 260; // average gap between images (was 420 with 13 photos)
+  const JITTER_MS = 90; // +/- variation so the rhythm isn't mechanical
   const SNAP_ZONE = 0.8; // snap as soon as the section's top is within 80% of a screen
 
   let played = false;
@@ -256,6 +246,22 @@ if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
       await runImages();
     }
     if (e.detail?.stage === "core" && stage === "field") runCore();
+  });
+
+  // Back to the start for the next visitor (the idle timer sends this once the page is at the top).
+  // Only with Lenis: without it the sequence is started by a one-shot observer that can't re-arm.
+  document.addEventListener("page:reset", () => {
+    if (!lenis || stage === "images" || stage === "core") return;
+    stage = "idle";
+    played = false;
+    section.classList.remove("is-field", "is-graphic", "is-core", "is-core-text");
+    items.forEach((item) => item.classList.remove("is-visible"));
+    for (const b of boxes) {
+      b.mask.setAttribute("y", -b.bh / 2);
+      b.mask.setAttribute("height", b.bh);
+      b.g.setAttribute("transform", placeOnArc(b.deg, b.offset));
+    }
+    arc.setAttribute("stroke-width", LINE);
   });
 
   if (!lenis) {
@@ -415,6 +421,170 @@ if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
   layout();
 })();
 
+// ---------- Section paging: one wheel gesture or key press moves to the next section ----------
+// Sections up to a little taller than the screen are pages: one gesture glides to the next one.
+// Taller sections (long reads) scroll freely, with no snapping, between their top and the point where
+// their bottom meets the bottom of the screen; at either end a new gesture moves on to the neighbour.
+// Touch keeps native scrolling. The Graphic Motif section's own snapping and stages still take precedence.
+(() => {
+  if (!lenis) return;
+  const sections = [...document.querySelectorAll("body > section")];
+  const MIN_EXTRA = 0.25; // a section taller than the screen by more than this share scrolls freely
+  const KEY_STEP = 0.85; // inside such a section, arrow / page keys move this share of a screen
+  const GESTURE_GAP = 180; // ms without wheel events that ends a gesture (trackpad momentum included)
+  const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+  // stops: where a page glide can land · zones: the free-scroll range of each tall section
+  let map = null;
+  const invalidate = () => (map = null);
+  new ResizeObserver(invalidate).observe(document.body); // heights settle as images load
+  window.addEventListener("resize", invalidate);
+
+  function layout() {
+    if (map) return map;
+    const vh = window.innerHeight;
+    const limit = lenis.limit;
+    const stops = [0, limit];
+    const zones = [];
+    for (const s of sections) {
+      if (getComputedStyle(s).position === "sticky") continue; // the hero: always at 0
+      const top = Math.min(Math.round(s.getBoundingClientRect().top + window.scrollY), limit);
+      const extra = s.offsetHeight - vh;
+      if (extra > vh * MIN_EXTRA) {
+        const end = Math.min(Math.round(top + extra), limit);
+        zones.push({ top, end });
+        stops.push(top, end);
+      } else {
+        stops.push(top);
+      }
+    }
+    stops.sort((a, b) => a - b);
+    map = { zones, stops: stops.filter((y, i) => i === 0 || y - stops[i - 1] > 24) };
+    return map;
+  }
+
+  // the long section the page is in, if it can still move that way inside it
+  const freeZone = (y, dir) =>
+    layout().zones.find((z) => (dir > 0 ? y >= z.top - 1 && y < z.end - 1 : y > z.top + 1 && y <= z.end + 1));
+
+  let busy = false;
+  function glide(target) {
+    const y = lenis.targetScroll;
+    if (Math.abs(target - y) < 2) return;
+    const duration = Math.min(1.1, 0.6 + (0.5 * Math.abs(target - y)) / window.innerHeight);
+    busy = true;
+    // another scroll (the Graphic Motif snap) can take over and drop our onComplete
+    const timer = setTimeout(() => (busy = false), duration * 1000 + 150);
+    lenis.scrollTo(target, {
+      duration,
+      easing: ease,
+      onComplete: () => {
+        clearTimeout(timer);
+        busy = false;
+      },
+    });
+  }
+
+  // next / previous stop from where the page is heading
+  function page(dir) {
+    const y = lenis.targetScroll;
+    const { stops } = layout();
+    const target = dir > 0 ? stops.find((s) => s > y + 4) : stops.findLast((s) => s < y - 4);
+    if (target !== undefined) glide(target);
+  }
+
+  // A trackpad swipe sends a stream of wheel events that fades out; a new gesture starts after a pause,
+  // or when the deltas suddenly grow again (a new swipe during the fade).
+  let lastTime = 0;
+  let lastAbs = 0;
+  const isGestureStart = (deltaY) => {
+    const now = performance.now();
+    const abs = Math.abs(deltaY);
+    const start = now - lastTime > GESTURE_GAP || abs > lastAbs * 1.5 + 4;
+    lastTime = now;
+    lastAbs = abs;
+    return start;
+  };
+
+  let consumed = false; // this gesture already moved a page: the rest of it (momentum) is ignored
+  const sectionGuard = scrollGuard;
+  scrollGuard = (data) => {
+    const { deltaX, deltaY, event } = data;
+    if (!event.type.includes("wheel") || event.ctrlKey || Math.abs(deltaX) > Math.abs(deltaY)) {
+      return sectionGuard ? sectionGuard(data) : true;
+    }
+    const start = isGestureStart(deltaY);
+    if (start) consumed = false;
+    if (sectionGuard && sectionGuard(data) === false) return false;
+    if (event.cancelable) event.preventDefault();
+    if (busy || navJumping || lenis.isStopped || !deltaY) return false;
+
+    const dir = Math.sign(deltaY);
+    const y = lenis.targetScroll;
+    const zone = freeZone(y, dir);
+    if (zone) {
+      // inside a long section: ordinary smooth scrolling, held at its two ends
+      if (!consumed) lenis.scrollTo(Math.min(Math.max(y + deltaY, zone.top), zone.end), { programmatic: false });
+      return false;
+    }
+    if (start) {
+      consumed = true;
+      page(dir);
+    }
+    return false;
+  };
+
+  window.addEventListener("keydown", (e) => {
+    if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.target.closest?.("input, textarea, select, button, [contenteditable]")) return;
+    const dir = { ArrowDown: 1, PageDown: 1, ArrowUp: -1, PageUp: -1, " ": e.shiftKey ? -1 : 1 }[e.key];
+    if (!dir) return;
+    e.preventDefault();
+    if (busy || navJumping || lenis.isStopped) return;
+    const y = lenis.targetScroll;
+    const zone = freeZone(y, dir);
+    if (zone) glide(Math.min(Math.max(y + window.innerHeight * KEY_STEP * dir, zone.top), zone.end));
+    else page(dir);
+  });
+})();
+
+// ---------- Idle: after a while without input, glide back to the top and reset for the next visitor ----------
+(() => {
+  const IDLE_MS = 60000;
+  const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const reset = () => document.dispatchEvent(new CustomEvent("page:reset"));
+
+  function goHome() {
+    const y = window.scrollY;
+    if (y < 2) return reset();
+    if (!lenis) {
+      window.scrollTo(0, 0);
+      return reset();
+    }
+    // navJumping keeps the Graphic Motif snap and the paging out of the way on the way up
+    navJumping = true;
+    lenis.scrollTo(0, {
+      duration: Math.min(3, 1.2 + y / 15000),
+      easing: ease,
+      force: true,
+      onComplete: () => {
+        navJumping = false;
+        reset();
+      },
+    });
+  }
+
+  let timer;
+  const arm = () => {
+    clearTimeout(timer);
+    timer = setTimeout(goHome, IDLE_MS);
+  };
+  for (const type of ["wheel", "keydown", "pointerdown", "pointermove", "touchstart"]) {
+    window.addEventListener(type, arm, { passive: true });
+  }
+  arm();
+})();
+
 // ---------- Typography specimen: the big letter keeps changing ----------
 (() => {
   const glyph = document.querySelector(".typeface__glyph");
@@ -444,6 +614,14 @@ if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
   };
   range.addEventListener("input", apply);
   apply();
+
+  // the idle reset puts back the sample text and weight
+  const initial = { text: text.innerHTML, weight: range.value };
+  document.addEventListener("page:reset", () => {
+    text.innerHTML = initial.text;
+    range.value = initial.weight;
+    apply();
+  });
 
   // keep pasted text plain so it stays in the typeface
   text.addEventListener("paste", (e) => {
