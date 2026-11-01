@@ -1209,6 +1209,10 @@ body {
 .colors {
   position: relative;
   z-index: 1;
+  /* one screen: the text on top, the chart fills whatever height is left (2026-11-01) */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   padding-top: var(--clear); /* was 43px */
   background: #fff;
   color: #000;
@@ -1228,13 +1232,14 @@ body {
   color: rgb(0 0 0 / 0.5);
 }
 
-/* column widths and row heights straight from the 1920 × 1080 chart */
+/* column widths and row heights in the proportions of the 1920 × 1080 chart; the chart now takes
+   the rest of the screen instead of a fixed 16:9 (at least 280px on short screens) */
 .colors__chart {
+  flex: 1 0 280px;
   display: grid;
   grid-template-columns: 695fr 341fr 354fr repeat(5, 106fr);
   grid-template-rows: 551fr 529fr;
-  aspect-ratio: 1920 / 1080;
-  margin-top: 77px; /* chart top 330px down the section */
+  margin-top: 64px; /* was 77 */
   font-family: "OffTheLeague Flex", "Pretendard", sans-serif;
   line-height: 1;
   color: #fff;
@@ -1302,6 +1307,34 @@ body {
   top: calc(100% - 91px);
   left: 50%;
   translate: calc(-50% - 0.1em) 0;
+}
+
+/* Arrival (main.js adds .is-in): like the floor lines, the colour comes first: the chips fade in one
+   after another with a short slide from the left, then their names and values appear on them. */
+.colors__chart > * {
+  opacity: 0;
+  translate: -24px 0;
+  transition: opacity 0.6s ease, translate 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.colors.is-in .colors__chart > * {
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: calc(var(--i, 0) * 80ms); /* --i: the chip's order, set by main.js */
+}
+
+.colors__chart .colors__name,
+.colors__chart .colors__hex,
+.colors__chart .colors__pct {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.colors.is-in .colors__chart .colors__name,
+.colors.is-in .colors__chart .colors__hex,
+.colors.is-in .colors__chart .colors__pct {
+  opacity: 1;
+  transition-delay: 1.2s; /* after the last chip is in */
 }
 
 /* ---------- Signage / wayfinding (measured from the 1320 × 1722 mock = 0.6875× of 1920px) ----------

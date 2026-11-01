@@ -421,6 +421,35 @@ if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
   layout();
 })();
 
+// ---------- Color system: the chips fade in on arrival, then their names and values ----------
+(() => {
+  const section = document.querySelector(".colors");
+  const chart = section?.querySelector(".colors__chart");
+  if (!chart) return;
+  [...chart.children].forEach((chip, i) => chip.style.setProperty("--i", i));
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    section.classList.add("is-in");
+    return;
+  }
+  let io;
+  const arm = () => {
+    io?.disconnect();
+    // once half the chart is on screen; plays once per visit
+    io = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      io.disconnect();
+      section.classList.add("is-in");
+    }, { threshold: 0.5 });
+    io.observe(chart);
+  };
+  arm();
+  // the idle reset hides them again so the next visitor sees it play
+  document.addEventListener("page:reset", () => {
+    section.classList.remove("is-in");
+    arm();
+  });
+})();
+
 // ---------- Section paging: one wheel gesture or key press moves to the next section ----------
 // Sections up to a little taller than the screen are pages: one gesture glides to the next one.
 // Taller sections (long reads) scroll freely, with no snapping, between their top and the point where
