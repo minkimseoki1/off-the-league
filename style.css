@@ -160,7 +160,7 @@ body {
 }
 
 .about__body {
-  margin-top: 30px;
+  margin-top: 14px; /* was 30; title → text tightened site-wide (2026-11-02) */
   word-break: keep-all;
   color: rgb(0 0 0 / 0.7);
 }
@@ -248,7 +248,7 @@ body {
 }
 
 .context__text {
-  margin-top: 18px;
+  margin-top: 16px;
   color: rgb(0 0 0 / 0.7);
 }
 
@@ -292,7 +292,7 @@ body {
 }
 
 .concept__body {
-  margin-top: 30px;
+  margin-top: 16px; /* was 30 */
   color: rgb(255 255 255 / 0.7);
   transition: color 1.2s ease;
 }
@@ -422,6 +422,21 @@ body {
   color: #000;
   opacity: 0;
   transition: opacity 0.4s ease;
+}
+
+/* small grey label centred over "OFF THE" (2026-11-02, size / spacing from the 1212 × 688 reference):
+   cap height 18.5% of OFF THE's, 41% of OFF THE's cap height between its baseline and OFF THE's caps */
+.core__kicker {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  translate: calc(-50% + 0.025em) 0; /* + half the trailing letter-spacing, so the ink is centred */
+  margin-bottom: 0.84em;
+  font-size: 0.185em;
+  line-height: 1;
+  letter-spacing: 0.05em; /* its width is 46% of OFF THE's, as in the reference */
+  white-space: nowrap;
+  color: rgb(0 0 0 / 0.5);
 }
 
 .core__list {
@@ -629,6 +644,93 @@ body {
   margin-top: 1.8em;
 }
 
+/* ---------- Logo grid (after Naming and Logotype; Screenshot 2026-11-02 1.14.01 PM) ----------
+   One full screen drawn in a 1920 × 1080 SVG frame (cropped at the sides on 16:10 screens).
+   When a screen arrives (main.js adds .is-drawn) the logo fades in, the rules draw, the dashed
+   construction lines wipe in left to right, then the clear-space bands and the measurements appear. */
+.logogrid {
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  overflow: hidden;
+  background: #fff;
+}
+
+.logogrid__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.lg-logo {
+  fill: #c8c8c8;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.lg-rules line {
+  stroke: #c4c4c4;
+  stroke-width: 1;
+  stroke-dasharray: 100 120;
+  stroke-dashoffset: 104;
+  transition: stroke-dashoffset 1.2s cubic-bezier(0.65, 0, 0.35, 1) calc(0.3s + var(--i) * 0.1s);
+}
+
+.lg-dash {
+  fill: none;
+  stroke: #b4b4b4;
+  stroke-width: 1;
+  stroke-dasharray: 4 3;
+  clip-path: inset(-20px 100% -20px -20px);
+  transition: clip-path 1.4s cubic-bezier(0.65, 0, 0.35, 1) 0.9s;
+}
+
+.lg-dash--d {
+  transition-duration: 1.8s;
+  transition-delay: 1.3s;
+}
+
+.lg-bands {
+  fill: #f7f7f7;
+  opacity: 0;
+  transition: opacity 0.8s ease 1.6s;
+}
+
+.lg-labels {
+  font-family: "Pretendard", sans-serif;
+  font-size: 12px;
+  fill: #b0b0b0;
+  opacity: 0;
+  transition: opacity 0.6s ease 2.4s;
+}
+
+/* "20" in the brand typeface, the degree ring drawn */
+.lg-angle text {
+  font-family: "OffTheLeague Flex", sans-serif;
+  font-size: 28px;
+  fill: #c8c8c8;
+}
+
+.lg-angle circle {
+  fill: none;
+  stroke: #c8c8c8;
+  stroke-width: 1.6;
+}
+
+.logogrid.is-drawn .lg-logo,
+.logogrid.is-drawn .lg-bands,
+.logogrid.is-drawn .lg-labels {
+  opacity: 1;
+}
+
+.logogrid.is-drawn .lg-rules line {
+  stroke-dashoffset: 0;
+}
+
+.logogrid.is-drawn .lg-dash {
+  clip-path: inset(-20px);
+}
+
 /* ---------- Layout grid ---------- */
 
 /* Use on a container to lay children out on the 10-column grid */
@@ -726,7 +828,7 @@ body {
 }
 
 .typeface__intro .typeface__body {
-  margin-top: 24px;
+  margin-top: 16px; /* was 24 */
 }
 
 .typeface__body {
@@ -803,6 +905,7 @@ body {
   font-family: "OffTheLeague Flex", "Pretendard", sans-serif;
   font-size: 14px;
   line-height: 1;
+  transition: opacity 0.6s ease; /* hidden on the ending */
 }
 
 .slider__track {
@@ -1082,7 +1185,7 @@ body {
 }
 
 .picto__body {
-  margin-top: 26px;
+  margin-top: 16px; /* was 26 */
 }
 
 /* icon grid: 4 tiles across columns 6–12, a thin rule on top of each */
@@ -1366,7 +1469,7 @@ body {
 }
 
 .wayfinding__body {
-  margin-top: 20px;
+  margin-top: 16px;
   color: rgb(0 0 0 / 0.5);
 }
 
@@ -1553,9 +1656,14 @@ body {
 }
 
 .floor__body {
-  margin-top: 27px;
+  margin-top: 16px; /* was 27 */
   color: rgb(0 0 0 / 0.5);
-  word-break: keep-all; /* the mock wraps between words */
+  word-break: keep-all;
+}
+
+/* shortened to three short paragraphs (2026-11-02), a blank line between them */
+.floor__body p + p {
+  margin-top: 1.8em; /* one empty line, like the other multi-paragraph texts */
 }
 
 /* ---------- Application (measured from the 1862 × 1396 mock = 0.96875× of 1920px) ----------
@@ -1583,7 +1691,7 @@ body {
 }
 
 .application__body {
-  margin-top: 18px;
+  margin-top: 16px;
   color: rgb(0 0 0 / 0.5); /* the mock breaks the second line mid-word, so normal Korean wrapping */
 }
 
@@ -1716,39 +1824,137 @@ body {
   color: rgb(255 255 255 / 0.5);
 }
 
-/* ---------- Ending (measured from the 1216 × 990 mock = 0.6361× of 1920px) ----------
-   A poster: everything but the credit scales with the screen width (1920 units → vw).
-   The slogan under the logo (2026-10-29) and the grass photo behind it (2026-11-01) were taken out:
-   now a black logo on white. */
+/* ---------- Ending (2026-11-02; logo measured from the 2138 × 1206 mock, note from the 2210 × 1244 one) ----------
+   One pinned screen. main.js plays it: white veil over the medal → logo fades in, holds, fades out →
+   "Designer’s Note" fades in → the body and the name type themselves. */
 .ending {
+  --note-ink: #222;
   position: relative;
   z-index: 1;
-  aspect-ratio: 1920 / 1556.4;
+  /* 1px taller and pulled up 1px: the sections above end on a fractional pixel, and the page can only
+     scroll to a whole one, so this keeps a hairline of the medal from showing along the top */
+  height: calc(100vh + 1px);
+  margin-top: -1px;
   overflow: hidden;
   background: #fff;
-  color: #000;
 }
 
-.ending__logo,
-.ending__credit {
-  position: absolute;
-}
-
+/* 563px of ink at 1920, centred; the mock sits it 30px above the middle */
 .ending__logo {
-  /* viewBox shared with the hero logo; ink 466.9–1449.4 × 297.1–455.9 in the mock */
-  left: calc(100vw * 462.7 / 1920);
-  top: calc(100vw * 295.2 / 1920);
-  width: calc(100vw * 989.9 / 1920);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(100vw * 567.7 / 1920);
   height: auto;
+  translate: -50% calc(-50% - 2.8vh);
   fill: #000;
+  opacity: 0;
+  transition: opacity 1.2s ease;
 }
 
-.ending__credit {
-  left: var(--grid-margin);
-  bottom: 100px;
+.ending.is-logo .ending__logo {
+  opacity: 1;
+}
+
+.ending__note {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   font-family: "Pretendard", sans-serif;
-  font-size: 24px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: var(--note-ink);
+}
+
+.ending__title {
+  font-size: 21px; /* 2026-11-02: the note ~14% smaller than the mock (title 24 · text 22) */
+  font-weight: 700;
   line-height: 1;
-  letter-spacing: 0.03em; /* the mock sets it a little wider than the font's default */
-  color: #aaa;
+  color: #000;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+
+.ending.is-note .ending__title {
+  opacity: 1;
+}
+
+/* lines break where the mock breaks them; an empty line between paragraphs */
+.ending__body {
+  margin-top: 1.88em;
+  font-size: 19px;
+  line-height: 1.88;
+  white-space: nowrap;
+}
+
+.ending__title + .ending__body {
+  margin-top: 18px;
+}
+
+/* the name, tilted like a signature */
+.ending__sign {
+  margin-top: 64px;
+  font-size: 19px;
+  line-height: 1.88;
+  white-space: nowrap;
+  rotate: 21deg;
+}
+
+/* Typing: every character keeps its place (transparent), and what has been "typed" so far is drawn
+   on top from data-t — the jamo first, then the syllable, as a Korean keyboard builds it. */
+.ending .t {
+  position: relative;
+  color: transparent;
+}
+
+.ending .t::before {
+  content: attr(data-t);
+  content: attr(data-t) / ""; /* the real text is already read out once */
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--note-ink);
+}
+
+/* caret right after the last typed character; it blinks only once the typing has stopped */
+.ending .t.is-caret::after {
+  content: "";
+  position: absolute;
+  right: -0.08em;
+  top: 0.42em;
+  width: 1.5px;
+  height: 1.05em;
+  background: var(--note-ink);
+}
+
+.ending .t.is-caret.is-blink::after {
+  animation: caret-blink 1s steps(1) infinite;
+}
+
+@keyframes caret-blink {
+  50% { opacity: 0; }
+}
+
+/* white veil that fades over the medal before the jump to the ending */
+.ending-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 150; /* over the top slider too */
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s ease;
+}
+
+.ending-veil.is-on {
+  opacity: 1;
+}
+
+/* the ending is a clean full screen: the top slider steps aside while it is in view */
+html.is-ending .slider {
+  opacity: 0;
+  pointer-events: none;
 }

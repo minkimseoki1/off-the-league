@@ -450,14 +450,188 @@ if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
   });
 })();
 
+// ---------- Ending: fade to white → logo → designer's note, its text typed like on a Korean keyboard ----------
+// When the section paging is about to move on from the end of the medal, the ending takes that step
+// instead: a white veil fades over the medal, the page jumps under it, then the screen plays.
+(() => {
+  const section = document.querySelector(".ending");
+  const veil = document.querySelector(".ending-veil");
+  if (!section || !veil) return;
+  const root = document.documentElement;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  // Wrap every character of the typed lines in a span that keeps its place (see .ending .t)
+  const blocks = [...section.querySelectorAll("[data-type]")].map((el) => {
+    const steps = [];
+    for (const node of [...el.childNodes]) {
+      if (node.nodeType !== Node.TEXT_NODE) {
+        steps.push({ br: true });
+        continue;
+      }
+      const frag = document.createDocumentFragment();
+      for (const ch of node.data) {
+        const span = document.createElement("span");
+        span.className = "t";
+        span.textContent = ch;
+        span.dataset.t = "";
+        frag.appendChild(span);
+        steps.push({ span, ch });
+      }
+      node.replaceWith(frag);
+    }
+    return steps;
+  });
+  const spans = blocks.flat().filter((s) => s.span).map((s) => s.span);
+
+  // 다 → ㄷ, 다 · 문 → ㅁ, 무, 문: the keystrokes a Korean keyboard shows for one syllable
+  const CHO = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
+  const keystrokes = (ch) => {
+    const c = ch.charCodeAt(0) - 0xac00;
+    if (c < 0 || c > 11171) return [ch];
+    const cho = Math.floor(c / 588);
+    const open = String.fromCharCode(0xac00 + c - (c % 28));
+    return c % 28 ? [CHO[cho], open, ch] : [CHO[cho], ch];
+  };
+  // extra breath after some characters, so the rhythm follows the sentence
+  const PAUSE = { " ": 25, ",": 170, ".": 340 };
+
+  let run = 0; // bumped by a reset; a sequence still running from before stops itself
+  let stage = "idle"; // idle → playing → done
+  let caret = null;
+  const moveCaret = (span) => {
+    caret?.classList.remove("is-caret", "is-blink");
+    caret = span;
+    caret?.classList.add("is-caret");
+  };
+
+  async function type(steps, token, keyMs) {
+    for (const step of steps) {
+      if (step.br) {
+        await wait(210);
+        continue;
+      }
+      moveCaret(step.span);
+      for (const k of keystrokes(step.ch)) {
+        step.span.dataset.t = k;
+        await wait(keyMs + Math.random() * keyMs * 0.7);
+        if (token !== run) return false;
+      }
+      if (PAUSE[step.ch]) await wait(PAUSE[step.ch]);
+    }
+    return true;
+  }
+
+  const holdPage = () => lenis?.stop();
+  const releasePage = () => lenis?.start();
+
+  async function play(fromMedal) {
+    const token = ++run;
+    stage = "playing";
+    holdPage();
+    try {
+      if (fromMedal) {
+        veil.classList.add("is-on"); // the medal fades to white
+        await wait(1300);
+        if (lenis) lenis.scrollTo(section, { immediate: true, force: true });
+        else window.scrollTo(0, section.getBoundingClientRect().top + window.scrollY);
+        root.classList.add("is-ending");
+        veil.classList.remove("is-on"); // white on white: the veil leaves unseen
+        await wait(350);
+      }
+      if (token !== run) return;
+      section.classList.add("is-logo");
+      await wait(1200 + 1500); // fade in, hold
+      section.classList.remove("is-logo");
+      await wait(1100);
+    } finally {
+      releasePage();
+    }
+    if (token !== run) return;
+    section.classList.add("is-note");
+    await wait(900);
+    for (let i = 0; i < blocks.length; i++) {
+      const isSign = i === blocks.length - 1;
+      if (i) await wait(isSign ? 700 : 480); // a paragraph break; a longer breath before the name
+      if (!(await type(blocks[i], token, isSign ? 46 : 26))) return;
+    }
+    caret?.classList.add("is-blink");
+    await wait(2600);
+    if (token === run) moveCaret(null);
+    stage = "done";
+  }
+
+  function showAll() {
+    run++;
+    spans.forEach((span) => (span.dataset.t = span.textContent));
+    section.classList.add("is-note");
+    stage = "done";
+  }
+
+  // The paging's next step down from the medal would land here: play the ending instead (first time)
+  document.addEventListener("paging:advance", (e) => {
+    const top = section.getBoundingClientRect().top + window.scrollY;
+    if (stage !== "idle" || reduce || e.detail.dir < 0 || Math.abs(e.detail.target - top) > 2) return;
+    e.preventDefault();
+    play(true);
+  });
+
+  // Arriving some other way (top slider, scrollbar, touch): start from the logo; the slider hides here
+  new IntersectionObserver(([entry]) => {
+    const inView = entry.isIntersecting && entry.intersectionRatio >= 0.9;
+    root.classList.toggle("is-ending", inView);
+    if (inView && stage === "idle") reduce ? showAll() : play(false);
+  }, { threshold: [0, 0.9] }).observe(section);
+
+  // back to the start for the next visitor (the idle timer)
+  document.addEventListener("page:reset", () => {
+    run++;
+    stage = "idle";
+    section.classList.remove("is-logo", "is-note");
+    veil.classList.remove("is-on");
+    root.classList.remove("is-ending");
+    spans.forEach((span) => (span.dataset.t = ""));
+    moveCaret(null);
+  });
+})();
+
+// ---------- Logo grid: each screen draws its grid when it arrives ----------
+(() => {
+  const screens = document.querySelectorAll(".logogrid[data-draw]");
+  if (!screens.length) return;
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    screens.forEach((s) => s.classList.add("is-drawn"));
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      e.target.classList.add("is-drawn");
+      io.unobserve(e.target);
+    }
+  }, { threshold: 0.5 });
+  screens.forEach((s) => io.observe(s));
+  // the idle reset rubs them out again for the next visitor
+  document.addEventListener("page:reset", () => {
+    screens.forEach((s) => {
+      s.classList.remove("is-drawn");
+      io.observe(s);
+    });
+  });
+})();
+
 // ---------- Section paging: one wheel gesture or key press moves to the next section ----------
 // Sections up to a little taller than the screen are pages: one gesture glides to the next one.
 // Taller sections (long reads) scroll freely, with no snapping, between their top and the point where
 // their bottom meets the bottom of the screen; at either end a new gesture moves on to the neighbour.
+// The whole Application part (Signage → Winner Medal) is one free stretch, so no layout gets cut.
 // Touch keeps native scrolling. The Graphic Motif section's own snapping and stages still take precedence.
 (() => {
   if (!lenis) return;
   const sections = [...document.querySelectorAll("body > section")];
+  // first and last section of the free Application stretch
+  const FREE_FROM = document.querySelector(".wayfinding");
+  const FREE_TO = document.querySelector(".medal");
   const MIN_EXTRA = 0.25; // a section taller than the screen by more than this share scrolls freely
   const KEY_STEP = 0.85; // inside such a section, arrow / page keys move this share of a screen
   const GESTURE_GAP = 180; // ms without wheel events that ends a gesture (trackpad momentum included)
@@ -475,9 +649,19 @@ if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
     const limit = lenis.limit;
     const stops = [0, limit];
     const zones = [];
+    const pageY = (el) => el.getBoundingClientRect().top + window.scrollY;
+    const freeFrom = FREE_FROM && FREE_TO ? pageY(FREE_FROM) : Infinity;
+    const freeTo = FREE_FROM && FREE_TO ? pageY(FREE_TO) + FREE_TO.offsetHeight : -Infinity;
+    if (freeTo > freeFrom) {
+      const top = Math.min(Math.round(freeFrom), limit);
+      const end = Math.min(Math.round(freeTo - vh), limit);
+      zones.push({ top, end });
+      stops.push(top, end);
+    }
     for (const s of sections) {
       if (getComputedStyle(s).position === "sticky") continue; // the hero: always at 0
-      const top = Math.min(Math.round(s.getBoundingClientRect().top + window.scrollY), limit);
+      const top = Math.min(Math.round(pageY(s)), limit);
+      if (top >= freeFrom - 1 && top < freeTo - 1) continue; // inside the Application stretch
       const extra = s.offsetHeight - vh;
       if (extra > vh * MIN_EXTRA) {
         const end = Math.min(Math.round(top + extra), limit);
@@ -514,12 +698,15 @@ if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
     });
   }
 
-  // next / previous stop from where the page is heading
+  // next / previous stop from where the page is heading. Others can take over the step (the ending
+  // does, coming from the medal) by cancelling "paging:advance".
   function page(dir) {
     const y = lenis.targetScroll;
     const { stops } = layout();
     const target = dir > 0 ? stops.find((s) => s > y + 4) : stops.findLast((s) => s < y - 4);
-    if (target !== undefined) glide(target);
+    if (target === undefined) return;
+    const step = new CustomEvent("paging:advance", { cancelable: true, detail: { dir, target } });
+    if (document.dispatchEvent(step)) glide(target);
   }
 
   // A trackpad swipe sends a stream of wheel events that fades out; a new gesture starts after a pause,
