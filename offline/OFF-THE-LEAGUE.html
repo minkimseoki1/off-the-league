@@ -3440,7 +3440,9 @@ if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
   const MIN_EXTRA = 0.25; // a section taller than the screen by more than this share scrolls freely
   const KEY_STEP = 0.85; // inside such a section, arrow / page keys move this share of a screen
   const GESTURE_GAP = 180; // ms without wheel events that ends a gesture (trackpad momentum included)
+  const HOLD = 220; // ms a page rests before steady scrolling carries on to the next one
   const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const easeOut = (t) => 1 - Math.pow(1 - t, 3); // for a glide carried on while the page is moving
 
   // stops: where a page glide can land · zones: the free-scroll range of each tall section
   let map = null;
@@ -3486,32 +3488,33 @@ if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
     layout().zones.find((z) => (dir > 0 ? y >= z.top - 1 && y < z.end - 1 : y > z.top + 1 && y <= z.end + 1));
 
   let busy = false;
-  function glide(target) {
-    const y = lenis.targetScroll;
-    if (Math.abs(target - y) < 2) return;
-    const duration = Math.min(1.1, 0.6 + (0.5 * Math.abs(target - y)) / window.innerHeight);
+  let timer = 0;
+  let restAt = 0; // when the page last came to rest at a stop (a glide landed, or a long section's end was reached)
+  const land = () => {
+    clearTimeout(timer);
+    busy = false;
+    restAt = performance.now();
+  };
+  function glide(target, moving = false) {
+    if (Math.abs(target - lenis.targetScroll) < 2) return;
+    const duration = Math.min(1.1, 0.6 + (0.5 * Math.abs(target - lenis.animatedScroll)) / window.innerHeight);
     busy = true;
-    // another scroll (the Graphic Motif snap) can take over and drop our onComplete
-    const timer = setTimeout(() => (busy = false), duration * 1000 + 150);
-    lenis.scrollTo(target, {
-      duration,
-      easing: ease,
-      onComplete: () => {
-        clearTimeout(timer);
-        busy = false;
-      },
-    });
+    // another scroll (the Graphic Motif snap, or the next glide) can take over and drop our onComplete
+    clearTimeout(timer);
+    timer = setTimeout(land, duration * 1000 + 150);
+    lenis.scrollTo(target, { duration, easing: moving ? easeOut : ease, onComplete: land });
   }
 
-  // next / previous stop from where the page is heading. Others can take over the step (the ending
-  // does, coming from the medal) by cancelling "paging:advance".
-  function page(dir) {
+  // next / previous stop from where the page is heading (during a glide: from its target, so the glide
+  // goes one stop further). Others can take over the step (the ending does, coming from the medal) by
+  // cancelling "paging:advance".
+  function page(dir, moving = false) {
     const y = lenis.targetScroll;
     const { stops } = layout();
     const target = dir > 0 ? stops.find((s) => s > y + 4) : stops.findLast((s) => s < y - 4);
     if (target === undefined) return;
     const step = new CustomEvent("paging:advance", { cancelable: true, detail: { dir, target } });
-    if (document.dispatchEvent(step)) glide(target);
+    if (document.dispatchEvent(step)) glide(target, moving);
   }
 
   // A trackpad swipe sends a stream of wheel events that fades out; a new gesture starts after a pause,
@@ -3527,6 +3530,21 @@ if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
     return start;
   };
 
+  // Steady input (a wheel spun on and on, a finger still moving) keeps its strength; momentum fades.
+  // Compares the last 120 ms of wheel deltas with the 240 ms before them.
+  const recent = [];
+  const steady = (now) => {
+    while (recent.length && now - recent[0][0] > 360) recent.shift();
+    const late = recent.filter(([t]) => now - t <= 120);
+    const early = recent.filter(([t]) => now - t > 120);
+    if (late.length < 2 || early.length < 2) return false;
+    const mean = (list) => list.reduce((sum, [, v]) => sum + v, 0) / list.length;
+    const m = mean(late);
+    return m >= 4 && m >= mean(early) * 0.85;
+  };
+  // still scrolling a moment after the page came to rest: the visitor wants to go on
+  const carriesOn = (now) => now - restAt >= HOLD && steady(now);
+
   let consumed = false; // this gesture already moved a page: the rest of it (momentum) is ignored
   const sectionGuard = scrollGuard;
   scrollGuard = (data) => {
@@ -3535,20 +3553,40 @@ if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return sectionGuard ? sectionGuard(data) : true;
     }
     const start = isGestureStart(deltaY);
+    const now = performance.now();
+    recent.push([now, Math.abs(deltaY)]);
     if (start) consumed = false;
     if (sectionGuard && sectionGuard(data) === false) return false;
     if (event.cancelable) event.preventDefault();
-    if (busy || navJumping || lenis.isStopped || !deltaY) return false;
+    if (navJumping || lenis.isStopped || !deltaY) return false;
 
     const dir = Math.sign(deltaY);
     const y = lenis.targetScroll;
+    if (busy) {
+      // a new swipe during a glide carries it on to the next stop without stopping in between,
+      // except into a long section: there the swipe goes on as free scrolling once the glide lands
+      if (start) {
+        if (freeZone(y, dir)) consumed = false;
+        else {
+          consumed = true;
+          page(dir, true);
+        }
+      }
+      return false;
+    }
+
     const zone = freeZone(y, dir);
     if (zone) {
       // inside a long section: ordinary smooth scrolling, held at its two ends
-      if (!consumed) lenis.scrollTo(Math.min(Math.max(y + deltaY, zone.top), zone.end), { programmatic: false });
+      if (consumed && carriesOn(now)) consumed = false;
+      if (!consumed) {
+        const next = Math.min(Math.max(y + deltaY, zone.top), zone.end);
+        if (next === (dir > 0 ? zone.end : zone.top) && next !== y) restAt = now; // reached the end: rest there first
+        lenis.scrollTo(next, { programmatic: false });
+      }
       return false;
     }
-    if (start) {
+    if (start || carriesOn(now)) {
       consumed = true;
       page(dir);
     }
