@@ -801,6 +801,16 @@ if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
   arm();
 })();
 
+// ---------- Naming: the logo motion only plays while it is on screen ----------
+(() => {
+  const video = document.querySelector(".naming__logo");
+  if (!video) return;
+  new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) video.play().catch(() => {});
+    else video.pause();
+  }).observe(video);
+})();
+
 // ---------- Typography specimen: the big letter keeps changing ----------
 (() => {
   const glyph = document.querySelector(".typeface__glyph");

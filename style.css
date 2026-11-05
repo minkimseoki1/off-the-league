@@ -624,6 +624,7 @@ html {
   left: 50%;
   /* logo spans 24.1%–76.0% of the GIF width and sits 49.2% down it */
   width: 147.3vw;
+  height: auto;
   top: calc(50vh - 147.3vw * 9 / 16 * 0.492);
   transform: translateX(-50%);
   pointer-events: none;
