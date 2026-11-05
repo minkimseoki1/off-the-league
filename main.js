@@ -343,7 +343,7 @@ if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
   const items = [...nav.querySelectorAll(".slider__item")];
   const fill = nav.querySelector(".slider__fill");
   const MIN_STEP = 0.1; // names stay at least this share of the line apart
-  const GAP = 24; // and never closer than this many px after the previous name
+  const GAP = 24; // and never closer than this many px (of the 1728-wide layout, see --px) after the previous name
 
   const topOf = (el) => el.getBoundingClientRect().top + window.scrollY;
   // where each name sends you (in page pixels)
@@ -369,7 +369,7 @@ if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
       const at = ((stops[k] - stops[0]) / (end - stops[0])) * width;
       const left = Math.min(Math.max(at, minLeft), width - w);
       item.parentElement.style.left = `${left}px`;
-      minLeft = left + Math.max(MIN_STEP * width, w + GAP);
+      minLeft = left + Math.max(MIN_STEP * width, w + GAP * Math.max(1, window.innerWidth / 1728));
       return left;
     });
     update();
@@ -1130,4 +1130,35 @@ if (window.Lenis && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
     io.disconnect();
     run();
   }, { threshold: 0.5 }).observe(svg);
+})();
+
+// ---------- Offline copy: press 0 to download the whole site as one HTML file ----------
+// For venues with a weak connection: the file (offline/OFF-THE-LEAGUE.html, built by tools/build-offline.py)
+// holds every image, font and script, so opening it from the Downloads folder runs the site without internet.
+(() => {
+  if (location.protocol === "file:") return; // this is already the offline copy
+  const FILE = "offline/OFF-THE-LEAGUE.html";
+  let note = null;
+  let hide = 0;
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key !== "0" || e.repeat || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.target.closest?.("input, textarea, [contenteditable]")) return; // typing in the font tester
+    const a = document.createElement("a");
+    a.href = FILE;
+    a.download = "OFF-THE-LEAGUE.html";
+    a.click();
+
+    // full screen hides the browser's download bubble, so say it here
+    if (!note) {
+      note = document.createElement("p");
+      note.className = "offline-note";
+      note.setAttribute("role", "status");
+      note.textContent = "오프라인 파일을 내려받고 있어요 · 다운로드 폴더의 OFF-THE-LEAGUE.html을 열면 인터넷 없이 실행돼요";
+      document.body.appendChild(note);
+    }
+    requestAnimationFrame(() => note.classList.add("is-on"));
+    clearTimeout(hide);
+    hide = setTimeout(() => note.classList.remove("is-on"), 5000);
+  });
 })();

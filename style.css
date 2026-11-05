@@ -17,22 +17,32 @@
   --off-white: #f7f5f1;
   --off-black: #241f1f;
 
+  /* 1px of the layout as tuned on the MacBook 16" (1728 wide). Every px size below is a multiple of it,
+     so on wider screens (the iMac 27" is 2560) text and spacing grow with the width and keep the same
+     proportions; on narrower screens they stay as they are. */
+  --px: max(1px, 100vw / 1728);
+
   /* Layout grid (from the design file): 12 columns, stretch, 90px margins, 26px gutters */
   --grid-cols: 12;
-  --grid-margin: 90px;
-  --grid-gutter: 26px;
+  --grid-margin: calc(90 * var(--px));
+  --grid-gutter: calc(26 * var(--px));
   /* one column's width; n columns incl. their inner gutters = n * --col + (n - 1) * --grid-gutter */
   --col: calc((100vw - 2 * var(--grid-margin) - (var(--grid-cols) - 1) * var(--grid-gutter)) / var(--grid-cols));
 
   /* Room kept free under the fixed top slider (its names end ~49px down). Section paging lands
      every section flush with the top, so the first text of a section starts no higher than this. */
-  --clear: 130px;
+  --clear: calc(130 * var(--px));
 }
 
 html,
 body {
   background: var(--ink);
   color: var(--paper);
+}
+
+/* the browser's 16px default, scaled like every other size (headings without a size of their own use it) */
+html {
+  font-size: calc(16 * var(--px));
 }
 
 /* Section subtitles: the project typeface (Pretendard only fills glyphs it lacks) */
@@ -73,7 +83,7 @@ body {
 .medal__body {
   font-family: "Pretendard", sans-serif;
   font-weight: 400;
-  font-size: 16px;
+  font-size: calc(16 * var(--px));
   line-height: 1.8;
   letter-spacing: -0.02em;
 }
@@ -136,20 +146,20 @@ body {
   position: relative;
   z-index: 1;
   /* measured from the overview mock (captured at ~0.87× of a 1900px screen); top was 75 */
-  padding: var(--clear) 0 80px;
+  padding: var(--clear) 0 calc(80 * var(--px));
   background: var(--about-bg);
   color: var(--about-ink);
 }
 
 .about__inner {
   margin-left: 21.875vw;
-  width: min(1000px, 100vw - 21.875vw - 16px);
+  width: min(1000 * var(--px), 100vw - 21.875vw - 16 * var(--px));
 }
 
 .about__title {
   font-family: "OffTheLeague Flex", sans-serif;
   font-weight: 400;
-  font-size: 40px;
+  font-size: calc(40 * var(--px));
   line-height: 1;
   letter-spacing: -0.02em;
   color: var(--about-ink);
@@ -160,7 +170,7 @@ body {
 }
 
 .about__body {
-  margin-top: 14px; /* was 30; title → text tightened site-wide (2026-11-02) */
+  margin-top: calc(14 * var(--px)); /* was 30; title → text tightened site-wide (2026-11-02) */
   word-break: keep-all;
   color: rgb(0 0 0 / 0.7);
 }
@@ -174,7 +184,7 @@ body {
   display: block;
   width: 100%;
   height: auto;
-  margin-top: 93px;
+  margin-top: calc(93 * var(--px));
 }
 
 /* ---------- Background / Target & Pain point ---------- */
@@ -248,7 +258,7 @@ body {
 }
 
 .context__text {
-  margin-top: 16px;
+  margin-top: calc(16 * var(--px));
   color: rgb(0 0 0 / 0.7);
 }
 
@@ -292,7 +302,7 @@ body {
 }
 
 .concept__body {
-  margin-top: 16px; /* was 30 */
+  margin-top: calc(16 * var(--px)); /* was 30 */
   color: rgb(255 255 255 / 0.7);
   transition: color 1.2s ease;
 }
@@ -627,7 +637,7 @@ body {
 .naming__label {
   position: absolute;
   left: 11.4vw;
-  top: max(5vh - 4px, var(--clear) + 5px);
+  top: max(5vh - 4 * var(--px), var(--clear) + 5 * var(--px));
   font-weight: 400;
   line-height: 1;
 }
@@ -635,8 +645,8 @@ body {
 .naming__body {
   position: absolute;
   left: 40.3vw;
-  top: max(5vh - 9px, var(--clear));
-  max-width: 900px;
+  top: max(5vh - 9 * var(--px), var(--clear));
+  max-width: calc(900 * var(--px));
   color: rgb(0 0 0 / 0.7);
 }
 
@@ -828,7 +838,7 @@ body {
 }
 
 .typeface__intro .typeface__body {
-  margin-top: 16px; /* was 24 */
+  margin-top: calc(16 * var(--px)); /* was 24 */
 }
 
 .typeface__body {
@@ -899,18 +909,18 @@ body {
   left: var(--grid-margin);
   right: var(--grid-margin);
   z-index: 100;
-  padding-top: 22px;
+  padding-top: calc(22 * var(--px));
   mix-blend-mode: difference;
   color: #fff;
   font-family: "OffTheLeague Flex", "Pretendard", sans-serif;
-  font-size: 14px;
+  font-size: calc(14 * var(--px));
   line-height: 1;
   transition: opacity 0.6s ease; /* hidden on the ending */
 }
 
 .slider__track {
   position: relative;
-  height: 1px;
+  height: calc(1 * var(--px));
   background: rgb(255 255 255 / 0.3);
 }
 
@@ -926,7 +936,7 @@ body {
 .slider__list {
   position: relative;
   height: 1em;
-  margin-top: 12px;
+  margin-top: calc(12 * var(--px));
   list-style: none;
 }
 
@@ -981,7 +991,7 @@ body {
   top: max(10.5vh, var(--clear));
   transform: translateX(-50%);
   font-family: "OffTheLeague Flex", "Pretendard", sans-serif;
-  font-size: 20px;
+  font-size: calc(20 * var(--px));
   line-height: 1;
   white-space: nowrap;
 }
@@ -993,9 +1003,9 @@ body {
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: calc(22 * var(--px));
   font-family: "OffTheLeague Flex", sans-serif;
-  font-size: 24px;
+  font-size: calc(24 * var(--px));
   line-height: 1;
   cursor: pointer;
 }
@@ -1011,8 +1021,8 @@ body {
 
 /* thin white line with a round white handle */
 .tester__range {
-  width: 240px;
-  height: 20px;
+  width: calc(240 * var(--px));
+  height: calc(20 * var(--px));
   margin: 0;
   background: transparent;
   appearance: none;
@@ -1020,19 +1030,19 @@ body {
 }
 
 .tester__range::-webkit-slider-runnable-track {
-  height: 1px;
+  height: calc(1 * var(--px));
   background: rgb(255 255 255 / 0.8);
 }
 
 .tester__range::-moz-range-track {
-  height: 1px;
+  height: calc(1 * var(--px));
   background: rgb(255 255 255 / 0.8);
 }
 
 .tester__range::-webkit-slider-thumb {
-  width: 20px;
-  height: 20px;
-  margin-top: -9.5px;
+  width: calc(20 * var(--px));
+  height: calc(20 * var(--px));
+  margin-top: calc(-9.5 * var(--px));
   border: 0;
   border-radius: 50%;
   background: #fff;
@@ -1040,16 +1050,16 @@ body {
 }
 
 .tester__range::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
+  width: calc(20 * var(--px));
+  height: calc(20 * var(--px));
   border: 0;
   border-radius: 50%;
   background: #fff;
 }
 
 .tester__range:focus-visible {
-  outline: 1px solid #fff;
-  outline-offset: 6px;
+  outline: calc(1 * var(--px)) solid #fff;
+  outline-offset: calc(6 * var(--px));
 }
 
 /* ---------- Pictograms (measured from the 1404 × 1678 mock = 0.7334× of 1920px) ----------
@@ -1067,9 +1077,9 @@ body {
   position: relative;
   z-index: 1;
   align-items: start;
-  row-gap: 111px; /* figure bottom → first rule (867px down the section) */
-  padding-top: calc(var(--clear) - 13px); /* title 13px below the padding; was 46px */
-  padding-bottom: 219px;
+  row-gap: calc(111 * var(--px)); /* figure bottom → first rule (867px down the section) */
+  padding-top: calc(var(--clear) - 13 * var(--px)); /* title 13px below the padding; was 46px */
+  padding-bottom: calc(219 * var(--px));
   background: #fff;
   color: #000;
 }
@@ -1088,7 +1098,7 @@ body {
 .picto__hero {
   margin: 0;
   aspect-ratio: 1;
-  border: 1px solid var(--picto-frame);
+  border: calc(1 * var(--px)) solid var(--picto-frame);
 }
 
 .picto__hero svg {
@@ -1161,7 +1171,7 @@ body {
 .picto__cats li::before {
   content: counter(picto-cat) ".";
   position: absolute;
-  left: -19px;
+  left: calc(-19 * var(--px));
 }
 
 .picto__cats span {
@@ -1175,24 +1185,24 @@ body {
 }
 
 .picto__note {
-  margin-top: 51px;
+  margin-top: calc(51 * var(--px));
 }
 
 .picto__title {
-  margin-top: 13px;
+  margin-top: calc(13 * var(--px));
   font-weight: 400;
   line-height: 1;
 }
 
 .picto__body {
-  margin-top: 16px; /* was 26 */
+  margin-top: calc(16 * var(--px)); /* was 26 */
 }
 
 /* icon grid: 4 tiles across columns 6–12, a thin rule on top of each */
 .picto__grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  column-gap: 10px;
+  column-gap: calc(10 * var(--px));
   list-style: none;
 }
 
@@ -1200,8 +1210,8 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
-  padding-top: 1px; /* room for the rule */
-  padding-bottom: 21px;
+  padding-top: calc(1 * var(--px)); /* room for the rule */
+  padding-bottom: calc(21 * var(--px));
 }
 
 /* Arrival (main.js adds .is-in per tile as it scrolls in): the rule draws left to right,
@@ -1212,7 +1222,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 1px;
+  height: calc(1 * var(--px));
   background: var(--picto-rule);
   transform: scaleX(0);
   transform-origin: left;
@@ -1233,10 +1243,10 @@ body {
   display: grid;
   grid-template-columns: auto 1fr;
   column-gap: 0.25em;
-  height: 48px;
-  padding-top: 8px;
+  height: calc(48 * var(--px));
+  padding-top: calc(8 * var(--px));
   font-family: "Pretendard", sans-serif;
-  font-size: 16px;
+  font-size: calc(16 * var(--px));
   line-height: 1.43;
   letter-spacing: -0.02em;
   white-space: nowrap;
@@ -1331,25 +1341,25 @@ body {
 .colors__body {
   grid-row: 2;
   grid-column: span 3;
-  margin-top: 13px;
+  margin-top: calc(13 * var(--px));
   color: rgb(0 0 0 / 0.5);
 }
 
 /* column widths and row heights in the proportions of the 1920 × 1080 chart; the chart now takes
    the rest of the screen instead of a fixed 16:9 (at least 280px on short screens) */
 .colors__chart {
-  flex: 1 0 280px;
+  flex: 1 0 calc(280 * var(--px));
   display: grid;
   grid-template-columns: 695fr 341fr 354fr repeat(5, 106fr);
   grid-template-rows: 551fr 529fr;
-  margin-top: 64px; /* was 77 */
+  margin-top: calc(64 * var(--px)); /* was 77 */
   font-family: "OffTheLeague Flex", "Pretendard", sans-serif;
   line-height: 1;
   color: #fff;
 }
 
 .colors__swatch {
-  padding: 36px 32px;
+  padding: calc(36 * var(--px)) calc(32 * var(--px));
 }
 
 .colors__swatch--green { grid-area: 1 / 1 / 2 / 3; background: var(--green); }
@@ -1358,7 +1368,7 @@ body {
 .colors__swatch--cyan { grid-area: 2 / 2 / 3 / 4; background: var(--blue); }
 
 .colors__name {
-  font-size: 31px;
+  font-size: calc(31 * var(--px));
   font-weight: 400;
 }
 
@@ -1366,11 +1376,11 @@ body {
 .colors__pct {
   font-family: "Pretendard", sans-serif;
   font-weight: 300;
-  font-size: 23px;
+  font-size: calc(23 * var(--px));
 }
 
 .colors__hex {
-  margin-top: 9px;
+  margin-top: calc(9 * var(--px));
 }
 
 /* off-black strips: --tint of off-black over white; names and percentages run top to bottom */
@@ -1380,7 +1390,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 36px;
+  padding-top: calc(36 * var(--px));
   background: color-mix(in srgb, var(--off-black) var(--tint), #fff);
 }
 
@@ -1401,13 +1411,13 @@ body {
 }
 
 .colors__tint .colors__hex {
-  margin-top: 44px;
+  margin-top: calc(44 * var(--px));
 }
 
 /* percentages start on one line; "100%" ends 36px above the bottom */
 .colors__pct {
   position: absolute;
-  top: calc(100% - 91px);
+  top: calc(100% - 91 * var(--px));
   left: 50%;
   translate: calc(-50% - 0.1em) 0;
 }
@@ -1416,7 +1426,7 @@ body {
    after another with a short slide from the left, then their names and values appear on them. */
 .colors__chart > * {
   opacity: 0;
-  translate: -24px 0;
+  translate: calc(-24 * var(--px)) 0;
   transition: opacity 0.6s ease, translate 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -1452,15 +1462,15 @@ body {
 }
 
 .wayfinding__intro {
-  padding-top: 132px;
-  padding-bottom: 120px; /* last line → black stage, as in the mock */
+  padding-top: calc(132 * var(--px));
+  padding-bottom: calc(120 * var(--px)); /* last line → black stage, as in the mock */
 }
 
 /* columns 4–9, 10px in on each side (in the mock the text sits centred over the cone, not on the column edge) */
 .wayfinding__title,
 .wayfinding__body {
   grid-column: 4 / span 6;
-  margin-inline: 10px;
+  margin-inline: calc(10 * var(--px));
 }
 
 .wayfinding__title {
@@ -1469,13 +1479,13 @@ body {
 }
 
 .wayfinding__body {
-  margin-top: 16px;
+  margin-top: calc(16 * var(--px));
   color: rgb(0 0 0 / 0.5);
 }
 
 .wayfinding__stage {
-  row-gap: 99px;
-  padding-block: 99px;
+  row-gap: calc(99 * var(--px));
+  padding-block: calc(99 * var(--px));
   background: #000;
 }
 
@@ -1518,7 +1528,7 @@ body {
 .wall-sign {
   position: relative;
   z-index: 1;
-  padding: 130px 0 183px; /* top = top of the tall panel in the drawing */
+  padding: calc(130 * var(--px)) 0 calc(183 * var(--px)); /* top = top of the tall panel in the drawing */
   background: #fff;
   color: #000;
 }
@@ -1527,7 +1537,7 @@ body {
   position: absolute;
   inset: 0 0 auto;
   z-index: 1;
-  padding-top: 136px;
+  padding-top: calc(136 * var(--px));
 }
 
 .wall-sign__title,
@@ -1542,8 +1552,8 @@ body {
 }
 
 .wall-sign__body {
-  margin-top: 11px;
-  padding-right: 6px; /* the mock's text box is a little narrower than 3 columns; keeps its line breaks */
+  margin-top: calc(11 * var(--px));
+  padding-right: calc(6 * var(--px)); /* the mock's text box is a little narrower than 3 columns; keeps its line breaks */
   color: rgb(0 0 0 / 0.5);
 }
 
@@ -1551,7 +1561,7 @@ body {
   display: block;
   width: 100%;
   height: auto;
-  margin-top: 37px;
+  margin-top: calc(37 * var(--px));
   overflow: visible; /* guide lines run past the first column edge */
 }
 
@@ -1597,7 +1607,7 @@ body {
 .floor {
   position: relative;
   z-index: 1;
-  padding: 329px 0 263px; /* top: the single band sits 385 below the section top */
+  padding: calc(329 * var(--px)) 0 calc(263 * var(--px)); /* top: the single band sits 385 below the section top */
   background: #fff;
   color: #000;
 }
@@ -1642,7 +1652,7 @@ body {
 }
 
 .floor__intro {
-  margin-top: 127px;
+  margin-top: calc(127 * var(--px));
 }
 
 .floor__title,
@@ -1656,7 +1666,7 @@ body {
 }
 
 .floor__body {
-  margin-top: 16px; /* was 27 */
+  margin-top: calc(16 * var(--px)); /* was 27 */
   color: rgb(0 0 0 / 0.5);
   word-break: keep-all;
 }
@@ -1672,7 +1682,7 @@ body {
 .application {
   position: relative;
   z-index: 1;
-  padding-block: 97px 102px;
+  padding-block: calc(97 * var(--px)) calc(102 * var(--px));
   align-items: center;
   background: #fff;
   color: #000;
@@ -1680,7 +1690,7 @@ body {
 
 .application__intro {
   position: relative;
-  top: 8px; /* the mock sits the text block 8px below the photo's centre */
+  top: calc(8 * var(--px)); /* the mock sits the text block 8px below the photo's centre */
   grid-column: 1 / span 3;
   grid-row: 1;
 }
@@ -1691,7 +1701,7 @@ body {
 }
 
 .application__body {
-  margin-top: 16px;
+  margin-top: calc(16 * var(--px));
   color: rgb(0 0 0 / 0.5); /* the mock breaks the second line mid-word, so normal Korean wrapping */
 }
 
@@ -1712,7 +1722,7 @@ body {
 .banner {
   position: relative;
   z-index: 1;
-  padding: var(--clear) 0 106px; /* top was 68 */
+  padding: var(--clear) 0 calc(106 * var(--px)); /* top was 68 */
   background: #000;
   color: #fff;
   text-align: center;
@@ -1724,7 +1734,7 @@ body {
 }
 
 .banner__body {
-  margin-top: 6px;
+  margin-top: calc(6 * var(--px));
   color: rgb(255 255 255 / 0.5);
 }
 
@@ -1732,7 +1742,7 @@ body {
   display: flex;
   justify-content: center;
   gap: calc(100vw * 117.4 / 1920);
-  margin-top: 63px;
+  margin-top: calc(63 * var(--px));
   list-style: none;
 }
 
@@ -1753,7 +1763,7 @@ body {
 .towel {
   position: relative;
   z-index: 1;
-  padding-block: calc(var(--clear) - 13px) 163px; /* the title sits 13px below the photo top; was 77 */
+  padding-block: calc(var(--clear) - 13 * var(--px)) calc(163 * var(--px)); /* the title sits 13px below the photo top; was 77 */
   background: #fff;
   color: #000;
 }
@@ -1772,7 +1782,7 @@ body {
 .towel__intro {
   grid-column: 9 / span 3;
   grid-row: 1;
-  padding-top: 13px;
+  padding-top: calc(13 * var(--px));
 }
 
 .towel__title,
@@ -1782,7 +1792,7 @@ body {
 }
 
 .towel__body {
-  margin-top: 13px;
+  margin-top: calc(13 * var(--px));
   color: rgb(0 0 0 / 0.5);
 }
 
@@ -1792,7 +1802,7 @@ body {
 .medal {
   position: relative;
   z-index: 1;
-  padding-bottom: 240px;
+  padding-bottom: calc(240 * var(--px));
   background: #fff;
 }
 
@@ -1820,7 +1830,7 @@ body {
 }
 
 .medal__body {
-  margin-top: 13px;
+  margin-top: calc(13 * var(--px));
   color: rgb(255 255 255 / 0.5);
 }
 
@@ -1870,7 +1880,7 @@ body {
 }
 
 .ending__title {
-  font-size: 21px; /* 2026-11-02: the note ~14% smaller than the mock (title 24 · text 22) */
+  font-size: calc(21 * var(--px)); /* 2026-11-02: the note ~14% smaller than the mock (title 24 · text 22) */
   font-weight: 700;
   line-height: 1;
   color: #000;
@@ -1885,19 +1895,19 @@ body {
 /* lines break where the mock breaks them; an empty line between paragraphs */
 .ending__body {
   margin-top: 1.88em;
-  font-size: 19px;
+  font-size: calc(19 * var(--px));
   line-height: 1.88;
   white-space: nowrap;
 }
 
 .ending__title + .ending__body {
-  margin-top: 18px;
+  margin-top: calc(18 * var(--px));
 }
 
 /* the name, tilted like a signature */
 .ending__sign {
-  margin-top: 64px;
-  font-size: 19px;
+  margin-top: calc(64 * var(--px));
+  font-size: calc(19 * var(--px));
   line-height: 1.88;
   white-space: nowrap;
   rotate: 21deg;
@@ -1925,7 +1935,7 @@ body {
   position: absolute;
   right: -0.08em;
   top: 0.42em;
-  width: 1.5px;
+  width: calc(1.5 * var(--px));
   height: 1.05em;
   background: var(--note-ink);
 }
@@ -1957,4 +1967,28 @@ body {
 html.is-ending .slider {
   opacity: 0;
   pointer-events: none;
+}
+
+/* ---------- Offline copy notice (press 0, see main.js) ---------- */
+.offline-note {
+  position: fixed;
+  left: 50%;
+  bottom: calc(32 * var(--px));
+  z-index: 200;
+  translate: -50% calc(8 * var(--px));
+  padding: calc(12 * var(--px)) calc(20 * var(--px));
+  border-radius: calc(999 * var(--px));
+  background: rgb(0 0 0 / 0.8);
+  color: #fff;
+  font-family: "Pretendard", sans-serif;
+  font-size: calc(14 * var(--px));
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, translate 0.4s ease;
+}
+
+.offline-note.is-on {
+  opacity: 1;
+  translate: -50% 0;
 }

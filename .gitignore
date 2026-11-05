@@ -5,6 +5,7 @@
 !/style.css
 !/main.js
 !/assets/
+!/offline/
 
 # originals and files the page doesn't use
 /assets/hero.png
