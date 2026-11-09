@@ -45,6 +45,16 @@ html {
   font-size: calc(16 * var(--px));
 }
 
+/* Korean breaks between words, never inside one, and a paragraph doesn't end on a lone short word
+   (the grid columns are narrow enough that both happened often) */
+body {
+  word-break: keep-all;
+}
+
+p {
+  text-wrap-style: pretty; /* not the text-wrap shorthand: that would undo white-space: nowrap set on a parent */
+}
+
 /* Section subtitles: the project typeface (Pretendard only fills glyphs it lacks) */
 .context__subtitle,
 .concept__title,
@@ -171,7 +181,6 @@ html {
 
 .about__body {
   margin-top: calc(14 * var(--px)); /* was 30; title → text tightened site-wide (2026-11-02) */
-  word-break: keep-all;
   color: rgb(0 0 0 / 0.7);
 }
 
@@ -637,7 +646,7 @@ html {
 
 .naming__label {
   position: absolute;
-  left: 11.4vw;
+  left: calc(var(--grid-margin) + var(--col) + var(--grid-gutter)); /* column 2 (the mock had 11.4vw, off the grid) */
   top: max(5vh - 4 * var(--px), var(--clear) + 5 * var(--px));
   font-weight: 400;
   line-height: 1;
@@ -645,9 +654,9 @@ html {
 
 .naming__body {
   position: absolute;
-  left: 40.3vw;
+  left: calc(var(--grid-margin) + 5 * (var(--col) + var(--grid-gutter))); /* columns 6–12 (the mock had 40.3vw, max 900px) */
   top: max(5vh - 9 * var(--px), var(--clear));
-  max-width: calc(900 * var(--px));
+  width: calc(7 * var(--col) + 6 * var(--grid-gutter));
   color: rgb(0 0 0 / 0.7);
 }
 
@@ -1369,7 +1378,7 @@ html {
 .colors__swatch--cyan { grid-area: 2 / 2 / 3 / 4; background: var(--blue); }
 
 .colors__name {
-  font-size: calc(31 * var(--px));
+  font-size: calc(24 * var(--px)); /* was 31 */
   font-weight: 400;
 }
 
@@ -1377,11 +1386,11 @@ html {
 .colors__pct {
   font-family: "Pretendard", sans-serif;
   font-weight: 300;
-  font-size: calc(23 * var(--px));
+  font-size: calc(18 * var(--px)); /* was 23 */
 }
 
 .colors__hex {
-  margin-top: calc(9 * var(--px));
+  margin-top: calc(7 * var(--px));
 }
 
 /* off-black strips: --tint of off-black over white; names and percentages run top to bottom */
@@ -1418,7 +1427,7 @@ html {
 /* percentages start on one line; "100%" ends 36px above the bottom */
 .colors__pct {
   position: absolute;
-  top: calc(100% - 91 * var(--px));
+  top: calc(100% - 79 * var(--px));
   left: 50%;
   translate: calc(-50% - 0.1em) 0;
 }
@@ -1669,10 +1678,9 @@ html {
 .floor__body {
   margin-top: calc(16 * var(--px)); /* was 27 */
   color: rgb(0 0 0 / 0.5);
-  word-break: keep-all;
 }
 
-/* shortened to three short paragraphs (2026-11-02), a blank line between them */
+/* two paragraphs (how the lines work / what it gives), a blank line between them */
 .floor__body p + p {
   margin-top: 1.8em; /* one empty line, like the other multi-paragraph texts */
 }
